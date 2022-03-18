@@ -93,7 +93,9 @@ class PayeeController extends Controller
      */
     public function edit(Payee $payee)
     {
-        //
+        $header = "Edit Payee";
+        return view('payees.edit',
+            compact('payee', 'header'));
     }
 
     /**
@@ -103,9 +105,20 @@ class PayeeController extends Controller
      * @param  \App\Models\Payee  $payee
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Payee $payee)
+    public function update(StorePayee $request, Payee $payee)
     {
-        //
+        try {
+            \DB::transaction(function () use ($request, $payee) {
+                $payee->update([
+                    'name' => request('name'),
+                    'user_id' => request('user_id'),
+                ]);
+            });
+            return redirect(route('payees.show', [$payee]))
+                ->with('status', 'Payee updated!');
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
     }
 
     /**
@@ -116,6 +129,7 @@ class PayeeController extends Controller
      */
     public function destroy(Payee $payee)
     {
-        //
+        $payee->delete();
+        return redirect(route('payees.index'));
     }
 }

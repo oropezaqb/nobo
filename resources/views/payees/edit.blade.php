@@ -10,8 +10,9 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
-                    <form method="POST" action="/payees">
+                    <form method="POST" action="/payees/{{ $payee->id }}">
                         @csrf
+                        @method('PUT')
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -24,28 +25,11 @@
                         <div class="form-group">
                             <label for="name">Name</label>&nbsp;
                             <input type="text" class="form-control" id="name" name="name" style="text-align: left;"
-                                required value="{!! old('name', $payee->name) !!}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="user">User</label>&nbsp;
-                            <input type="text" class="form-control" id="user" name="user" style="text-align: left;"
-                                required value="{!! $payee->user->name !!}" disabled>
+                                required value="{!! old('name', $payee->name) !!}">
                         </div>
                         <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
+                        <button class="btn btn-outline-primary" type="submit">Save</button>
                     </form>
-
-                    <div style="clear: both;">
-                        <div style="display: inline-block;">
-                            <button class="btn btn-outline-primary" onclick="location.href = '/payees/{{ $payee->id }}/edit';">Edit</button>
-                        </div>
-                        <div style="display: inline-block;">
-                            <form method="POST" action="/payees/{{ $payee->id }}">
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-outline-danger" type="submit">Delete</button>
-                            </form>
-                        </div>
-                    </div>
 
                 </div>
             </div>
