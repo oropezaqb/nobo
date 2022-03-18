@@ -25,7 +25,7 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 Route::resources([
-    'payee' => PayeeController::class,
+    'payees' => PayeeController::class,
 ]);
 
 Route::group(['prefix' => 'admin'], function () {

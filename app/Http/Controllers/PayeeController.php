@@ -33,10 +33,10 @@ class PayeeController extends Controller
             $payees = Payee::where('name', 'like', '%' . request('name') . '%')->simplePaginate(50);
         }
         $header = "Payees";
-        if (\Route::currentRouteName() === 'payee.index') {
+        if (\Route::currentRouteName() === 'payees.index') {
             \Request::flash();
         }
-        return view('payee.index', compact('payees', 'header'));
+        return view('payees.index', compact('payees', 'header'));
     }
 
     /**
@@ -46,7 +46,8 @@ class PayeeController extends Controller
      */
     public function create()
     {
-        //
+        $header = "Add a New Payee";
+        return view('payees.create', compact('header'));
     }
 
     /**
@@ -55,9 +56,20 @@ class PayeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePayee $request)
     {
-        //
+        try {
+            \DB::transaction(function () use ($request) {
+                $payee = new Payee([
+                    'name' => request('name'),
+                    'user_id' => request('user_id'),
+                ]);
+                $payee->save();
+            });
+            return redirect(route('payees.index'));
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
     }
 
     /**
@@ -68,7 +80,9 @@ class PayeeController extends Controller
      */
     public function show(Payee $payee)
     {
-        //
+        $header = "Payee Details";
+        return view('payees.show',
+            compact('payee', 'header'));
     }
 
     /**

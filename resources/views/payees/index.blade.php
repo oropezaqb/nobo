@@ -29,15 +29,15 @@
                     </form>
                     <br>
                     <h6 class="font-weight-bold">Add</h6>
-                    <p>Want to record a new payee? Click <a class="text-primary" href="{{ url('/payee/create') }}">here</a>!</p>
+                    <p>Want to record a new payee? Click <a class="text-primary" href="{{ url('/payees/create') }}">here</a>!</p>
                     <br>
                     <h6 class="font-weight-bold">List</h6>
                     @forelse ($payees as $payee)
                         <div id="content">
                             <div id="title">
                                 <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '{{ $payee->path() }}';">View</button></div>
-                                <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '/payee/{{ $payee->id }}/edit';">Edit</button></div>
-                                <div style="display:inline-block;"><form method="POST" action="/payee/{{ $payee->id }}">
+                                <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '/payees/{{ $payee->id }}/edit';">Edit</button></div>
+                                <div style="display:inline-block;"><form method="POST" action="/payees/{{ $payee->id }}">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-link" type="submit">Delete</button>
