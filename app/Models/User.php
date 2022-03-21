@@ -45,8 +45,4 @@ class User extends \TCG\Voyager\Models\User
     {
         return $this->hasMany(Payee::class);
     }
-    public function role()
-    {
-        return $this->hasOne(Role::class);
-    }
 }

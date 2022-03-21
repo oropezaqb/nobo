@@ -129,7 +129,19 @@ class PayeeController extends Controller
      */
     public function destroy(Payee $payee)
     {
-        $payee->delete();
-        return redirect(route('payees.index'));
+        $authorized = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+            ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+            ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+            ->where('users.id', auth()->user()->id)
+            ->where('permissions.key', 'delete_payees')->exists();
+        if ($authorized)
+        {
+            $payee->delete();
+            return redirect(route('payees.index'));
+        }
+        else
+        {
+            return back();
+        }
     }
 }

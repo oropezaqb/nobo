@@ -10,25 +10,34 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
-                    <form method="POST" action="/payees">
-                        @csrf
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
+                    <?php $authorized = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+                        ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+                        ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+                        ->where('users.id', auth()->user()->id)
+                        ->where('permissions.key', 'add_payees')->exists(); ?>
+                    @if ($authorized)
+                        <form method="POST" action="/payees">
+                            @csrf
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            <div class="form-group">
+                                <label for="name">Name</label>&nbsp;
+                                <input type="text" class="form-control" id="name" name="name" style="text-align: left;"
+                                    required value="{!! old('name') !!}">
                             </div>
-                        @endif
-                        <div class="form-group">
-                            <label for="name">Name</label>&nbsp;
-                            <input type="text" class="form-control" id="name" name="name" style="text-align: left;"
-                                required value="{!! old('name') !!}">
-                        </div>
-                        <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
-                        <button class="btn btn-outline-primary" type="submit">Save</button>
-                    </form>
+                            <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
+                            <button class="btn btn-outline-primary" type="submit">Save</button>
+                        </form>
+                    @else
+                        You are not authorized to add payees.
+                    @endif
 
                 </div>
             </div>
