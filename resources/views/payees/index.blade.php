@@ -17,16 +17,16 @@
                         ->where('permissions.key', 'browse_payees')->exists(); ?>
                     @if ($browse)
                         <h6 class="font-weight-bold">Search</h6>
-                        <form method="GET" action="/payee">
+                        <form method="GET" action="/payees">
                             @csrf
                             <div class="form-group">
-                                <label for="payee_name">Payee Name: </label>
-                                <input 
-                                    class="form-control @error('payee_name') is-danger @enderror" 
-                                    type="text" 
-                                    name="payee_name" 
-                                    id="payee_name" required
-                                    value="{{ old('payee_name') }}">
+                                <label for="name">Payee Name: </label>
+                                <input
+                                    class="form-control @error('name') is-danger @enderror"
+                                    type="text"
+                                    name="name"
+                                    id="name" required
+                                    value="{{ old('name') }}">
                                 @error('payee_name')
                                     <p class="help is-danger">{{ $message }}</p>
                                 @enderror
@@ -36,6 +36,14 @@
                         <br>
                         <h6 class="font-weight-bold">Add</h6>
                         <p>Want to record a new payee? Click <a class="text-primary" href="{{ url('/payees/create') }}">here</a>!</p>
+                        <br>
+                        <form method="POST" action="/payees/export">
+                            @csrf
+                            <h6 class="font-weight-bold">Export</h6>
+                            <p>Want to export payees? Click
+                                <button class="text-primary" type="submit"> here</button>!
+                            </p>
+                        </form>
                         <br>
                         <h6 class="font-weight-bold">List</h6>
                         @forelse ($payees as $payee)

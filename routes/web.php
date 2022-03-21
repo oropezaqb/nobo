@@ -29,6 +29,8 @@ Route::resources([
     'payees' => PayeeController::class,
 ]);
 
+Route::post('/payees/export', [PayeeController::class, 'export']);
+
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });

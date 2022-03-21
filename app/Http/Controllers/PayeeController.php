@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use JavaScript;
 use App\Http\Requests\StorePayee;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PayeesExport;
 
 class PayeeController extends Controller
 {
@@ -30,7 +32,7 @@ class PayeeController extends Controller
         }
         else
         {
-            $payees = Payee::where('name', 'like', '%' . request('name') . '%')->simplePaginate(50);
+            $payees = Payee::where('name', 'like', '%' . request('name') . '%')->latest()->get();
         }
         $header = "Payees";
         if (\Route::currentRouteName() === 'payees.index') {
@@ -119,6 +121,11 @@ class PayeeController extends Controller
         } catch (\Exception $e) {
             return back()->with('status', $this->translateError($e))->withInput();
         }
+    }
+
+    public function export()
+    {
+        return Excel::download(new PayeesExport, 'payees.xlsx');
     }
 
     /**
