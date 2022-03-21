@@ -15,6 +15,16 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <?php $browsePayees = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+->where('users.id', auth()->user()->id)
+->where('permissions.key', 'browse_payees')->exists(); ?>
+                    @if ($browsePayees)
+                        <x-nav-link :href="route('payees.index')" :active="request()->routeIs('payees.index')">
+                            {{ __('Payees') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
