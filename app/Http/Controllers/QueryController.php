@@ -101,8 +101,9 @@ class QueryController extends Controller
     public function edit(Query $query)
     {
         $header = "Edit Query";
+        $permissions = Permission::latest()->get();
         return view('queries.edit',
-            compact('query', 'header'));
+            compact('query', 'header', 'permissions'));
     }
 
     /**
@@ -112,9 +113,42 @@ class QueryController extends Controller
      * @param  \App\Models\Query  $query
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Query $query)
+    public function update(StoreQuery $request, Query $query)
     {
-        //
+        try {
+            \DB::transaction(function () use ($request, $query) {
+                $query->update([
+                    'title' => request('title'),
+                    'category' => request('category'),
+                    'query' => request('query'),
+                    'permission_id' => request('permission_id'),
+                    'user_id' => request('user_id'),
+                ]);
+            });
+            return redirect(route('queries.show', [$query]))->with('status', 'Query updated!');
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
+    }
+
+    public function run(Query $query)
+    {
+        $header = $query->title;
+        if (stripos($query->query, 'file ') === 0) {
+            return redirect(route('queries.index'))->with('status', 'Cannot run file reports here.');
+        }
+        else
+        {
+            $db = new DbAccess();
+            $stmt = $db->query($query->query);
+            $ncols = $stmt->columnCount();
+            $headings = array();
+            for ($i = 0; $i < $ncols; $i++) {
+                $meta = $stmt->getColumnMeta($i);
+                $headings[] = $meta['name'];
+            }
+            return view('queries.run', compact('query', 'stmt', 'headings', 'header'));
+        }
     }
 
     /**
@@ -125,6 +159,19 @@ class QueryController extends Controller
      */
     public function destroy(Query $query)
     {
-        //
+        $authorized = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+            ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+            ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+            ->where('users.id', auth()->user()->id)
+            ->where('permissions.key', 'delete_queries')->exists();
+        if ($authorized)
+        {
+            $query->delete();
+            return redirect(route('queries.index'));
+        }
+        else
+        {
+            return back();
+        }
     }
 }
