@@ -45,6 +45,10 @@
                                         @csrf
                                         <button class="btn btn-link" type="submit">Run</button>
                                     </form></div>
+                                    <div style="display:inline-block;"><form method="POST" action="/queries/{{ $query->id }}/csv">
+                                        @csrf
+                                        <button class="btn btn-link" type="submit">CSV</button>
+                                    </form></div>
                                     <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '{{ $query->path() }}';">View</button></div>
                                     <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '/queries/{{ $query->id }}/edit';">Edit</button></div>
                                     <div style="display:inline-block;"><form method="POST" action="/queries/{{ $query->id }}">

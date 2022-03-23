@@ -47,7 +47,6 @@ class SetupController extends Controller
                 $role1->permissions()->save($permission3);
                 $role1->permissions()->save($permission4);
                 $role1->permissions()->save($permission5);
-*/
                 $permission6 = new Permission([
                     'key' => 'browse_queries',
                     'table_name' => 'queries',
@@ -83,6 +82,38 @@ class SetupController extends Controller
                 $role2->permissions()->save($permission8);
                 $role2->permissions()->save($permission9);
                 $role2->permissions()->save($permission10);
+*/
+                $permission11 = new Permission([
+                    'key' => 'browse_bills',
+                    'table_name' => 'bills',
+                ]);
+                $permission11->save();
+                $permission12 = new Permission([
+                    'key' => 'read_bills',
+                    'table_name' => 'bills',
+                ]);
+                $permission12->save();
+                $permission13 = new Permission([
+                    'key' => 'edit_bills',
+                    'table_name' => 'bills',
+                ]);
+                $permission13->save();
+                $permission14 = new Permission([
+                    'key' => 'add_bills',
+                    'table_name' => 'bills',
+                ]);
+                $permission14->save();
+                $permission15 = new Permission([
+                    'key' => 'delete_bills',
+                    'table_name' => 'bills',
+                ]);
+                $permission15->save();
+                $role3 = Role::where('name', 'fa_disbursements')->firstOrFail();
+                $role3->permissions()->save($permission11);
+                $role3->permissions()->save($permission12);
+                $role3->permissions()->save($permission13);
+                $role3->permissions()->save($permission14);
+                $role3->permissions()->save($permission15);
             });
             return redirect(route('dashboard'));
         } catch (\Exception $e) {

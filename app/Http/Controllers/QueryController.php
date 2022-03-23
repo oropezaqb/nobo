@@ -5,10 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Query;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use PDO;
 use App\Models\Permission;
 use App\EPMADD\DbAccess;
+use App\EPMADD\Report;
 use App\Http\Requests\StoreQuery;
+use DateTime;
+use Dompdf\Dompdf;
 
 class QueryController extends Controller
 {
@@ -148,6 +152,21 @@ class QueryController extends Controller
                 $headings[] = $meta['name'];
             }
             return view('queries.run', compact('query', 'stmt', 'headings', 'header'));
+        }
+    }
+
+    public function csv(Query $query)
+    {
+        if (stripos($query->query, 'file ') === 0) {
+            return redirect(route('queries.index'))->with('status', 'Cannot run file reports here.');
+        }
+        else
+        {
+            $db = new DbAccess();
+            $stmt = $db->query($query->query);
+            $r = new Report();
+            $url = $r->csv($stmt);
+            return redirect($url);
         }
     }
 

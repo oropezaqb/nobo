@@ -25,6 +25,26 @@
                             {{ __('Payees') }}
                         </x-nav-link>
                     @endif
+                    <?php $browseBills = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+                        ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+                        ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+                        ->where('users.id', auth()->user()->id)
+                        ->where('permissions.key', 'browse_bills')->exists(); ?>
+                    @if ($browseBills)
+                        <x-nav-link :href="route('bills.index')" :active="request()->routeIs('bills.index')">
+                            {{ __('Bills') }}
+                        </x-nav-link>
+                    @endif
+                    <?php $browseQueries = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+                        ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+                        ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+                        ->where('users.id', auth()->user()->id)
+                        ->where('permissions.key', 'browse_queries')->exists(); ?>
+                    @if ($browseQueries)
+                        <x-nav-link :href="route('queries.index')" :active="request()->routeIs('queries.index')">
+                            {{ __('Queries') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 

@@ -52,7 +52,7 @@ function pdf($title, $stmt, $widths = null, $headings = null,
     define('HORZ_PADDING', 2);
     define('VERT_PADDING', 3);
     //$dir = '/var/www/html/vend/storage/app/public/output'; // previously created
-    $dir = '/xampp/htdocs/vend/storage/app/public/output'; // previously created
+    $dir = '/var/www/html/nobo/storage/app/public/output'; // previously created
     $fileName = date('Y-m-d') . '-' . uniqid() . '.pdf';
     $path = "$dir/" . "$fileName";
 
@@ -173,8 +173,8 @@ function html($title, $stmt, $headings = null) {
 }
 
 function csv($stmt, $convertUTF8 = false) {
-    //$dir = '/var/www/html/vend/storage/app/public/output'; // previously created
-    $dir = '/xampp/htdocs/vend/storage/app/public/output'; // previously created
+    $dir = '/var/www/html/nobo/storage/app/public/output'; // previously created
+    //$dir = '/xampp/htdocs/vend/storage/app/public/output'; // previously created
     $fileName = date('Y-m-d') . '-' .
       uniqid() . '.csv';
     $output_file = "$dir/" . "$fileName";
