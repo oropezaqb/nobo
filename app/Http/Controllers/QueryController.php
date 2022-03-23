@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use PDO;
 use App\Models\Permission;
 use App\EPMADD\DbAccess;
+use App\Http\Requests\StoreQuery;
 
 class QueryController extends Controller
 {
@@ -49,7 +50,8 @@ class QueryController extends Controller
     public function create()
     {
         $header = "Add a New Query";
-        return view('queries.create', compact('header'));
+        $permissions = Permission::latest()->get();
+        return view('queries.create', compact('header', 'permissions'));
     }
 
     /**
@@ -58,9 +60,23 @@ class QueryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreQuery $request)
     {
-
+        try {
+            \DB::transaction(function () use ($request) {
+                $query = new Query([
+                    'title' => request('title'),
+                    'category' => request('category'),
+                    'query' => request('query'),
+                    'permission_id' => request('permission_id'),
+                    'user_id' => request('user_id'),
+                ]);
+                $query->save();
+            });
+            return redirect(route('queries.index'));
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
     }
 
     /**

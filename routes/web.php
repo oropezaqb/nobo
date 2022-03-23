@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PayeeController;
 use App\Http\Controllers\SetupController;
+use App\Http\Controllers\QueryController;
 
 /*
 |--------------------------------------------------------------------------
