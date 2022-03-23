@@ -61,6 +61,29 @@
                             <br>
                             <button class="btn btn-outline-primary" type="submit">Save</button>
                         </form>
+                        <script>
+                            function setValue (id) 
+                            {
+                                var input = id,
+                                    list = input.getAttribute('list'),
+                                    options = document.querySelectorAll('#' + list + ' option'),
+                                    hiddenInput = document.getElementById(input.getAttribute('id') + '-hidden'),
+                                    hiddenInputName = document.getElementById('name-' + input.getAttribute('id') + '-hidden'),
+                                    label = input.value;
+
+                                hiddenInputName.value = label;
+                                hiddenInput.value = label;
+
+                                for(var i = 0; i < options.length; i++) {
+                                    var option = options[i];
+
+                                    if(option.innerText === label) {
+                                        hiddenInput.value = option.getAttribute('data-value');
+                                        break;
+                                    }
+                                }
+                            }
+                        </script>
                     @else
                         You are not authorized to add queries.
                     @endif
