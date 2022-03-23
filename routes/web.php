@@ -27,9 +27,11 @@ require __DIR__.'/auth.php';
 
 Route::resources([
     'payees' => PayeeController::class,
+    'queries' => QueryController::class,
 ]);
 
 Route::post('/payees/export', [PayeeController::class, 'export']);
+Route::post('/queries/{query}/run', [QueryController::class, 'run'])->name('queries.run');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

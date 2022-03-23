@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Payee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use JavaScript;
 use App\Http\Requests\StorePayee;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\PayeesExport;
+use PDO;
+use App\EPMADD\DbAccess;
+use DateTime;
+use Dompdf\Dompdf;
 
 class PayeeController extends Controller
 {
@@ -125,7 +128,17 @@ class PayeeController extends Controller
 
     public function export()
     {
-        return Excel::download(new PayeesExport, 'payees.xlsx');
+        if (stripos($query->query, 'file ') === 0) {
+            return redirect(route('queries.index'))->with('status', 'Cannot run file reports here.');
+        }
+        else
+        {
+            $db = new DbAccess();
+            $stmt = $db->query($query->query);
+            $r = new Report();
+            $url = $r->csv($stmt);
+            return view('reports.csv', compact('url'));
+        }
     }
 
     /**

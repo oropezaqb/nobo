@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ee257c8d0b698b1770ba3c7b2ae58c30",
+    "content-hash": "3270c2035e265be7240fc073cd5c3e3b",
     "packages": [
         {
             "name": "arrilot/laravel-widgets",
@@ -187,6 +187,63 @@
                 }
             ],
             "time": "2021-08-15T20:50:18+00:00"
+        },
+        {
+            "name": "crabbly/fpdf-laravel",
+            "version": "v1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/crabbly/fpdf-laravel.git",
+                "reference": "29555490cd8062697bcc5c3d062213ffbe4024fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/crabbly/fpdf-laravel/zipball/29555490cd8062697bcc5c3d062213ffbe4024fb",
+                "reference": "29555490cd8062697bcc5c3d062213ffbe4024fb",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": ">=5.8.0",
+                "illuminate/support": ">=5.8.0"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "^1.4",
+                "mockery/mockery": "^1.0",
+                "phpunit/phpunit": "^8.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Crabbly\\Fpdf\\FpdfServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Crabbly\\Fpdf\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rodrigo Vieira",
+                    "email": "rodrigo@crabbly.com"
+                }
+            ],
+            "description": "Laravel package for FPDF.",
+            "keywords": [
+                "fpdf",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/crabbly/fpdf-laravel/issues",
+                "source": "https://github.com/crabbly/fpdf-laravel/tree/master"
+            },
+            "time": "2020-05-16T12:02:43+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
