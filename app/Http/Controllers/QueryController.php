@@ -100,7 +100,9 @@ class QueryController extends Controller
      */
     public function edit(Query $query)
     {
-        //
+        $header = "Edit Query";
+        return view('queries.edit',
+            compact('query', 'header'));
     }
 
     /**

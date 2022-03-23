@@ -13,4 +13,8 @@ class Query extends Model
     {
         return route('queries.show', $this);
     }
+    public function permission()
+    {
+        return $this->belongsTo(Permission::class);
+    }
 }
