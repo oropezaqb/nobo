@@ -23,7 +23,8 @@ class CreateBillsTable extends Migration
             $table->decimal('amount', 13, 2);
             $table->string('bill_number');
             $table->unsignedBigInteger('po_number');
-            $table->string('period_covered');
+            $table->date('period_start');
+            $table->date('period_end');
             $table->date('due_at');
             $table->date('endorsed_at');
             $table->text('particulars');
