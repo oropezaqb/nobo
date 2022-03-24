@@ -52,4 +52,29 @@ class BillController extends Controller
         $payees = Payee::latest()->get();
         return view('bills.create', compact('header', 'payees'));
     }
+
+    public function store(StoreBill $request)
+    {
+        try {
+            \DB::transaction(function () use ($request) {
+                $query = new Query([
+                    'received_at' => request('received_at'),
+                    'payee_id' => request('payee_id'),
+                    'amount' => request('amount'),
+                    'bill_number' => request('bill_number'),
+                    'po_number' => request('po_number'),
+                    'period_start' => request('period_start'),
+                    'period_end' => request('period_end'),
+                    'due_at' => request('due_at'),
+                    'endorsed_at' => request('endorsed_at'),
+                    'particulars' => request('particulars'),
+                    'user_id' => request('user_id'),
+                ]);
+                $query->save();
+            });
+            return redirect(route('bills.index'));
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
+    }
 }

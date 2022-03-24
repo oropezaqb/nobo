@@ -31,23 +31,20 @@
                                 <label for="received_at">Date received:&nbsp;</label>&nbsp;
                                 <input type="date" class="form-control @error('received_at') is-danger @enderror" id="received_at" name="received_at" value="{!! old('received_at') !!}">
                             </div>
-                            <div class="form-group custom-control-inline">
+                            <br>
+                            <div class="form-group">
                                 <label for="payee_id">Payee:&nbsp;</label>&nbsp;
                                 <input list="payee_ids" id="payee_id0" onchange="setValue(this)" data-id="" class="custom-select" required value="{!! old('payee_name') !!}">
                                 <datalist id="payee_ids">
                                     @foreach ($payees as $payee)
-                                        <option data-value="{{ $payee->id }}">{{ $payee->key }}</option>
+                                        <option data-value="{{ $payee->id }}">{{ $payee->name }}</option>
                                     @endforeach
                                 </datalist>
                                 <input type="hidden" name="payee_id" id="payee_id0-hidden" value="{!! old('payee_id') !!}">
                                 <input type="hidden" name="payee_name" id="name-payee_id0-hidden" value="{!! old('payee_name') !!}">
                             </div>
-                            <div class="form-group">
-                                <label for="amount">Amount</label>&nbsp;
-                                <input type="number" class="form-control amount" id="amount" name="amount" step="0.01" style="text-align: right;"
-                                    value="{!! old('amount') !!}">
-                            </div>
-                            <div class="form-group">
+                            <br>
+                            <div class="form-group custom-control-inline">
                                 <label for="bill_number">Bill no. </label>
                                 <input 
                                     class="form-control" 
@@ -57,11 +54,16 @@
                                     required
                                     value="{{ old('bill_number') }}">
                             </div>
-                            <div class="form-group">
+                            <div class="form-group custom-control-inline">
                                 <label for="po_number">P.O. no.</label>&nbsp;
                                 <input type="number" class="form-control amount" id="po_number" name="po_number" step="1" style="text-align: right;"
                                     value="{!! old('po_number') !!}">
                             </div>
+                            <div class="form-group custom-control-inline">
+                                <label for="due_at">Date due:&nbsp;</label>&nbsp;
+                                <input type="date" class="form-control @error('due_at') is-danger @enderror" id="due_at" name="due_at" value="{!! old('due_at') !!}">
+                            </div>
+                            <br><br>
                             <div class="form-group custom-control-inline">
                                 <label for="period_start">Start of period:&nbsp;</label>&nbsp;
                                 <input type="date" class="form-control @error('period_start') is-danger @enderror" id="period_start" name="period_start" value="{!! old('period_start') !!}">
@@ -70,20 +72,23 @@
                                 <label for="period_end">End of period:&nbsp;</label>&nbsp;
                                 <input type="date" class="form-control @error('period_end') is-danger @enderror" id="period_end" name="period_end" value="{!! old('period_end') !!}">
                             </div>
-                            <div class="form-group custom-control-inline">
-                                <label for="due_at">Date due:&nbsp;</label>&nbsp;
-                                <input type="date" class="form-control @error('due_at') is-danger @enderror" id="due_at" name="due_at" value="{!! old('due_at') !!}">
-                            </div>
-                            <div class="form-group custom-control-inline">
-                                <label for="endorsed_at">Date endorsed:&nbsp;</label>&nbsp;
-                                <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at" value="{!! old('endorsed_at') !!}">
-                            </div>
                             <div class="form-group">
                                 <label for="particulars">Particulars </label>
                                 <textarea class="form-control" rows="5" id="particulars" name="particulars" required>{{ old('particulars') }}</textarea>
                             </div>
-                            <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
                             <br>
+                            <div class="form-group custom-control-inline">
+                                <label for="amount">Amount</label>&nbsp;
+                                <input type="number" class="form-control amount" id="amount" name="amount" step="0.01" style="text-align: right;"
+                                    value="{!! old('amount') !!}">
+                            </div>
+                            <br><br>
+                            <div class="form-group custom-control-inline">
+                                <label for="endorsed_at">Date endorsed:&nbsp;</label>&nbsp;
+                                <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at" value="{!! old('endorsed_at') !!}">
+                            </div>
+                            <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
+                            <br><br>
                             <button class="btn btn-outline-primary" type="submit">Save</button>
                         </form>
                         <script>
