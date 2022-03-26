@@ -45,4 +45,21 @@ class VoucherController extends Controller
         $bills = Bill::latest()->get();
         return view('vouchers.create', compact('header', 'bills'));
     }
+    public function getbill(Request $request)
+    {
+        $id = $request->input('bill_id');
+        $bill = Bill::where('id', $id)->first();
+        if (is_null($bill)) {
+            return response()->json(array('bill' => null, 'payeename' => null,
+            'billnumber' => null, 'periodstart' => null,
+            'periodend' => null, 'particulars' => null,
+            'amount' => null), 200);
+        }
+        $payee = $bill->payee;
+        return response()->json(array('bill' => $bill, 'payeename' => $payee->name,
+            'billnumber' => $bill->bill_number, 'periodstart' => $bill->period_start,
+            'periodend' => $bill->period_end, 'particulars' => $bill->particulars,
+            'amount' => $bill->amount
+            ), 200);
+    }
 }

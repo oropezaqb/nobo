@@ -23,6 +23,7 @@ class CreateVouchersTable extends Migration
                 ->onDelete('cascade');
             $table->date('date');
             $table->date('posted_at');
+            $table->decimal('payable_amount', 13, 2);
             $table->text('remarks');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')

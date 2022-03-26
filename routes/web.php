@@ -38,6 +38,7 @@ Route::resources([
 Route::post('/payees/export', [PayeeController::class, 'export']);
 Route::post('/queries/{query}/run', [QueryController::class, 'run'])->name('queries.run');
 Route::post('/queries/{query}/csv', [QueryController::class, 'csv'])->name('queries.csv');
+Route::post('/vouchers/getbill', [VoucherController::class, 'getbill'])->name('vouchers.getbill');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
