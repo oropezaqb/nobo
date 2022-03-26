@@ -30,13 +30,15 @@ class BillController extends Controller
     {
         if (empty(request('payee')))
         {
-            $bills = Bill::latest()->get();
+//            $bills = Bill::latest()->get();
+            $bills = \DB::table('bills')->get();
         }
         else
         {
             $bills = \DB::table('bills')
                 ->leftJoin('payees', 'bills.payee_id', '=', 'payees.id')
-                ->where('title', 'like', '%' . request('title') . '%')->get();
+                //->where('payees.name', 'like', '%' . request('payee') . '%')
+                ->get();
         }
         $header = "Bills";
         if (\Route::currentRouteName() === 'bills.index')
@@ -57,7 +59,7 @@ class BillController extends Controller
     {
         try {
             \DB::transaction(function () use ($request) {
-                $query = new Query([
+                $bill = new Bill([
                     'received_at' => request('received_at'),
                     'payee_id' => request('payee_id'),
                     'amount' => request('amount'),
@@ -70,7 +72,7 @@ class BillController extends Controller
                     'particulars' => request('particulars'),
                     'user_id' => request('user_id'),
                 ]);
-                $query->save();
+                $bill->save();
             });
             return redirect(route('bills.index'));
         } catch (\Exception $e) {

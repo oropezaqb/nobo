@@ -35,13 +35,13 @@ class StoreBill extends FormRequest
             'payee_id' => [
                 'exists:App\Models\Payee,id'
             ],
-            'po_number' => ['numeric', 'min:1'],
+            'po_number' => ['nullable', 'numeric', 'min:1'],
             'due_at' => ['required', 'date'],
             'period_start' => ['date'],
             'period_end' => ['date'],
             'particulars' => ['required'],
             'amount' => ['numeric', 'min:0.01', 'required'],
-            'endorsed_at' => ['date'],
+            'endorsed_at' => ['nullable', 'date'],
             'user_id' => [
                 'exists:App\Models\User,id'
             ],

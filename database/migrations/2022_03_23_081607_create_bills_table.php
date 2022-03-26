@@ -21,12 +21,12 @@ class CreateBillsTable extends Migration
                 ->references('id')
                 ->on('payees');
             $table->decimal('amount', 13, 2);
-            $table->string('bill_number');
-            $table->unsignedBigInteger('po_number');
-            $table->date('period_start');
-            $table->date('period_end');
+            $table->string('bill_number')->nullable();
+            $table->unsignedBigInteger('po_number')->nullable();
+            $table->date('period_start')->nullable();
+            $table->date('period_end')->nullable();
             $table->date('due_at');
-            $table->date('endorsed_at');
+            $table->date('endorsed_at')->nullable();
             $table->text('particulars');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')

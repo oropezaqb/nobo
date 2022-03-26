@@ -34,7 +34,7 @@
                             <br>
                             <div class="form-group">
                                 <label for="payee_id">Payee:&nbsp;</label>&nbsp;
-                                <input list="payee_ids" id="payee_id0" onchange="setValue(this)" data-id="" class="custom-select" required value="{!! old('payee_name') !!}">
+                                <input list="payee_ids" id="payee_id0" onchange="setValue(this)" data-id="" class="custom-select" value="{!! old('payee_name') !!}">
                                 <datalist id="payee_ids">
                                     @foreach ($payees as $payee)
                                         <option data-value="{{ $payee->id }}">{{ $payee->name }}</option>
@@ -51,7 +51,6 @@
                                     type="text" 
                                     name="bill_number" 
                                     id="bill_number"
-                                    required
                                     value="{{ old('bill_number') }}">
                             </div>
                             <div class="form-group custom-control-inline">
@@ -74,7 +73,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="particulars">Particulars </label>
-                                <textarea class="form-control" rows="5" id="particulars" name="particulars" required>{{ old('particulars') }}</textarea>
+                                <textarea class="form-control" rows="5" id="particulars" name="particulars">{{ old('particulars') }}</textarea>
                             </div>
                             <br>
                             <div class="form-group custom-control-inline">

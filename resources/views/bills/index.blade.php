@@ -41,15 +41,16 @@
                         @forelse ($bills as $bill)
                             <div id="content">
                                 <div id="title">
-                                    <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '{{ $bill->path() }}';">View</button></div>
+                                    <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '{{ \App\Models\Bill::find($bill->id)->path() }}';">View</button></div>
                                     <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '/bills/{{ $bill->id }}/edit';">Edit</button></div>
                                     <div style="display:inline-block;"><form method="POST" action="/bills/{{ $bill->id }}">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-link" type="submit">Delete</button>
-                                    </form></div><div style="display:inline-block;">&nbsp;&nbsp;{{ $bill->payee->name }}
+                                    </form></div><div style="display:inline-block;">&nbsp;&nbsp;{{ \App\Models\Bill::where('id', $bill->id)->firstOrFail()->payee->name }}
                                         , {{ $bill->bill_number }}
-                                        , {{ $bill->period_covered }}
+                                        , {{ $bill->period_start }}
+                                        , {{ $bill->period_end }}
                                         , {{ $bill->particulars }}
                                     </div>
                                 </div>
