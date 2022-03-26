@@ -35,6 +35,16 @@
                             {{ __('Bills') }}
                         </x-nav-link>
                     @endif
+                    <?php $browseVouchers = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+                        ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+                        ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+                        ->where('users.id', auth()->user()->id)
+                        ->where('permissions.key', 'browse_vouchers')->exists(); ?>
+                    @if ($browseVouchers)
+                        <x-nav-link :href="route('vouchers.index')" :active="request()->routeIs('vouchers.index')">
+                            {{ __('Vouchers') }}
+                        </x-nav-link>
+                    @endif
                     <?php $browseQueries = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
                         ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
                         ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')

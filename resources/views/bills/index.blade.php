@@ -47,8 +47,9 @@
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-link" type="submit">Delete</button>
-                                    </form></div><div style="display:inline-block;">&nbsp;&nbsp;{{ \App\Models\Bill::where('id', $bill->id)->firstOrFail()->payee->name }}
-                                        , {{ $bill->bill_number }}
+                                    </form></div><div style="display:inline-block;">&nbsp;&nbsp;Bill ID {{ $bill->id }}
+                                        , {{ \App\Models\Bill::where('id', $bill->id)->firstOrFail()->payee->name }}
+                                        , Bill no. {{ $bill->bill_number }}
                                         , {{ $bill->period_start }}
                                         , {{ $bill->period_end }}
                                         , {{ $bill->particulars }}

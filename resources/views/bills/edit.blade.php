@@ -14,10 +14,11 @@
                         ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
                         ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
                         ->where('users.id', auth()->user()->id)
-                        ->where('permissions.key', 'read_bills')->exists(); ?>
+                        ->where('permissions.key', 'edit_bills')->exists(); ?>
                     @if ($authorized)
-                        <form method="POST" action="/bills">
+                        <form method="POST" action="/bills/{{ $bill->id }}">
                             @csrf
+                            @method('PUT')
                             @if ($errors->any())
                                 <div class="alert alert-danger">
                                     <ul>
@@ -28,18 +29,13 @@
                                 </div>
                             @endif
                             <div class="form-group custom-control-inline">
-                                <label for="id">Bill ID</label>&nbsp;
-                                <input type="number" class="form-control amount" id="id" name="id" step="1" style="text-align: right;"
-                                    value="{!! old('id', $bill->id) !!}" disabled>
-                            </div>
-                            <div class="form-group custom-control-inline">
                                 <label for="received_at">Date received:&nbsp;</label>&nbsp;
-                                <input type="date" class="form-control @error('received_at') is-danger @enderror" id="received_at" name="received_at" value="{!! old('received_at', $bill->received_at) !!}" disabled>
+                                <input type="date" class="form-control @error('received_at') is-danger @enderror" id="received_at" name="received_at" value="{!! old('received_at', $bill->received_at) !!}">
                             </div>
                             <br>
                             <div class="form-group">
                                 <label for="payee_id">Payee:&nbsp;</label>&nbsp;
-                                <input list="payee_ids" id="payee_id0" onchange="setValue(this)" data-id="" class="custom-select" value="{!! old('payee_name', $bill->payee->name) !!}" disabled>
+                                <input list="payee_ids" id="payee_id0" onchange="setValue(this)" data-id="" class="custom-select" value="{!! old('payee_name', $bill->payee->name) !!}">
                                 <datalist id="payee_ids">
                                     @foreach ($payees as $payee)
                                         <option data-value="{{ $payee->id }}">{{ $payee->name }}</option>
@@ -56,56 +52,45 @@
                                     type="text" 
                                     name="bill_number" 
                                     id="bill_number"
-                                    value="{{ old('bill_number', $bill->bill_number) }}" disabled>
+                                    value="{{ old('bill_number', $bill->bill_number) }}">
                             </div>
                             <div class="form-group custom-control-inline">
                                 <label for="po_number">P.O. no.</label>&nbsp;
                                 <input type="number" class="form-control amount" id="po_number" name="po_number" step="1" style="text-align: right;"
-                                    value="{!! old('po_number', $bill->po_number) !!}" disabled>
+                                    value="{!! old('po_number', $bill->po_number) !!}">
                             </div>
                             <div class="form-group custom-control-inline">
                                 <label for="due_at">Date due:&nbsp;</label>&nbsp;
-                                <input type="date" class="form-control @error('due_at') is-danger @enderror" id="due_at" name="due_at" value="{!! old('due_at', $bill->due_at) !!}" disabled>
+                                <input type="date" class="form-control @error('due_at') is-danger @enderror" id="due_at" name="due_at" value="{!! old('due_at', $bill->due_at) !!}">
                             </div>
                             <br><br>
                             <div class="form-group custom-control-inline">
                                 <label for="period_start">Start of period:&nbsp;</label>&nbsp;
-                                <input type="date" class="form-control @error('period_start') is-danger @enderror" id="period_start" name="period_start" value="{!! old('period_start', $bill->period_start) !!}" disabled>
+                                <input type="date" class="form-control @error('period_start') is-danger @enderror" id="period_start" name="period_start" value="{!! old('period_start', $bill->period_start) !!}">
                             </div>
                             <div class="form-group custom-control-inline">
                                 <label for="period_end">End of period:&nbsp;</label>&nbsp;
-                                <input type="date" class="form-control @error('period_end') is-danger @enderror" id="period_end" name="period_end" value="{!! old('period_end', $bill->period_end) !!}" disabled>
+                                <input type="date" class="form-control @error('period_end') is-danger @enderror" id="period_end" name="period_end" value="{!! old('period_end', $bill->period_end) !!}">
                             </div>
                             <div class="form-group">
                                 <label for="particulars">Particulars </label>
-                                <textarea class="form-control" rows="5" id="particulars" name="particulars" disabled>{{ old('particulars', $bill->particulars) }}</textarea>
+                                <textarea class="form-control" rows="5" id="particulars" name="particulars">{{ old('particulars', $bill->particulars) }}</textarea>
                             </div>
                             <br>
                             <div class="form-group custom-control-inline">
                                 <label for="amount">Amount</label>&nbsp;
                                 <input type="number" class="form-control amount" id="amount" name="amount" step="0.01" style="text-align: right;"
-                                    value="{!! old('amount', $bill->amount) !!}" disabled>
+                                    value="{!! old('amount', $bill->amount) !!}">
                             </div>
                             <br><br>
                             <div class="form-group custom-control-inline">
                                 <label for="endorsed_at">Date endorsed:&nbsp;</label>&nbsp;
-                                <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at" value="{!! old('endorsed_at', $bill->endorsed_at) !!}" disabled>
+                                <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at" value="{!! old('endorsed_at', $bill->endorsed_at) !!}">
                             </div>
                             <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
                             <br><br>
+                            <button class="btn btn-outline-primary" type="submit">Save</button>
                         </form>
-                        <div style="clear: both;">
-                            <div style="display: inline-block;">
-                                <button class="btn btn-outline-primary" onclick="location.href = '/bills/{{ $bill->id }}/edit';">Edit</button>
-                            </div>
-                            <div style="display: inline-block;">
-                                <form method="POST" action="/bills/{{ $bill->id }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-outline-danger" type="submit">Delete</button>
-                                </form>
-                            </div>
-                        </div>
                         <script>
                             function setValue (id) 
                             {
@@ -127,7 +112,7 @@
                             }
                         </script>
                     @else
-                        You are not authorized to view bills.
+                        You are not authorized to edit bills.
                     @endif
 
                 </div>

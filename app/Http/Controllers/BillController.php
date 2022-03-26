@@ -30,7 +30,7 @@ class BillController extends Controller
     {
         if (empty(request('payee')))
         {
-            $bills = \DB::table('bills')->get();
+            $bills = \DB::table('bills')->latest()->get();
         }
         else
         {
@@ -38,7 +38,7 @@ class BillController extends Controller
                 ->leftJoin('payees', 'bills.payee_id', '=', 'payees.id')
                 ->where('payees.name', 'like', '%' . request('payee') . '%')
                 ->select('bills.*', 'payees.name')
-                ->get();
+                ->latest()->get();
         }
         $header = "Bills";
         if (\Route::currentRouteName() === 'bills.index')
@@ -92,5 +92,45 @@ class BillController extends Controller
         $payees = Payee::latest()->get();
         return view('bills.edit',
             compact('bill', 'header', 'payees'));
+    }
+    public function update(StoreBill $request, Bill $bill)
+    {
+        try {
+            \DB::transaction(function () use ($request, $bill) {
+                $bill->update([
+                    'received_at' => request('received_at'),
+                    'payee_id' => request('payee_id'),
+                    'amount' => request('amount'),
+                    'bill_number' => request('bill_number'),
+                    'po_number' => request('po_number'),
+                    'period_start' => request('period_start'),
+                    'period_end' => request('period_end'),
+                    'due_at' => request('due_at'),
+                    'endorsed_at' => request('endorsed_at'),
+                    'particulars' => request('particulars'),
+                    'user_id' => request('user_id'),
+                ]);
+            });
+            return redirect(route('bills.show', [$bill]))->with('status', 'Bill updated!');
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
+    }
+    public function destroy(Bill $bill)
+    {
+        $authorized = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+            ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+            ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+            ->where('users.id', auth()->user()->id)
+            ->where('permissions.key', 'delete_bills')->exists();
+        if ($authorized)
+        {
+            $bill->delete();
+            return redirect(route('bills.index'));
+        }
+        else
+        {
+            return back();
+        }
     }
 }

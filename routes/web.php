@@ -5,6 +5,7 @@ use App\Http\Controllers\PayeeController;
 use App\Http\Controllers\SetupController;
 use App\Http\Controllers\QueryController;
 use App\Http\Controllers\BillController;
+use App\Http\Controllers\VoucherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,7 @@ Route::resources([
     'payees' => PayeeController::class,
     'queries' => QueryController::class,
     'bills' => BillController::class,
+    'vouchers' => VoucherController::class,
 ]);
 
 Route::post('/payees/export', [PayeeController::class, 'export']);
