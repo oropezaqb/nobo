@@ -41,7 +41,7 @@
                         @forelse ($bills as $bill)
                             <div id="content">
                                 <div id="title">
-                                    <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = \App\Models\Bill::where('id', $bill->id)->firstOrFail()->path();">View</button></div>
+                                    <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '{{ \App\Models\Bill::find($bill->id)->path(); }}'">View</button></div>
                                     <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '/bills/{{ $bill->id }}/edit';">Edit</button></div>
                                     <div style="display:inline-block;"><form method="POST" action="/bills/{{ $bill->id }}">
                                         @csrf

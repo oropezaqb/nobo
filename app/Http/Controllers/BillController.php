@@ -79,4 +79,18 @@ class BillController extends Controller
             return back()->with('status', $this->translateError($e))->withInput();
         }
     }
+    public function show(Bill $bill)
+    {
+        $header = "Bill Details";
+        $payees = Payee::latest()->get();
+        return view('bills.show',
+            compact('bill', 'header', 'payees'));
+    }
+    public function edit(Bill $bill)
+    {
+        $header = "Edit Bill";
+        $payees = Payee::latest()->get();
+        return view('bills.edit',
+            compact('bill', 'header', 'payees'));
+    }
 }
