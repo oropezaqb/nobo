@@ -113,7 +113,6 @@
                             var payeename = '';
                             function getBill()
                             {
-document.getElementById('number').value = '1';
                               var bill_id = document.getElementById('bill_id').value;
                               let _token = $('meta[name="csrf-token"]').attr('content');
                               $.ajaxSetup({
@@ -144,7 +143,7 @@ document.getElementById('number').value = '1';
                                   }
                                   else {
                                       displayBill();
-\                                 }
+                                  }
                                 },
                                 error: function(data){
                                 }
