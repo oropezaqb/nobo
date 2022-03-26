@@ -39,4 +39,10 @@ class VoucherController extends Controller
         }
         return view('vouchers.index', compact('vouchers', 'header'));
     }
+    public function create()
+    {
+        $header = "Add a New Voucher";
+        $bills = Bill::latest()->get();
+        return view('vouchers.create', compact('header', 'bills'));
+    }
 }
