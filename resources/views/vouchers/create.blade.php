@@ -34,39 +34,50 @@
                             </div>
                             <div class="form-group custom-control-inline">
                                 <label for="bill_id">Find&nbsp;by&nbsp;bill&nbsp;id&nbsp;</label>&nbsp;
-                                <input type="number" class="form-control" id="bill_id" name="bill_id" style="text-align: right;" required value="{!! old('bill_id') !!}" oninput="getBill()">
+                                <input type="number" class="form-control" id="bill_id" name="bill_id" style="text-align: right;"
+                                    required value="{!! old('bill_id', $billId ?? '') !!}" oninput="getBill()">
                             </div>
                             <div class="form-group">
                                 <label for="payee_id">Payee:&nbsp;</label>&nbsp;
-                                <input list="payee_ids" id="payee_id0" onchange="setValue(this)" data-id="" class="custom-select" value="{!! old('payee_id0') !!}" disabled>
+                                @if ($bill = null)
+                                    <input list="payee_ids" id="payee_id0" onchange="setValue(this)" data-id="" class="custom-select"
+                                        value="{!! old('payee_id0') !!}" disabled>
+                                @else
+                                    <input list="payee_ids" id="payee_id0" onchange="setValue(this)" data-id="" class="custom-select"
+                                        value="{!! old('payee_id0', $bill->payee->name) !!}" disabled>
+                                @endif
                             </div>
                             <br>
                             <div class="form-group custom-control-inline">
                                 <label for="bill_number">Bill no. </label>
-                                <input 
-                                    class="form-control" 
-                                    type="text" 
-                                    name="bill_number" 
-                                    id="bill_number"
-                                    value="{{ old('bill_number') }}" disabled>
+                                @if ($bill = null)
+                                    <input class="form-control" type="text" name="bill_number" id="bill_number"
+                                        value="{{ old('bill_number') }}" disabled>
+                                @else
+                                    <input class="form-control" type="text" name="bill_number" id="bill_number"
+                                        value="{{ old('bill_number', $bill->bill_number) }}" disabled>
+                                @endif
                             </div>
                             <div class="form-group custom-control-inline">
                                 <label for="period_start">Start of period:&nbsp;</label>&nbsp;
-                                <input type="date" class="form-control @error('period_start') is-danger @enderror" id="period_start" name="period_start" value="{!! old('period_start') !!}" disabled>
+                                <input type="date" class="form-control @error('period_start') is-danger @enderror" id="period_start" name="period_start"
+                                    value="{!! old('period_start', \App\Models\Bill::where('id', $billId)->firstOrFail()->period_start ?? '') !!}" disabled>
                             </div>
                             <div class="form-group custom-control-inline">
                                 <label for="period_end">End of period:&nbsp;</label>&nbsp;
-                                <input type="date" class="form-control @error('period_end') is-danger @enderror" id="period_end" name="period_end" value="{!! old('period_end') !!}" disabled>
+                                <input type="date" class="form-control @error('period_end') is-danger @enderror" id="period_end" name="period_end"
+                                    value="{!! old('period_end', \App\Models\Bill::where('id', $billId)->firstOrFail()->period_end ?? '') !!}" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="particulars">Particulars </label>
-                                <textarea class="form-control" rows="5" id="particulars" name="particulars" disabled>{{ old('particulars') }}</textarea>
+                                <textarea class="form-control" rows="5" id="particulars" name="particulars" disabled>{{ old('particulars',
+                                    \App\Models\Bill::where('id', $billId)->firstOrFail()->particulars ?? '') }}</textarea>
                             </div>
                             <br>
                             <div class="form-group custom-control-inline">
                                 <label for="amount">Amount</label>&nbsp;
                                 <input type="number" class="form-control amount" id="amount" name="amount" step="0.01" style="text-align: right;"
-                                    value="{!! old('amount') !!}" disabled>
+                                    value="{!! old('amount', \App\Models\Bill::where('id', $billId)->firstOrFail()->amount ?? '') !!}" disabled>
                             </div>
                             <br><br>
                             <div class="form-group custom-control-inline">
@@ -86,12 +97,17 @@
                                 <label for="remarks">Remarks </label>
                                 <textarea class="form-control" rows="5" id="remarks" name="remarks">{{ old('remarks') }}</textarea>
                             </div>
+                            <br><br>
+                            <div class="form-group custom-control-inline">
+                                <label for="endorsed_at">Date endorsed:&nbsp;</label>&nbsp;
+                                <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at" value="{!! old('endorsed_at') !!}">
+                            </div>
                             <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
                             <br>
                             <button class="btn btn-outline-primary" type="submit">Save</button>
                         </form>
                         <script>
-                            function setValue (id) 
+                            function setValue(id)
                             {
                                 var input = id,
                                     list = input.getAttribute('list'),

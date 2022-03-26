@@ -24,7 +24,8 @@ class CreateVouchersTable extends Migration
             $table->date('date');
             $table->date('posted_at');
             $table->decimal('payable_amount', 13, 2);
-            $table->text('remarks');
+            $table->text('remarks')->nullable();
+            $table->date('endorsed_at')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
                 ->references('id')

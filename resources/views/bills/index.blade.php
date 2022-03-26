@@ -47,7 +47,13 @@
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-link" type="submit">Delete</button>
-                                    </form></div><div style="display:inline-block;">&nbsp;&nbsp;Bill ID {{ $bill->id }}
+                                    </form></div>
+                                    <div style="display:inline-block;"><form method="POST" action="/vouchers/process">
+                                        @csrf
+                                        <input type="hidden" id="bill_id" name="bill_id" value="{{ $bill->id }}">
+                                        <button class="btn btn-link" type="submit">Process</button>
+                                    </form></div>
+                                    <div style="display:inline-block;">&nbsp;&nbsp;Bill ID {{ $bill->id }}
                                         , {{ \App\Models\Bill::where('id', $bill->id)->firstOrFail()->payee->name }}
                                         , Bill no. {{ $bill->bill_number }}
                                         , {{ $bill->period_start }}

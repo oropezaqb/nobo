@@ -43,7 +43,36 @@ class VoucherController extends Controller
     {
         $header = "Add a New Voucher";
         $bills = Bill::latest()->get();
-        return view('vouchers.create', compact('header', 'bills'));
+        $bill = null;
+        return view('vouchers.create', compact('header', 'bills', 'bill'));
+    }
+    public function process(Request $request)
+    {
+        $bill = Bill::find(request('bill_id'));
+        $header = "Add a New Voucher";
+        $bills = Bill::latest()->get();
+        return view('vouchers.create', compact('header', 'bills', 'bill'));
+    }
+    public function store(StoreVoucher $request)
+    {
+        try {
+            \DB::transaction(function () use ($request) {
+                $voucher = new Voucher([
+                    'number' => request('number'),
+                    'bill_id' => request('bill_id'),
+                    'date' => request('date'),
+                    'posted_at' => request('posted_at'),
+                    'payable_amount' => request('payable_amount'),
+                    'remarks' => request('remarks'),
+                    'period_end' => request('period_end'),
+                    'user_id' => request('user_id'),
+                ]);
+                $voucher->save();
+            });
+            return redirect(route('vouchers.index'));
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
     }
     public function getbill(Request $request)
     {
