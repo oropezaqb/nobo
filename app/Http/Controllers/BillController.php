@@ -30,14 +30,14 @@ class BillController extends Controller
     {
         if (empty(request('payee')))
         {
-//            $bills = Bill::latest()->get();
             $bills = \DB::table('bills')->get();
         }
         else
         {
             $bills = \DB::table('bills')
                 ->leftJoin('payees', 'bills.payee_id', '=', 'payees.id')
-                //->where('payees.name', 'like', '%' . request('payee') . '%')
+                ->where('payees.name', 'like', '%' . request('payee') . '%')
+                ->select('bills.*', 'payees.name')
                 ->get();
         }
         $header = "Bills";
