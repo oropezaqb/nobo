@@ -39,45 +39,34 @@
                             </div>
                             <div class="form-group">
                                 <label for="payee_id">Payee:&nbsp;</label>&nbsp;
-                                @if ($bill = null)
-                                    <input list="payee_ids" id="payee_id0" onchange="setValue(this)" data-id="" class="custom-select"
-                                        value="{!! old('payee_id0') !!}" disabled>
-                                @else
-                                    <input list="payee_ids" id="payee_id0" onchange="setValue(this)" data-id="" class="custom-select"
-                                        value="{!! old('payee_id0', $bill->payee->name) !!}" disabled>
-                                @endif
+                                <input list="payee_ids" id="payee_id0" onchange="setValue(this)" data-id="" class="custom-select"
+                                    value="{!! old('payee_id0') !!}" disabled>
                             </div>
                             <br>
                             <div class="form-group custom-control-inline">
                                 <label for="bill_number">Bill no. </label>
-                                @if ($bill = null)
-                                    <input class="form-control" type="text" name="bill_number" id="bill_number"
-                                        value="{{ old('bill_number') }}" disabled>
-                                @else
-                                    <input class="form-control" type="text" name="bill_number" id="bill_number"
-                                        value="{{ old('bill_number', $bill->bill_number) }}" disabled>
-                                @endif
+                                <input class="form-control" type="text" name="bill_number" id="bill_number"
+                                    value="{{ old('bill_number') }}" disabled>
                             </div>
                             <div class="form-group custom-control-inline">
                                 <label for="period_start">Start of period:&nbsp;</label>&nbsp;
                                 <input type="date" class="form-control @error('period_start') is-danger @enderror" id="period_start" name="period_start"
-                                    value="{!! old('period_start', \App\Models\Bill::where('id', $billId)->firstOrFail()->period_start ?? '') !!}" disabled>
+                                    value="{!! old('period_start') !!}" disabled>
                             </div>
                             <div class="form-group custom-control-inline">
                                 <label for="period_end">End of period:&nbsp;</label>&nbsp;
                                 <input type="date" class="form-control @error('period_end') is-danger @enderror" id="period_end" name="period_end"
-                                    value="{!! old('period_end', \App\Models\Bill::where('id', $billId)->firstOrFail()->period_end ?? '') !!}" disabled>
+                                    value="{!! old('period_end') !!}" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="particulars">Particulars </label>
-                                <textarea class="form-control" rows="5" id="particulars" name="particulars" disabled>{{ old('particulars',
-                                    \App\Models\Bill::where('id', $billId)->firstOrFail()->particulars ?? '') }}</textarea>
+                                <textarea class="form-control" rows="5" id="particulars" name="particulars" disabled>{{ old('particulars') }}</textarea>
                             </div>
                             <br>
                             <div class="form-group custom-control-inline">
                                 <label for="amount">Amount</label>&nbsp;
                                 <input type="number" class="form-control amount" id="amount" name="amount" step="0.01" style="text-align: right;"
-                                    value="{!! old('amount', \App\Models\Bill::where('id', $billId)->firstOrFail()->amount ?? '') !!}" disabled>
+                                    value="{!! old('amount') !!}" disabled>
                             </div>
                             <br><br>
                             <div class="form-group custom-control-inline">
@@ -97,7 +86,7 @@
                                 <label for="remarks">Remarks </label>
                                 <textarea class="form-control" rows="5" id="remarks" name="remarks">{{ old('remarks') }}</textarea>
                             </div>
-                            <br><br>
+                            <br>
                             <div class="form-group custom-control-inline">
                                 <label for="endorsed_at">Date endorsed:&nbsp;</label>&nbsp;
                                 <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at" value="{!! old('endorsed_at') !!}">
@@ -174,6 +163,19 @@
                                 document.getElementById('particulars').value = particulars;
                                 document.getElementById('amount').value = amount;
                             }
+                            @if (!empty($bill))
+                                function setBill()
+                                {
+                                    document.getElementById('bill_id').value = {{ $bill->id  }};
+                                    document.getElementById('payee_id0').value = {{ $bill->payee->name }};
+                                    document.getElementById('bill_number').value = {{ $bill->bill_number }};
+                                    document.getElementById('period_start').value = {{ $bill->period_start }};
+                                    document.getElementById('period_end').value = {{ $bill->period_end }};
+                                    document.getElementById('particulars').value = {{ $bill->particulars }};
+                                    document.getElementById('amount').value = {{ $bill->amount }};
+                                }
+                                setBill();
+                            @endif
                         </script>
                     @else
                         You are not authorized to add vouchers.
