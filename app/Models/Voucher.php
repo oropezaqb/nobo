@@ -13,4 +13,8 @@ class Voucher extends Model
     {
         return route('vouchers.show', $this);
     }
+    public function bill()
+    {
+        return $this->belongsTo(Bill::class);
+    }
 }

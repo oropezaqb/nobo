@@ -72,6 +72,12 @@ class VoucherController extends Controller
         return view('vouchers.show',
             compact('voucher', 'header'));
     }
+    public function edit(Voucher $voucher)
+    {
+        $header = "Edit Voucher";
+        return view('vouchers.edit',
+            compact('voucher', 'header'));
+    }
     public function getbill(Request $request)
     {
         $id = $request->input('bill_id');
