@@ -3,9 +3,50 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\BankEndorsement;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use PDO;
+use App\Models\Voucher;
+use App\EPMADD\DbAccess;
+use App\Http\Requests\StoreBankEndorsement;
+use DateTime;
+use Dompdf\Dompdf;
 
 class BankEndorsementController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('web');
+    }
+    public function index()
+    {
+        if (empty(request('number')))
+        {
+            $bankEndorsements = \DB::table('bank_endorsements')->latest()->get();
+        }
+        else
+        {
+            $bankEndorsements = \DB::table('bank_endorsements')
+                ->leftJoin('vouchers', 'reviewed_vouchers.voucher_id', '=', 'vouchers.id')
+                ->where('voucher.number', 'like', '%' . request('number') . '%')
+                ->select('reviewed_vouchers.*', 'voucher.number')
+                ->latest()->get();
+        }
+        $header = "Bank Endorsements";
+        if (\Route::currentRouteName() === 'bank_endorsements.index')
+        {
+            \Request::flash();
+        }
+        return view('bank-endorsements.index', compact('bankEndorsements', 'header'));
+    }
+    public function create()
+    {
+        $header = "Add a New Bank Endorsement";
+        $vouchers = Voucher::latest()->get();
+        return view('bank-endorsements.create', compact('header', 'vouchers'));
+    }
     public function getVoucher(Request $request)
     {
         $voucherNumber = $request->input('voucher_number');
@@ -24,5 +65,43 @@ class BankEndorsementController extends Controller
             'amount' => $voucher->bill->amount, 'date' => $voucher->date, 'postedat' => $voucher->posted_at,
             'payableamount' => $voucher->payable_amount
             ), 200);
+    }
+    public function store(StoreBankEndorsement $request)
+    {
+        try {
+            \DB::transaction(function () use ($request) {
+                $bankEndorsement = new BankEndorsement([
+                    'voucher_id' => request('voucher_id'),
+                    'remarks' => request('remarks'),
+                    'approved_at' => request('approved_at'),
+                    'endorsed_at' => request('endorsed_at'),
+                    'user_id' => request('user_id'),
+                ]);
+                $bankEndorsement->save();
+            });
+            return redirect(route('bank-endorsements.index'));
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
+    }
+    public function show(BankEndorsement $bankEndorsement)
+    {
+        $header = "Bank Endorsement Details";
+        return view('bank-endorsements.show',
+            compact('bankEndorsement', 'header'));
+    }
+    public function translateError($e)
+    {
+        switch ($e->getCode()) {
+            case '23000':
+                return "Voucher number already recorded.";
+        }
+        return $e->getMessage();
+    }
+    public function edit(BankEndorsement $bankEndorsement)
+    {
+        $header = "Edit Bank Endorsement";
+        return view('bank-endorsements.edit',
+            compact('bankEndorsement', 'header'));
     }
 }
