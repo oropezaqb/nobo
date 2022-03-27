@@ -55,6 +55,36 @@
                             {{ __('Reviewed Vouchers') }}
                         </x-nav-link>
                     @endif
+                    <?php $browseApprovedVouchers = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+                        ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+                        ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+                        ->where('users.id', auth()->user()->id)
+                        ->where('permissions.key', 'browse_approved_vouchers')->exists(); ?>
+                    @if ($browseApprovedVouchers)
+                        <x-nav-link :href="route('approved-vouchers.index')" :active="request()->routeIs('approved-vouchers.index')">
+                            {{ __('Approved Vouchers') }}
+                        </x-nav-link>
+                    @endif
+                    <?php $browseBankEndorsements = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+                        ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+                        ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+                        ->where('users.id', auth()->user()->id)
+                        ->where('permissions.key', 'browse_bank_endorsements')->exists(); ?>
+                    @if ($browseBankEndorsements)
+                        <x-nav-link :href="route('bank-endorsements.index')" :active="request()->routeIs('bank-endorsements.index')">
+                            {{ __('Bank Endorsements') }}
+                        </x-nav-link>
+                    @endif
+                    <?php $browsePayments = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+                        ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+                        ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+                        ->where('users.id', auth()->user()->id)
+                        ->where('permissions.key', 'browse_payments')->exists(); ?>
+                    @if ($browsePayments)
+                        <x-nav-link :href="route('payments.index')" :active="request()->routeIs('payments.index')">
+                            {{ __('Payments') }}
+                        </x-nav-link>
+                    @endif
                     <?php $browseQueries = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
                         ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
                         ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
