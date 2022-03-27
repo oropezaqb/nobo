@@ -104,4 +104,38 @@ class BankEndorsementController extends Controller
         return view('bank-endorsements.edit',
             compact('bankEndorsement', 'header'));
     }
+    public function update(StoreBankEndorsement $request, BankEndorsement $bankEndorsement)
+    {
+        try {
+            \DB::transaction(function () use ($request, $bankEndorsement) {
+                $bankEndorsement->update([
+                    'voucher_id' => request('voucher_id'),
+                    'remarks' => request('remarks'),
+                    'approved_at' => request('approved_at'),
+                    'endorsed_at' => request('endorsed_at'),
+                    'user_id' => request('user_id'),
+                ]);
+            });
+            return redirect(route('bank-endorsements.show', [$bankEndorsement]))->with('status', 'Bank endorsement updated!');
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
+    }
+    public function destroy(BankEndorsement $bankEndorsement)
+    {
+        $authorized = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+            ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+            ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+            ->where('users.id', auth()->user()->id)
+            ->where('permissions.key', 'delete_bank_endorsements')->exists();
+        if ($authorized)
+        {
+            $bankEndorsement->delete();
+            return redirect(route('bank-endorsements.index'));
+        }
+        else
+        {
+            return back();
+        }
+    }
 }
