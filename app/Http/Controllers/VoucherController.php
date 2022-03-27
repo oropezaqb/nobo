@@ -66,6 +66,14 @@ class VoucherController extends Controller
             return back()->with('status', $this->translateError($e))->withInput();
         }
     }
+    public function translateError($e)
+    {
+        switch ($e->getCode()) {
+            case '23000':
+                return "Voucher number already recorded.";
+        }
+        return $e->getMessage();
+    }
     public function show(Voucher $voucher)
     {
         $header = "Voucher Details";
@@ -77,6 +85,26 @@ class VoucherController extends Controller
         $header = "Edit Voucher";
         return view('vouchers.edit',
             compact('voucher', 'header'));
+    }
+    public function update(StoreVoucher $request, Voucher $voucher)
+    {
+        try {
+            \DB::transaction(function () use ($request, $voucher) {
+                $voucher->update([
+                    'number' => request('number'),
+                    'bill_id' => request('bill_id'),
+                    'date' => request('date'),
+                    'posted_at' => request('posted_at'),
+                    'payable_amount' => request('payable_amount'),
+                    'remarks' => request('remarks'),
+                    'endorsed_at' => request('endorsed_at'),
+                    'user_id' => request('user_id'),
+                ]);
+            });
+            return redirect(route('vouchers.show', [$voucher]))->with('status', 'Voucher updated!');
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
     }
     public function getbill(Request $request)
     {
@@ -94,5 +122,22 @@ class VoucherController extends Controller
             'periodend' => $bill->period_end, 'particulars' => $bill->particulars,
             'amount' => $bill->amount
             ), 200);
+    }
+    public function destroy(Voucher $voucher)
+    {
+        $authorized = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+            ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+            ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+            ->where('users.id', auth()->user()->id)
+            ->where('permissions.key', 'delete_vouchers')->exists();
+        if ($authorized)
+        {
+            $voucher->delete();
+            return redirect(route('vouchers.index'));
+        }
+        else
+        {
+            return back();
+        }
     }
 }

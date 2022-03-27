@@ -25,7 +25,6 @@ class StoreVoucher extends FormRequest
     {
         return [
             'number' => ['required', 'numeric', 'min:1',
-                'unique:App\Models\Voucher,number',
             ],
             'bill_id' => [
                 'exists:App\Models\Bill,id',

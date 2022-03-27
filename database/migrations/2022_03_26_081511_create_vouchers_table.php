@@ -15,7 +15,7 @@ class CreateVouchersTable extends Migration
     {
         Schema::create('vouchers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('number');
+            $table->unsignedBigInteger('number')->unique();
             $table->unsignedBigInteger('bill_id');
             $table->foreign('bill_id')
                 ->references('id')
