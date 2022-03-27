@@ -41,6 +41,12 @@ class PaymentController extends Controller
         }
         return view('payments.index', compact('payments', 'header'));
     }
+    public function create()
+    {
+        $header = "Add a New Payment";
+        $vouchers = Voucher::latest()->get();
+        return view('payments.create', compact('header', 'vouchers'));
+    }
     public function getVoucher(Request $request)
     {
         $voucherNumber = $request->input('voucher_number');
@@ -59,5 +65,43 @@ class PaymentController extends Controller
             'amount' => $voucher->bill->amount, 'date' => $voucher->date, 'postedat' => $voucher->posted_at,
             'payableamount' => $voucher->payable_amount
             ), 200);
+    }
+    public function store(StorePayment $request)
+    {
+        try {
+            \DB::transaction(function () use ($request) {
+                $payment = new Payment([
+                    'voucher_id' => request('voucher_id'),
+                    'remarks' => request('remarks'),
+                    'paid_at' => request('paid_at'),
+                    'cleared_at' => request('cleared_at'),
+                    'user_id' => request('user_id'),
+                ]);
+                $payment->save();
+            });
+            return redirect(route('payments.index'));
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
+    }
+    public function show(Payment $payment)
+    {
+        $header = "Payment Details";
+        return view('payments.show',
+            compact('payment', 'header'));
+    }
+    public function translateError($e)
+    {
+        switch ($e->getCode()) {
+            case '23000':
+                return "Voucher number already recorded.";
+        }
+        return $e->getMessage();
+    }
+    public function edit(Payment $payment)
+    {
+        $header = "Edit Payment";
+        return view('payments.edit',
+            compact('payment', 'header'));
     }
 }
