@@ -97,4 +97,43 @@ class ReviewedVoucherController extends Controller
         }
         return $e->getMessage();
     }
+    public function edit(ReviewedVoucher $reviewedVoucher)
+    {
+        $header = "Edit Reviewed Voucher";
+        return view('reviewed-vouchers.edit',
+            compact('reviewedVoucher', 'header'));
+    }
+    public function update(StoreReviewedVoucher $request, ReviewedVoucher $reviewedVoucher)
+    {
+        try {
+            \DB::transaction(function () use ($request, $reviewedVoucher) {
+                $reviewedVoucher->update([
+                    'voucher_id' => request('voucher_id'),
+                    'remarks' => request('remarks'),
+                    'endorsed_at' => request('endorsed_at'),
+                    'user_id' => request('user_id'),
+                ]);
+            });
+            return redirect(route('reviewed-vouchers.show', [$reviewedVoucher]))->with('status', 'Reviewed voucher updated!');
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
+    }
+    public function destroy(ReviewedVoucher $reviewedVoucher)
+    {
+        $authorized = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+            ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+            ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+            ->where('users.id', auth()->user()->id)
+            ->where('permissions.key', 'delete_reviewed_vouchers')->exists();
+        if ($authorized)
+        {
+            $reviewedVoucher->delete();
+            return redirect(route('reviewed-vouchers.index'));
+        }
+        else
+        {
+            return back();
+        }
+    }
 }
