@@ -104,4 +104,38 @@ class PaymentController extends Controller
         return view('payments.edit',
             compact('payment', 'header'));
     }
+    public function update(StorePayment $request, Payment $payment)
+    {
+        try {
+            \DB::transaction(function () use ($request, $payment) {
+                $payment->update([
+                    'voucher_id' => request('voucher_id'),
+                    'remarks' => request('remarks'),
+                    'paid_at' => request('paid_at'),
+                    'cleared_at' => request('cleared_at'),
+                    'user_id' => request('user_id'),
+                ]);
+            });
+            return redirect(route('payments.show', [$payment]))->with('status', 'Payment updated!');
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
+    }
+    public function destroy(Payment $payment)
+    {
+        $authorized = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+            ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+            ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+            ->where('users.id', auth()->user()->id)
+            ->where('permissions.key', 'delete_payments')->exists();
+        if ($authorized)
+        {
+            $payment->delete();
+            return redirect(route('payments.index'));
+        }
+        else
+        {
+            return back();
+        }
+    }
 }

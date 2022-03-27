@@ -40,8 +40,8 @@
                             <div id="content">
                                 <div id="title">
                                     <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '{{ \App\Models\Payment::find($payment->id)->path(); }}'">View</button></div>
-                                    <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '/bank-endorsements/{{ $payment->id }}/edit';">Edit</button></div>
-                                    <div style="display:inline-block;"><form method="POST" action="/bank-endorsements/{{ $payment->id }}">
+                                    <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '/payments/{{ $payment->id }}/edit';">Edit</button></div>
+                                    <div style="display:inline-block;"><form method="POST" action="/payments/{{ $payment->id }}">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-link" type="submit">Delete</button>
