@@ -28,7 +28,7 @@ class VoucherController extends Controller
         }
         else
         {
-            $bills = \DB::table('vouchers')
+            $vouchers = \DB::table('vouchers')
                 ->where('vouchers.number', 'like', '%' . request('number') . '%')
                 ->latest()->get();
         }

@@ -34,8 +34,8 @@
                             </div>
                             <div class="form-group custom-control-inline">
                                 <label for="bill_id">Find&nbsp;by&nbsp;bill&nbsp;id&nbsp;</label>&nbsp;
-                                <input type="number" class="form-control" id="bill_id" name="bill_id" style="text-align: right;"
-                                    required value="{!! old('bill_id', $billId ?? '') !!}" oninput="getBill()">
+                                <input type="text" list="bill_ids" id="bill_id" name="bill_id" style="text-align: right;" data-id="" class="form-control"
+                                    value="{!! old('bill_id') !!}" oninput="getBill()">
                             </div>
                             <div class="form-group">
                                 <label for="payee_id">Payee:&nbsp;</label>&nbsp;
@@ -113,6 +113,7 @@
                                         break;
                                     }
                                 }
+                                getBill();
                             }
                             var bill = new Array();
                             var payeename = '';
@@ -163,19 +164,6 @@
                                 document.getElementById('particulars').value = particulars;
                                 document.getElementById('amount').value = amount;
                             }
-                            @if (!empty($bill))
-                                function setBill()
-                                {
-                                    document.getElementById('bill_id').value = {{ $bill->id  }};
-                                    document.getElementById('payee_id0').value = {{ $bill->payee->name }};
-                                    document.getElementById('bill_number').value = {{ $bill->bill_number }};
-                                    document.getElementById('period_start').value = {{ $bill->period_start }};
-                                    document.getElementById('period_end').value = {{ $bill->period_end }};
-                                    document.getElementById('particulars').value = {{ $bill->particulars }};
-                                    document.getElementById('amount').value = {{ $bill->amount }};
-                                }
-                                setBill();
-                            @endif
                         </script>
                     @else
                         You are not authorized to add vouchers.

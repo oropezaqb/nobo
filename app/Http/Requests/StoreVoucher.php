@@ -24,9 +24,12 @@ class StoreVoucher extends FormRequest
     public function rules()
     {
         return [
-            'number' => ['required', 'numeric', 'min:1'],
+            'number' => ['required', 'numeric', 'min:1',
+                'unique:App\Models\Voucher,number',
+            ],
             'bill_id' => [
-                'exists:App\Models\Bill,id'
+                'exists:App\Models\Bill,id',
+                'unique:App\Models\Voucher,bill_id',
             ],
             'date' => ['required', 'date'],
             'posted_at' => ['required', 'date'],

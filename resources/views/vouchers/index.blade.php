@@ -20,9 +20,9 @@
                         <form method="GET" action="/vouchers">
                             @csrf
                             <div class="form-group">
-                                <label for="payee">Number: </label>
+                                <label for="number">Number: </label>
                                 <input
-                                    class="form-control @error('payee') is-danger @enderror"
+                                    class="form-control @error('number') is-danger @enderror"
                                     type="text"
                                     name="number"
                                     id="number" required
