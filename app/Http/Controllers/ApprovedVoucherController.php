@@ -98,4 +98,44 @@ class ApprovedVoucherController extends Controller
         }
         return $e->getMessage();
     }
+    public function edit(ApprovedVoucher $approvedVoucher)
+    {
+        $header = "Edit Approved Voucher";
+        return view('approved-vouchers.edit',
+            compact('approvedVoucher', 'header'));
+    }
+    public function update(StoreApprovedVoucher $request, ApprovedVoucher $approvedVoucher)
+    {
+        try {
+            \DB::transaction(function () use ($request, $approvedVoucher) {
+                $approvedVoucher->update([
+                    'voucher_id' => request('voucher_id'),
+                    'remarks' => request('remarks'),
+                    'approved_at' => request('approved_at'),
+                    'endorsed_at' => request('endorsed_at'),
+                    'user_id' => request('user_id'),
+                ]);
+            });
+            return redirect(route('approved-vouchers.show', [$approvedVoucher]))->with('status', 'Approved voucher updated!');
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
+    }
+    public function destroy(ApprovedVoucher $approvedVoucher)
+    {
+        $authorized = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+            ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+            ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+            ->where('users.id', auth()->user()->id)
+            ->where('permissions.key', 'delete_approved_vouchers')->exists();
+        if ($authorized)
+        {
+            $approvedVoucher->delete();
+            return redirect(route('approved-vouchers.index'));
+        }
+        else
+        {
+            return back();
+        }
+    }
 }
