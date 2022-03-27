@@ -90,6 +90,7 @@
                                 <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at" value="{!! old('endorsed_at') !!}">
                             </div>
                             <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
+                            <input type="hidden" id="voucher_id" name="voucher_id" value="">
                             <br>
                             <button class="btn btn-outline-primary" type="submit">Save</button>
                         </form>
@@ -161,6 +162,7 @@
                             }
                             function displayVoucher()
                             {
+                                document.getElementById('voucher_id').value = voucher['id'];
                                 document.getElementById('payee_id0').value = payeename;
                                 document.getElementById('bill_number').value = billnumber;
                                 document.getElementById('period_start').value = periodstart;

@@ -41,18 +41,18 @@
                         @forelse ($reviewedVouchers as $reviewedVoucher)
                             <div id="content">
                                 <div id="title">
-                                    <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '{{ \App\Models\ReviewedVoucher::find($revieweVouchers->id)->path(); }}'">View</button></div>
-                                    <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '/reviewed-vouchers/{{ $revieweVouchers->id }}/edit';">Edit</button></div>
-                                    <div style="display:inline-block;"><form method="POST" action="/reviewed-vouchers/{{ $revieweVouchers->id }}">
+                                    <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '{{ \App\Models\ReviewedVoucher::find($reviewedVoucher->id)->path(); }}'">View</button></div>
+                                    <div style="display:inline-block;"><button class="btn btn-link" onclick="location.href = '/reviewed-vouchers/{{ $reviewedVoucher->id }}/edit';">Edit</button></div>
+                                    <div style="display:inline-block;"><form method="POST" action="/reviewed-vouchers/{{ $reviewedVoucher->id }}">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-link" type="submit">Delete</button>
-                                    </form></div><div style="display:inline-block;">&nbsp;&nbsp;Voucher ID {{ $reviewedVoucher->voucher->number }}
-                                        , {{ \App\Models\Bill::where('id', $reviewedVoucher->voucher->bill_id)->firstOrFail()->payee->name }}
-                                        , Bill no. {{ \App\Models\Bill::where('id', $voucher->bill_id)->firstOrFail()->bill_number }}
-                                        , {{ \App\Models\Bill::where('id', $reviewedVoucher->voucher->bill_id)->firstOrFail()->period_start }}
-                                        , {{ \App\Models\Bill::where('id', $reviewedVoucher->voucher->bill_id)->firstOrFail()->period_end }}
-                                        , {{ \App\Models\Bill::where('id', $reviewedVoucher->voucher->bill_id)->firstOrFail()->particulars }}
+                                    </form></div><div style="display:inline-block;">&nbsp;&nbsp;Voucher ID {{ \App\Models\ReviewedVoucher::find($reviewedVoucher->id)->voucher->number }}
+                                        , {{ \App\Models\ReviewedVoucher::find($reviewedVoucher->id)->voucher->bill->payee->name }}
+                                        , Bill no. {{ \App\Models\ReviewedVoucher::find($reviewedVoucher->id)->voucher->bill->bill_number }}
+                                        , {{ \App\Models\ReviewedVoucher::find($reviewedVoucher->id)->voucher->bill->period_start }}
+                                        , {{ \App\Models\ReviewedVoucher::find($reviewedVoucher->id)->voucher->bill->period_end }}
+                                        , {{ \App\Models\ReviewedVoucher::find($reviewedVoucher->id)->voucher->bill->particulars }}
                                     </div>
                                 </div>
                             </div>

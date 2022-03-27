@@ -66,4 +66,35 @@ class ReviewedVoucherController extends Controller
             'payableamount' => $voucher->payable_amount
             ), 200);
     }
+    public function store(StoreReviewedVoucher $request)
+    {
+        try {
+            \DB::transaction(function () use ($request) {
+                $reviewedVoucher = new ReviewedVoucher([
+                    'voucher_id' => request('voucher_id'),
+                    'remarks' => request('remarks'),
+                    'endorsed_at' => request('endorsed_at'),
+                    'user_id' => request('user_id'),
+                ]);
+                $reviewedVoucher->save();
+            });
+            return redirect(route('reviewed-vouchers.index'));
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
+    }
+    public function show(ReviewedVoucher $reviewedVoucher)
+    {
+        $header = "Reviewed Voucher Details";
+        return view('reviewed-vouchers.show',
+            compact('reviewedVoucher', 'header'));
+    }
+    public function translateError($e)
+    {
+        switch ($e->getCode()) {
+            case '23000':
+                return "Voucher number already recorded.";
+        }
+        return $e->getMessage();
+    }
 }
