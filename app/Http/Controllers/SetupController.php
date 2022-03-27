@@ -113,7 +113,6 @@ class SetupController extends Controller
                 $role3->permissions()->save($permission13);
                 $role3->permissions()->save($permission14);
                 $role3->permissions()->save($permission15);
-*/
                 $permission16 = new Permission([
                     'key' => 'browse_vouchers',
                     'table_name' => 'vouchers',
@@ -149,6 +148,38 @@ class SetupController extends Controller
                 $role4->permissions()->save($permission18);
                 $role4->permissions()->save($permission19);
                 $role4->permissions()->save($permission20);
+                */
+                $permission21 = new Permission([
+                    'key' => 'browse_reviewed_vouchers',
+                    'table_name' => 'reviewed_vouchers',
+                ]);
+                $permission21->save();
+                $permission22 = new Permission([
+                    'key' => 'read_reviewed_vouchers',
+                    'table_name' => 'reviewed_vouchers',
+                ]);
+                $permission22->save();
+                $permission23 = new Permission([
+                    'key' => 'edit_reviewed_vouchers',
+                    'table_name' => 'reviewed_vouchers',
+                ]);
+                $permission23->save();
+                $permission24 = new Permission([
+                    'key' => 'add_reviewed_vouchers',
+                    'table_name' => 'reviewed_vouchers',
+                ]);
+                $permission24->save();
+                $permission25 = new Permission([
+                    'key' => 'delete_reviewed_vouchers',
+                    'table_name' => 'reviewed_vouchers',
+                ]);
+                $permission25->save();
+                $role5 = Role::where('name', 'fsup_ga')->firstOrFail();
+                $role5->permissions()->save($permission21);
+                $role5->permissions()->save($permission22);
+                $role5->permissions()->save($permission23);
+                $role5->permissions()->save($permission24);
+                $role5->permissions()->save($permission25);
             });
             return redirect(route('dashboard'));
         } catch (\Exception $e) {

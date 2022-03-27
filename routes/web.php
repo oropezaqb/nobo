@@ -6,6 +6,7 @@ use App\Http\Controllers\SetupController;
 use App\Http\Controllers\QueryController;
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\VoucherController;
+use App\Http\Controllers\ReviewedVoucherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,12 +34,14 @@ Route::resources([
     'queries' => QueryController::class,
     'bills' => BillController::class,
     'vouchers' => VoucherController::class,
+    'reviewed-vouchers' => ReviewedVoucherController::class,
 ]);
 
 Route::post('/payees/export', [PayeeController::class, 'export']);
 Route::post('/queries/{query}/run', [QueryController::class, 'run'])->name('queries.run');
 Route::post('/queries/{query}/csv', [QueryController::class, 'csv'])->name('queries.csv');
 Route::post('/vouchers/getbill', [VoucherController::class, 'getbill'])->name('vouchers.getbill');
+Route::post('/reviewed-vouchers/get-voucher', [ReviewedVoucherController::class, 'getVoucher'])->name('reviewed-vouchers.getVoucher');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

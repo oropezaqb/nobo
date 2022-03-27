@@ -45,6 +45,16 @@
                             {{ __('Vouchers') }}
                         </x-nav-link>
                     @endif
+                    <?php $browseReviewedVouchers = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+                        ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+                        ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+                        ->where('users.id', auth()->user()->id)
+                        ->where('permissions.key', 'browse_reviewed_vouchers')->exists(); ?>
+                    @if ($browseReviewedVouchers)
+                        <x-nav-link :href="route('reviewed-vouchers.index')" :active="request()->routeIs('reviewed-vouchers.index')">
+                            {{ __('Reviewed Vouchers') }}
+                        </x-nav-link>
+                    @endif
                     <?php $browseQueries = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
                         ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
                         ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
