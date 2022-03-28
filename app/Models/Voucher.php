@@ -17,4 +17,8 @@ class Voucher extends Model
     {
         return $this->belongsTo(Bill::class);
     }
+    public function approvedVoucher()
+    {
+        return $this->hasOne(ApprovedVoucher::class);
+    }
 }
