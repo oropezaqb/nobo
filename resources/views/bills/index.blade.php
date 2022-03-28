@@ -19,8 +19,8 @@
                         <h6 class="font-weight-bold">Search</h6>
                         <form method="GET" action="/bills">
                             @csrf
-                            <div class="form-group">
-                                <label for="payee">Payee: </label>
+                            <div class="form-group custom-control-inline">
+                                <label for="payee">Payee </label>
                                 <input
                                     class="form-control @error('payee') is-danger @enderror"
                                     type="text"
@@ -31,9 +31,20 @@
                                     <p class="help is-danger">{{ $message }}</p>
                                 @enderror
                             </div>
+                            <div class="form-group custom-control-inline">
+                                <label for="bill_number">Bill no.  </label>
+                                <input
+                                    class="form-control @error('bill_number') is-danger @enderror"
+                                    type="text"
+                                    name="bill_number"
+                                    id="bill_number"
+                                    value="{{ old('bill_number') }}">
+                                @error('bill_number')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
                             <button class="btn btn-outline-primary" type="submit">Search</button>
                         </form>
-                        <br>
                         <h6 class="font-weight-bold">Add</h6>
                         <p>Want to record a new bill? Click <a class="text-primary" href="{{ url('/bills/create') }}">here</a>!</p>
                         <br>
@@ -60,6 +71,7 @@
                         @empty
                             <p>No bills recorded yet.</p>
                         @endforelse
+                        {{ $bills->links() }}
                     @else
                         You are not authorized to browse bills.
                     @endif

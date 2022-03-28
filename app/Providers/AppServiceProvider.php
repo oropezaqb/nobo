@@ -29,7 +29,8 @@ class AppServiceProvider extends ServiceProvider
             \App\Charts\VoucherChart::class,
             \App\Charts\ReviewedVoucherChart::class,
             \App\Charts\ApprovedVoucherChart::class,
-            \App\Charts\BankEndorsementChart::class
+            \App\Charts\BankEndorsementChart::class,
+            \App\Charts\PaymentChart::class
         ]);
     }
 }

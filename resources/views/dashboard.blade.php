@@ -17,6 +17,8 @@
                     <br>
                     <div class="row">
                         <div class="col-sm-4" id="approved_voucher_chart" style="height: 300px;"></div>
+                        <div class="col-sm-4" id="bank_endorsement_chart" style="height: 300px;"></div>
+                        <div class="col-sm-4" id="payment_chart" style="height: 300px;"></div>
                     </div>
                 </div>
             </div>
@@ -54,6 +56,20 @@
         hooks: new ChartisanHooks()
           .datasets('doughnut')
           .pieColors(),
+      });
+      const bank_endorsement_chart = new Chartisan({
+        el: '#bank_endorsement_chart',
+        url: "@chart('bank_endorsement_chart')",
+        hooks: new ChartisanHooks()
+          .beginAtZero()
+          .colors(),
+      });
+      const payment_chart = new Chartisan({
+        el: '#payment_chart',
+        url: "@chart('payment_chart')",
+        hooks: new ChartisanHooks()
+          .beginAtZero()
+          .colors(),
       });
     </script>
 </x-app-layout>

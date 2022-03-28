@@ -30,15 +30,27 @@ class BillController extends Controller
     {
         if (empty(request('payee')))
         {
-            $bills = \DB::table('bills')->latest()->get();
+            $bills = \DB::table('bills')->latest()->paginate(5);
         }
         else
         {
-            $bills = \DB::table('bills')
-                ->leftJoin('payees', 'bills.payee_id', '=', 'payees.id')
-                ->where('payees.name', 'like', '%' . request('payee') . '%')
-                ->select('bills.*', 'payees.name')
-                ->latest()->get();
+            if (empty(request('bill_number')))
+            {
+                $bills = \DB::table('bills')
+                    ->leftJoin('payees', 'bills.payee_id', '=', 'payees.id')
+                    ->where('payees.name', 'like', '%' . request('payee') . '%')
+                    ->select('bills.*', 'payees.name')
+                    ->latest()->paginate(25);
+            }
+            else
+            {
+                $bills = \DB::table('bills')
+                    ->leftJoin('payees', 'bills.payee_id', '=', 'payees.id')
+                    ->where('payees.name', 'like', '%' . request('payee') . '%')
+                    ->where('bills.bill_number', 'like', '%' . request('bill_number') . '%')
+                    ->select('bills.*', 'payees.name')
+                    ->latest()->paginate(25);
+            }
         }
         $header = "Bills";
         if (\Route::currentRouteName() === 'bills.index')
