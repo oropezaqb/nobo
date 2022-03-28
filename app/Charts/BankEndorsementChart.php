@@ -8,8 +8,9 @@ use Chartisan\PHP\Chartisan;
 use ConsoleTVs\Charts\BaseChart;
 use Illuminate\Http\Request;
 use App\Models\ApprovedVoucher;
+use App\Models\BankEndorsement;
 
-class ApprovedVoucherChart extends BaseChart
+class BankEndorsementChart extends BaseChart
 {
     /**
      * Handles the HTTP request for the given chart.
@@ -18,11 +19,11 @@ class ApprovedVoucherChart extends BaseChart
      */
     public function handler(Request $request): Chartisan
     {
-        $numberOfApprovedVouchers = ApprovedVoucher::all()->count();
         $numberOfEndorsedToHO = ApprovedVoucher::whereNotNull('endorsed_at')->count();
-        $numberOfForEndorsement = $numberOfApprovedVouchers - $numberOfEndorsedToHO;
+        $numberOfEndorsedToBank = BankEndorsement::whereNotNull('endorsed_at')->count();
         return Chartisan::build()
-            ->labels(['Endorsed to HO', 'For endorsement'])
-            ->dataset('Sample', [$numberOfEndorsedToHO, $numberOfForEndorsement]);
+            ->labels(['To bank'])
+            ->dataset('Endorsed', [$numberOfEndorsedToBank])
+            ->dataset('For endorsement', [$numberOfEndorsedToHO]);
     }
 }

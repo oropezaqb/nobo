@@ -14,6 +14,10 @@
                         <div class="col-sm-4" id="voucher_chart" style="height: 300px;"></div>
                         <div class="col-sm-4" id="reviewed_voucher_chart" style="height: 300px;"></div>
                     </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-4" id="approved_voucher_chart" style="height: 300px;"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -43,6 +47,13 @@
         hooks: new ChartisanHooks()
           .beginAtZero()
           .colors(),
+      });
+      const approved_voucher_chart = new Chartisan({
+        el: '#approved_voucher_chart',
+        url: "@chart('approved_voucher_chart')",
+        hooks: new ChartisanHooks()
+          .datasets('doughnut')
+          .pieColors(),
       });
     </script>
 </x-app-layout>
