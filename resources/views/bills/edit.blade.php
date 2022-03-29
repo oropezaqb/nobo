@@ -83,6 +83,11 @@
                                     value="{!! old('amount', $bill->amount) !!}">
                             </div>
                             <br><br>
+                            <div class="form-group">
+                                <label for="remarks">Remarks </label>
+                                <textarea class="form-control" rows="3" id="remarks" name="remarks">{{ old('remarks', $bill->remarks) }}</textarea>
+                            </div>
+                            <br>
                             <div class="form-group custom-control-inline">
                                 <label for="endorsed_at">Date endorsed:&nbsp;</label>&nbsp;
                                 <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at" value="{!! old('endorsed_at', $bill->endorsed_at) !!}">
