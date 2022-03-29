@@ -88,7 +88,7 @@
                 </div>
 
                 <div class="links">
-                    <p>A Business App</p>
+                    <p>An Aspiring Mini-ERP</p>
                     <a href="https://linkedin.com/in/bienoropeza">#MeetTheDeveloper</a>
                 </div>
             </div>
