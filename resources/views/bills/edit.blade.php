@@ -74,7 +74,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="particulars">Particulars </label>
-                                <textarea class="form-control" rows="5" id="particulars" name="particulars">{{ old('particulars', $bill->particulars) }}</textarea>
+                                <textarea class="form-control" rows="3" id="particulars" name="particulars">{{ old('particulars', $bill->particulars) }}</textarea>
                             </div>
                             <br>
                             <div class="form-group custom-control-inline">
