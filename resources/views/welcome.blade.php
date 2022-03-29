@@ -59,7 +59,7 @@
                 font-weight: 600;
                 letter-spacing: .1rem;
                 text-decoration: none;
-                text-transform: uppercase;
+                //text-transform: uppercase;
             }
 
             .m-b-md {
@@ -88,8 +88,8 @@
                 </div>
 
                 <div class="links">
-                    <p>A Business Web App System</p>
-                    <a href="https://linkedin.com/in/bienoropeza">#KnowTheCreator</a>
+                    <p>A Business Web App</p>
+                    <a href="https://linkedin.com/in/bienoropeza">#MeetTheDeveloper</a>
                 </div>
             </div>
         </div>
