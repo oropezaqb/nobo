@@ -28,6 +28,7 @@ class CreateBillsTable extends Migration
             $table->date('due_at');
             $table->date('endorsed_at')->nullable();
             $table->text('particulars');
+            $table->text('remarks')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
                 ->references('id')

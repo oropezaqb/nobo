@@ -82,6 +82,7 @@ class BillController extends Controller
                     'due_at' => request('due_at'),
                     'endorsed_at' => request('endorsed_at'),
                     'particulars' => request('particulars'),
+                    'remarks' => request('remarks'),
                     'user_id' => request('user_id'),
                 ]);
                 $bill->save();
@@ -120,6 +121,7 @@ class BillController extends Controller
                     'due_at' => request('due_at'),
                     'endorsed_at' => request('endorsed_at'),
                     'particulars' => request('particulars'),
+                    'remarks' => request('remarks'),
                     'user_id' => request('user_id'),
                 ]);
             });

@@ -73,7 +73,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="particulars">Particulars </label>
-                                <textarea class="form-control" rows="5" id="particulars" name="particulars">{{ old('particulars') }}</textarea>
+                                <textarea class="form-control" rows="3" id="particulars" name="particulars">{{ old('particulars') }}</textarea>
                             </div>
                             <br>
                             <div class="form-group custom-control-inline">
@@ -82,12 +82,17 @@
                                     value="{!! old('amount') !!}">
                             </div>
                             <br><br>
+                            <div class="form-group">
+                                <label for="remarks">Remarks </label>
+                                <textarea class="form-control" rows="3" id="remarks" name="remarks">{{ old('remarks') }}</textarea>
+                            </div>
+                            <br>
                             <div class="form-group custom-control-inline">
                                 <label for="endorsed_at">Date endorsed:&nbsp;</label>&nbsp;
                                 <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at" value="{!! old('endorsed_at') !!}">
                             </div>
                             <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
-                            <br><br>
+                            <br>
                             <button class="btn btn-outline-primary" type="submit">Save</button>
                         </form>
                         <script>

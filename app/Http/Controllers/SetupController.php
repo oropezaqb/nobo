@@ -12,7 +12,7 @@ class SetupController extends Controller
     {
         try {
             \DB::transaction(function () use ($request) {
-/*                $permission1 = new Permission([
+                $permission1 = new Permission([
                     'key' => 'browse_payees',
                     'table_name' => 'payees',
                 ]);
@@ -179,7 +179,6 @@ class SetupController extends Controller
                 $role5->permissions()->save($permission23);
                 $role5->permissions()->save($permission24);
                 $role5->permissions()->save($permission25);
-                */
                 $permission26 = new Permission([
                     'key' => 'browse_approved_vouchers',
                     'table_name' => 'approved_vouchers',

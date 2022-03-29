@@ -40,6 +40,7 @@ class StoreBill extends FormRequest
             'period_start' => ['date'],
             'period_end' => ['date'],
             'particulars' => ['required'],
+            'remarks' => ['nullable'],
             'amount' => ['numeric', 'min:0.01', 'required'],
             'endorsed_at' => ['nullable', 'date'],
             'user_id' => [
