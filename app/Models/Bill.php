@@ -17,4 +17,12 @@ class Bill extends Model
     {
         return $this->belongsTo(Payee::class, 'payee_id');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function voucher()
+    {
+        return $this->hasOne(Voucher::class);
+    }
 }

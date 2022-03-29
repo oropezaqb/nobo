@@ -51,10 +51,10 @@
                             <br>
                             <div class="form-group custom-control-inline">
                                 <label for="bill_number">Bill no. </label>
-                                <input 
-                                    class="form-control" 
-                                    type="text" 
-                                    name="bill_number" 
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    name="bill_number"
                                     id="bill_number"
                                     value="{{ old('bill_number', $bill->bill_number) }}" disabled>
                             </div>
@@ -88,13 +88,37 @@
                             </div>
                             <br><br>
                             <div class="form-group">
-                                <label for="remarks">Remarks </label>
+                                <label for="remarks">Bill Remarks </label>
                                 <textarea class="form-control" rows="3" id="remarks" name="remarks" disabled>{{ old('remarks', $bill->remarks) }}</textarea>
                             </div>
                             <br>
                             <div class="form-group custom-control-inline">
-                                <label for="endorsed_at">Date endorsed:&nbsp;</label>&nbsp;
+                                <label for="endorsed_at">Endorsed for processing&nbsp;</label>&nbsp;
                                 <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at" value="{!! old('endorsed_at', $bill->endorsed_at) !!}" disabled>
+                            </div>
+                            <div class="form-group custom-control-inline">
+                                <label>User&nbsp;</label>
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    value="{{ $bill->user->name }}" disabled>
+                            </div>
+                            <br><br>
+                            <div class="form-group">
+                                <label for="remarks">Voucher Remarks </label>
+                                <textarea class="form-control" rows="3" id="remarks" name="remarks" disabled>{{ old('remarks', $bill->voucher->remarks ?? '') }}</textarea>
+                            </div>
+                            <br>
+                            <div class="form-group custom-control-inline">
+                                <label for="endorsed_at">Endorsed for review&nbsp;</label>&nbsp;
+                                <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at" value="{!! old('endorsed_at', $bill->voucher->endorsed_at ?? '') !!}" disabled>
+                            </div>
+                            <div class="form-group custom-control-inline">
+                                <label>User&nbsp;</label>
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    value="{{ $bill->voucher->user->name ?? '' }}" disabled>
                             </div>
                             <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
                             <br><br>
