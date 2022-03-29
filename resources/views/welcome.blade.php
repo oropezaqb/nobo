@@ -88,7 +88,7 @@
                 </div>
 
                 <div class="links">
-                    <p>A Business Web App</p>
+                    <p>A Business App</p>
                     <a href="https://linkedin.com/in/bienoropeza">#MeetTheDeveloper</a>
                 </div>
             </div>
