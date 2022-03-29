@@ -28,7 +28,7 @@ class StoreBankEndorsement extends FormRequest
                 'exists:App\Models\Voucher,id',
             ],
             'remarks' => ['nullable'],
-            'approved_at' => ['required', 'date'],
+            'approved_at' => ['nullable', 'date'],
             'endorsed_at' => ['nullable', 'date'],
             'user_id' => [
                 'exists:App\Models\User,id'

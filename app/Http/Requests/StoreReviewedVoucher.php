@@ -28,7 +28,7 @@ class StoreReviewedVoucher extends FormRequest
                 'exists:App\Models\Voucher,id',
             ],
             'remarks' => ['nullable'],
-            'endorsed_at' => ['required', 'date'],
+            'endorsed_at' => ['nullable', 'date'],
             'user_id' => [
                 'exists:App\Models\User,id'
             ],

@@ -28,7 +28,7 @@ class StorePayment extends FormRequest
                 'exists:App\Models\Voucher,id',
             ],
             'remarks' => ['nullable'],
-            'paid_at' => ['required', 'date'],
+            'paid_at' => ['nullable', 'date'],
             'cleared_at' => ['nullable', 'date'],
             'user_id' => [
                 'exists:App\Models\User,id'

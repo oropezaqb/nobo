@@ -95,7 +95,7 @@
                                 <input type="date" class="form-control @error('cleared_at') is-danger @enderror" id="cleared_at" name="cleared_at" value="{!! old('cleared_at', $payment->cleared_at) !!}">
                             </div>
                             <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
-                            <input type="hidden" id="voucher_id" name="voucher_id" value="{!! old('voucher_id') !!}">
+                            <input type="hidden" id="voucher_id" name="voucher_id" value="{!! old('voucher_id', $payment->voucher_id) !!}">
                             <br>
                             <button class="btn btn-outline-primary" type="submit">Save</button>
                         </form>

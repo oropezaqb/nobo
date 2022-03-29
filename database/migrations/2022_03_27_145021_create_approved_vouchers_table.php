@@ -21,7 +21,7 @@ class CreateApprovedVouchersTable extends Migration
                 ->on('vouchers')
                 ->onDelete('cascade');
             $table->text('remarks')->nullable();
-            $table->date('approved_at');
+            $table->date('approved_at')->nullable();
             $table->date('endorsed_at')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')

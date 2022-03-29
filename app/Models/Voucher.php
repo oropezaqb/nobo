@@ -17,8 +17,24 @@ class Voucher extends Model
     {
         return $this->belongsTo(Bill::class);
     }
+    public function reviewedVoucher()
+    {
+        return $this->hasOne(ReviewedVoucher::class);
+    }
     public function approvedVoucher()
     {
         return $this->hasOne(ApprovedVoucher::class);
+    }
+    public function bankEndorsement()
+    {
+        return $this->hasOne(BankEndorsement::class);
+    }
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

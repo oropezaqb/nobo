@@ -88,7 +88,7 @@
                             </div>
                             <br><br>
                             <div class="form-group">
-                                <label for="remarks">Bill Remarks </label>
+                                <label for="remarks">Bill remarks </label>
                                 <textarea class="form-control" rows="3" id="remarks" name="remarks" disabled>{{ old('remarks', $bill->remarks) }}</textarea>
                             </div>
                             <br>
@@ -105,13 +105,14 @@
                             </div>
                             <br><br>
                             <div class="form-group">
-                                <label for="remarks">Voucher Remarks </label>
+                                <label for="remarks">Voucher remarks </label>
                                 <textarea class="form-control" rows="3" id="remarks" name="remarks" disabled>{{ old('remarks', $bill->voucher->remarks ?? '') }}</textarea>
                             </div>
                             <br>
                             <div class="form-group custom-control-inline">
                                 <label for="endorsed_at">Endorsed for review&nbsp;</label>&nbsp;
-                                <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at" value="{!! old('endorsed_at', $bill->voucher->endorsed_at ?? '') !!}" disabled>
+                                <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at"
+                                    value="{!! old('endorsed_at', $bill->voucher->endorsed_at ?? '') !!}" disabled>
                             </div>
                             <div class="form-group custom-control-inline">
                                 <label>User&nbsp;</label>
@@ -119,6 +120,80 @@
                                     class="form-control"
                                     type="text"
                                     value="{{ $bill->voucher->user->name ?? '' }}" disabled>
+                            </div>
+                            <br><br>
+                            <div class="form-group">
+                                <label for="remarks">Review remarks </label>
+                                <textarea class="form-control" rows="3" id="remarks" name="remarks" disabled>{{ old('remarks', $bill->voucher->reviewedVoucher->remarks ?? '') }}</textarea>
+                            </div>
+                            <br>
+                            <div class="form-group custom-control-inline">
+                                <label for="endorsed_at">Endorsed for approval&nbsp;</label>&nbsp;
+                                <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at"
+                                    value="{!! old('endorsed_at', $bill->voucher->reviewedVoucher->endorsed_at ?? '') !!}" disabled>
+                            </div>
+                            <div class="form-group custom-control-inline">
+                                <label>User&nbsp;</label>
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    value="{{ $bill->voucher->reviewedVoucher->user->name ?? '' }}" disabled>
+                            </div>
+                            <br><br>
+                            <div class="form-group">
+                                <label for="remarks">Approval remarks </label>
+                                <textarea class="form-control" rows="3" id="remarks" name="remarks" disabled>{{ old('remarks', $bill->voucher->approvedVoucher->remarks ?? '') }}</textarea>
+                            </div>
+                            <br>
+                            <div class="form-group custom-control-inline">
+                                <label for="endorsed_at">Endorsed to HO&nbsp;</label>&nbsp;
+                                <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at"
+                                    value="{!! old('endorsed_at', $bill->voucher->approvedVoucher->endorsed_at ?? '') !!}" disabled>
+                            </div>
+                            <div class="form-group custom-control-inline">
+                                <label>User&nbsp;</label>
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    value="{{ $bill->voucher->approvedVoucher->user->name ?? '' }}" disabled>
+                            </div>
+                            <br><br>
+                            <div class="form-group">
+                                <label for="remarks">Bank endorsement remarks </label>
+                                <textarea class="form-control" rows="3" id="remarks" name="remarks"
+                                    disabled>{{ old('remarks', $bill->voucher->bankEndorsement->remarks ?? '') }}</textarea>
+                            </div>
+                            <br>
+                            <div class="form-group custom-control-inline">
+                                <label for="endorsed_at">Endorsed to bank&nbsp;</label>&nbsp;
+                                <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at"
+                                    value="{!! old('endorsed_at', $bill->voucher->bankEndorsement->endorsed_at ?? '') !!}" disabled>
+                            </div>
+                            <div class="form-group custom-control-inline">
+                                <label>User&nbsp;</label>
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    value="{{ $bill->voucher->bankEndorsement->user->name ?? '' }}" disabled>
+                            </div>
+                            <br><br>
+                            <div class="form-group">
+                                <label for="remarks">Payment remarks </label>
+                                <textarea class="form-control" rows="3" id="remarks" name="remarks"
+                                    disabled>{{ old('remarks', $bill->voucher->payment->remarks ?? '') }}</textarea>
+                            </div>
+                            <br>
+                            <div class="form-group custom-control-inline">
+                                <label for="endorsed_at">Date paid&nbsp;</label>&nbsp;
+                                <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at"
+                                    value="{!! old('endorsed_at', $bill->voucher->payment->paid_at ?? '') !!}" disabled>
+                            </div>
+                            <div class="form-group custom-control-inline">
+                                <label>User&nbsp;</label>
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    value="{{ $bill->voucher->payment->user->name ?? '' }}" disabled>
                             </div>
                             <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
                             <br><br>

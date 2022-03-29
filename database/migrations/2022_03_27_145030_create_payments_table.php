@@ -21,7 +21,7 @@ class CreatePaymentsTable extends Migration
                 ->on('vouchers')
                 ->onDelete('cascade');
             $table->text('remarks')->nullable();
-            $table->date('paid_at');
+            $table->date('paid_at')->nullable();
             $table->date('cleared_at')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
