@@ -27,9 +27,9 @@ class BillChart extends BaseChart
         $dueDate = $dueDate->format('Y-m-d');
         $numberOfVouchers = \DB::table('vouchers')
             ->leftJoin('bills', 'vouchers.bill_id', '=', 'bills.id')
-            ->where('bills.due_at', '<', $dueDate)
+            ->where('bills.due_at', '<=', $dueDate)
             ->count();
-        $numberOfBills = Bill::where('due_at', '<', $dueDate)->count();
+        $numberOfBills = Bill::where('due_at', '<=', $dueDate)->count();
         $numberOfBillsForProcessing = $numberOfBills - $numberOfVouchers;
         return Chartisan::build()
             ->labels(['Bills processed', 'Bills for processing'])
