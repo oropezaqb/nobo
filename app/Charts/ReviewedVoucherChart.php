@@ -9,6 +9,9 @@ use ConsoleTVs\Charts\BaseChart;
 use Illuminate\Http\Request;
 use App\Models\ReviewedVoucher;
 use App\Models\ApprovedVoucher;
+use DateTime;
+use DateTimeZone;
+use DateInterval;
 
 class ReviewedVoucherChart extends BaseChart
 {
@@ -19,11 +22,20 @@ class ReviewedVoucherChart extends BaseChart
      */
     public function handler(Request $request): Chartisan
     {
-        $numberOfReviewedVouchers = ReviewedVoucher::all()->count();
-        $numberOfApprovedVouchers = ApprovedVoucher::all()->count();
+        $dueDate = new DateTime("now", new DateTimeZone('Asia/Manila'));
+        $dueDate->add(new DateInterval('P14D'));
+        $dueDate = $dueDate->format('Y-m-d');
+        $numberOfReviewedVouchers = \DB::table('reviewed_vouchers')
+            ->leftJoin('vouchers', 'reviewed_vouchers.voucher_id', '=', 'vouchers.id')
+            ->leftJoin('bills', 'vouchers.bill_id', '=', 'bills.id')
+            ->where('bills.due_at', '<=', $dueDate)
+            ->count();
+        $numberOfApprovedVouchers = \DB::table('approved_vouchers')
+            ->leftJoin('vouchers', 'approved_vouchers.voucher_id', '=', 'vouchers.id')
+            ->leftJoin('bills', 'vouchers.bill_id', '=', 'bills.id')
+            ->where('bills.due_at', '<=', $dueDate)
+            ->count();
         return Chartisan::build()
-//            ->labels(['Vouchers revieved', 'Vouchers approved'])
-//            ->dataset('Sample', [$numberOfReviewedVouchers, $numberOfApprovedVouchers]);
             ->labels(['Vouchers'])
             ->dataset('Approved', [$numberOfApprovedVouchers])
             ->dataset('For approval', [$numberOfReviewedVouchers]);
