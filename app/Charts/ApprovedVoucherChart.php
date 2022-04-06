@@ -8,6 +8,9 @@ use Chartisan\PHP\Chartisan;
 use ConsoleTVs\Charts\BaseChart;
 use Illuminate\Http\Request;
 use App\Models\ApprovedVoucher;
+use DateTime;
+use DateTimeZone;
+use DateInterval;
 
 class ApprovedVoucherChart extends BaseChart
 {
@@ -18,8 +21,20 @@ class ApprovedVoucherChart extends BaseChart
      */
     public function handler(Request $request): Chartisan
     {
-        $numberOfApprovedVouchers = ApprovedVoucher::all()->count();
-        $numberOfEndorsedToHO = ApprovedVoucher::whereNotNull('endorsed_at')->count();
+        $dueDate = new DateTime("now", new DateTimeZone('Asia/Manila'));
+        $dueDate->add(new DateInterval('P14D'));
+        $dueDate = $dueDate->format('Y-m-d');
+        $numberOfApprovedVouchers = \DB::table('approved_vouchers')
+            ->leftJoin('vouchers', 'approved_vouchers.voucher_id', '=', 'vouchers.id')
+            ->leftJoin('bills', 'vouchers.bill_id', '=', 'bills.id')
+            ->where('bills.due_at', '<=', $dueDate)
+            ->count();
+        $numberOfEndorsedToHO = \DB::table('approved_vouchers')
+            ->leftJoin('vouchers', 'approved_vouchers.voucher_id', '=', 'vouchers.id')
+            ->leftJoin('bills', 'vouchers.bill_id', '=', 'bills.id')
+            ->where('bills.due_at', '<=', $dueDate)
+            ->whereNotNull('approved_vouchers.endorsed_at')
+            ->count();
         $numberOfForEndorsement = $numberOfApprovedVouchers - $numberOfEndorsedToHO;
         return Chartisan::build()
             ->labels(['Endorsed to HO', 'For endorsement'])
