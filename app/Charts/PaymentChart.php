@@ -9,6 +9,9 @@ use ConsoleTVs\Charts\BaseChart;
 use Illuminate\Http\Request;
 use App\Models\Payment;
 use App\Models\BankEndorsement;
+use DateTime;
+use DateTimeZone;
+use DateInterval;
 
 class PaymentChart extends BaseChart
 {
@@ -19,8 +22,21 @@ class PaymentChart extends BaseChart
      */
     public function handler(Request $request): Chartisan
     {
-        $numberOfEndorsedToBank = BankEndorsement::whereNotNull('endorsed_at')->count();
-        $numberOfPaidVoucher = Payment::whereNotNull('paid_at')->count();
+        $dueDate = new DateTime("now", new DateTimeZone('Asia/Manila'));
+        $dueDate->add(new DateInterval('P14D'));
+        $dueDate = $dueDate->format('Y-m-d');
+        $numberOfEndorsedToBank = \DB::table('bank_endorsements')
+            ->leftJoin('vouchers', 'bank_endorsements.voucher_id', '=', 'vouchers.id')
+            ->leftJoin('bills', 'vouchers.bill_id', '=', 'bills.id')
+            ->where('bills.due_at', '<=', $dueDate)
+            ->whereNotNull('bank_endorsements.endorsed_at')
+            ->count();
+        $numberOfPaidVoucher = \DB::table('payments')
+            ->leftJoin('vouchers', 'payments.voucher_id', '=', 'vouchers.id')
+            ->leftJoin('bills', 'vouchers.bill_id', '=', 'bills.id')
+            ->where('bills.due_at', '<=', $dueDate)
+            ->whereNotNull('payments.paid_at')
+            ->count();
         return Chartisan::build()
             ->labels(['Payments'])
             ->dataset('Paid', [$numberOfPaidVoucher])
