@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class StoreBill extends FormRequest
 {
@@ -37,12 +39,15 @@ class StoreBill extends FormRequest
             ],
             'bill_number' => ['nullable'],
             'po_number' => ['nullable'],
+            'billed_at' => ['nullable', 'date'],
+            'petty' => ['required', Rule::in(['0', '1'])],
+            'classification' => ['required', Rule::in(['OPEX', 'CAPEX', 'Power'])],
             'due_at' => ['required', 'date'],
-            'period_start' => ['date'],
-            'period_end' => ['date'],
+            'period_start' => ['nullable', 'date'],
+            'period_end' => ['nullable', 'date'],
             'particulars' => ['required'],
             'remarks' => ['nullable'],
-            'amount' => ['numeric', 'min:0.01', 'required'],
+            'amount' => ['numeric'],
             'endorsed_at' => ['nullable', 'date'],
             'user_id' => [
                 'exists:App\Models\User,id'

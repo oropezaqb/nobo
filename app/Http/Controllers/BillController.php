@@ -97,6 +97,14 @@ class BillController extends Controller
             return back()->with('status', $this->translateError($e))->withInput();
         }
     }
+    public function translateError($e)
+    {
+        switch ($e->getCode()) {
+//            case '23000':
+//                return "One or more of the suppliers are already recorded.";
+        }
+        return $e->getMessage();
+    }
     public function show(Bill $bill)
     {
         $header = "Bill Details";

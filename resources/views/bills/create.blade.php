@@ -16,6 +16,11 @@
                         ->where('users.id', auth()->user()->id)
                         ->where('permissions.key', 'add_bills')->exists(); ?>
                     @if ($authorized)
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                         <form method="POST" action="/bills">
                             @csrf
                             @if ($errors->any())
@@ -87,18 +92,14 @@
                             </div>
                             <div class="form-group custom-control-inline">
                                 <label for="petty">PCF&nbsp;Replenishment/Reimbursement</label>&nbsp;
-                                <select class="form-control" id="petty" style="width: 100px;">
-                                    <option>false</option>
-                                    <option>true</option>
-                                </select>
+                                {{ Form::select('petty', array('0' => 'No', '1' => 'Yes'), '0', $attributes = array('class' => 'form-control', 'style' => 'width: 100px;',
+                                    'value' => old('petty'), 'id' => 'petty', 'name' => 'petty')); }}
                             </div>
                             <div class="form-group custom-control-inline">
                                 <label for="classification">Classification</label>&nbsp;
-                                <select class="form-control" id="classification" style="width: 100px;">
-                                    <option>OPEX</option>
-                                    <option>CAPEX</option>
-                                    <option>Power</option>
-                                </select>
+                                {{ Form::select('classification', array('OPEX' => 'OPEX', 'CAPEX' => 'CAPEX', 'Power' => 'Power'), 'OPEX',
+                                    $attributes = array('class' => 'form-control', 'style' => 'width: 100px;',
+                                    'value' => old('classificaion'), 'id' => 'classification', 'name' => 'classification')); }}
                             </div>
                             <br><br>
                             <div class="form-group">
@@ -115,7 +116,7 @@
                             <button class="btn btn-outline-primary" type="submit">Save</button>
                         </form>
                         <script>
-                            function setValue (id) 
+                            function setValue (id)
                             {
                                 var input = id,
                                     list = input.getAttribute('list'),

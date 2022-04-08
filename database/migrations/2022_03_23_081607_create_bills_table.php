@@ -24,7 +24,7 @@ class CreateBillsTable extends Migration
             $table->enum('classification', ['OPEX', 'CAPEX', 'Power']);
             $table->boolean('petty');
             $table->string('bill_number')->nullable();
-            $table->date('billed_at');
+            $table->date('billed_at')->nullable();
             $table->string('po_number')->nullable();
             $table->date('period_start')->nullable();
             $table->date('period_end')->nullable();
