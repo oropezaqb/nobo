@@ -35,7 +35,8 @@ class StoreBill extends FormRequest
             'payee_id' => [
                 'exists:App\Models\Payee,id'
             ],
-            'po_number' => ['nullable', 'numeric', 'min:1'],
+            'bill_number' => ['nullable'],
+            'po_number' => ['nullable'],
             'due_at' => ['required', 'date'],
             'period_start' => ['date'],
             'period_end' => ['date'],

@@ -46,16 +46,20 @@
                             <br>
                             <div class="form-group custom-control-inline">
                                 <label for="bill_number">Bill no. </label>
-                                <input 
-                                    class="form-control" 
-                                    type="text" 
-                                    name="bill_number" 
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    name="bill_number"
                                     id="bill_number"
                                     value="{{ old('bill_number') }}">
                             </div>
                             <div class="form-group custom-control-inline">
+                                <label for="billed_at">Bill date:&nbsp;</label>&nbsp;
+                                <input type="date" class="form-control @error('billed_at') is-danger @enderror" id="billed_at" name="billed_at" value="{!! old('billed_at') !!}">
+                            </div>
+                            <div class="form-group custom-control-inline">
                                 <label for="po_number">P.O. no.</label>&nbsp;
-                                <input type="number" class="form-control amount" id="po_number" name="po_number" step="1" style="text-align: right;"
+                                <input type="text" class="form-control" id="po_number" name="po_number" style="text-align: right;"
                                     value="{!! old('po_number') !!}">
                             </div>
                             <div class="form-group custom-control-inline">
@@ -80,6 +84,21 @@
                                 <label for="amount">Amount</label>&nbsp;
                                 <input type="number" class="form-control amount" id="amount" name="amount" step="0.01" style="text-align: right;"
                                     value="{!! old('amount') !!}">
+                            </div>
+                            <div class="form-group custom-control-inline">
+                                <label for="petty">PCF&nbsp;Replenishment/Reimbursement</label>&nbsp;
+                                <select class="form-control" id="petty" style="width: 100px;">
+                                    <option>false</option>
+                                    <option>true</option>
+                                </select>
+                            </div>
+                            <div class="form-group custom-control-inline">
+                                <label for="classification">Classification</label>&nbsp;
+                                <select class="form-control" id="classification" style="width: 100px;">
+                                    <option>OPEX</option>
+                                    <option>CAPEX</option>
+                                    <option>Power</option>
+                                </select>
                             </div>
                             <br><br>
                             <div class="form-group">

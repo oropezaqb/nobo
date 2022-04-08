@@ -20,6 +20,8 @@ class CreatePaymentsTable extends Migration
                 ->references('id')
                 ->on('vouchers')
                 ->onDelete('cascade');
+            $table->string('check_number')->nullable();
+            $table->date('check_date')->nullable();
             $table->text('remarks')->nullable();
             $table->date('paid_at')->nullable();
             $table->date('cleared_at')->nullable();

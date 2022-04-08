@@ -21,8 +21,11 @@ class CreateBillsTable extends Migration
                 ->references('id')
                 ->on('payees');
             $table->decimal('amount', 13, 2);
+            $table->enum('classification', ['OPEX', 'CAPEX', 'Power']);
+            $table->boolean('petty');
             $table->string('bill_number')->nullable();
-            $table->unsignedBigInteger('po_number')->nullable();
+            $table->date('billed_at');
+            $table->string('po_number')->nullable();
             $table->date('period_start')->nullable();
             $table->date('period_end')->nullable();
             $table->date('due_at');
