@@ -59,8 +59,13 @@
                                     value="{{ old('bill_number', $bill->bill_number) }}" disabled>
                             </div>
                             <div class="form-group custom-control-inline">
+                                <label for="billed_at">Bill date:&nbsp;</label>&nbsp;
+                                <input type="date" class="form-control @error('billed_at') is-danger @enderror" id="billed_at" name="billed_at" value="{!! old('billed_at', $bill->billed_at) !!}"
+                                    disabled>
+                            </div>
+                            <div class="form-group custom-control-inline">
                                 <label for="po_number">P.O. no.</label>&nbsp;
-                                <input type="number" class="form-control amount" id="po_number" name="po_number" step="1" style="text-align: right;"
+                                <input type="text" class="form-control" id="po_number" name="po_number" style="text-align: right;"
                                     value="{!! old('po_number', $bill->po_number) !!}" disabled>
                             </div>
                             <div class="form-group custom-control-inline">
@@ -85,6 +90,17 @@
                                 <label for="amount">Amount</label>&nbsp;
                                 <input type="number" class="form-control amount" id="amount" name="amount" step="0.01" style="text-align: right;"
                                     value="{!! old('amount', $bill->amount) !!}" disabled>
+                            </div>
+                            <div class="form-group custom-control-inline">
+                                <label for="petty">PCF&nbsp;Replenishment/Reimbursement</label>&nbsp;
+                                {{ Form::select('petty', array('0' => 'No', '1' => 'Yes'), $bill->petty, $attributes = array('class' => 'form-control', 'style' => 'width: 100px;',
+                                    'value' => old('petty', $bill->petty), 'id' => 'petty', 'name' => 'petty', 'disabled' => 'disabled')); }}
+                            </div>
+                            <div class="form-group custom-control-inline">
+                                <label for="classification">Classification</label>&nbsp;
+                                {{ Form::select('classification', array('OPEX' => 'OPEX', 'CAPEX' => 'CAPEX', 'Power' => 'Power'), $bill->classification,
+                                    $attributes = array('class' => 'form-control', 'style' => 'width: 100px;',
+                                    'value' => old('classificaion', $bill->classification), 'id' => 'classification', 'name' => 'classification', 'disabled' => 'disabled')); }}
                             </div>
                             <br><br>
                             <div class="form-group">

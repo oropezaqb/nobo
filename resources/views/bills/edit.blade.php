@@ -47,10 +47,10 @@
                             <br>
                             <div class="form-group custom-control-inline">
                                 <label for="bill_number">Bill no. </label>
-                                <input 
-                                    class="form-control" 
-                                    type="text" 
-                                    name="bill_number" 
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    name="bill_number"
                                     id="bill_number"
                                     value="{{ old('bill_number', $bill->bill_number) }}">
                             </div>
