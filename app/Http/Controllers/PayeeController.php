@@ -77,6 +77,53 @@ class PayeeController extends Controller
         }
     }
 
+    public function translateError($e)
+    {
+        switch ($e->getCode()) {
+//            case '23000':
+//                return "One or more of the products are already recorded.";
+        }
+        return $e->getMessage();
+    }
+
+    public function upload()
+    {
+        try {
+            \DB::transaction(function () {
+                $extension = request()->file('payees')->getClientOriginalExtension();
+                $filename = uniqid().'.'.$extension;
+                $path = request()->file('payees')->storeAs('input/payees', $filename);
+                $csv = array_map('str_getcsv', file(base_path() . "/storage/app/" . $path));
+                $messages = array();
+                $error = false;
+                $count = count($csv);
+                $userID = auth()->user()->id;
+                for ($row = 0; $row < $count; $row++) {
+                    if ($row >= 0)
+                    {
+                        $name = $csv[$row][0];
+                        if (is_null($name) OR \DB::table('payees')->where('name', $name)->exists())
+                        {
+                            $messages[] = 'Line ' . ($row + 1) . ' is blank.';
+                            $error = true;
+                        }
+                        else
+                        {
+                            $payee = new Payee([
+                                'name' => $name,
+                                'user_id' => $userID
+                            ]);
+                            $payee->save();
+                        }
+                    }
+                }
+            });
+            return redirect(route('payees.index'));
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e));
+        }
+    }
+
     /**
      * Display the specified resource.
      *

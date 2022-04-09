@@ -51,6 +51,7 @@ Route::post('/reviewed-vouchers/get-voucher', [ReviewedVoucherController::class,
 Route::post('/approved-vouchers/get-voucher', [ApprovedVoucherController::class, 'getVoucher'])->name('approved-vouchers.getVoucher');
 Route::post('/bank-endorsements/get-voucher', [BankEndorsementController::class, 'getVoucher'])->name('bank-endorsements.getVoucher');
 Route::post('/payments/get-voucher', [PaymentController::class, 'getVoucher'])->name('payments.getVoucher');
+Route::post('/payees/upload', [PayeeController::class, 'upload'])->name('payees.upload');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

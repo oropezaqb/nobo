@@ -105,6 +105,7 @@ class BillController extends Controller
         }
         return $e->getMessage();
     }
+
     public function show(Bill $bill)
     {
         $header = "Bill Details";

@@ -23,6 +23,7 @@ class CreateApprovedVouchersTable extends Migration
             $table->text('remarks')->nullable();
             $table->date('approved_at')->nullable();
             $table->date('endorsed_at')->nullable();
+            $table->string('batch_number')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
                 ->references('id')
