@@ -126,8 +126,8 @@ class ReviewedVoucherController extends Controller
             if(count($messages) > 0){
                 $messages = $this->messages;
                 $header = "Add a New Reviewed Voucher";
-                $bills = Bill::latest()->get();
-                return view('reviewed-vouchers.create', compact('header', 'bills', 'messages'));
+                $vouchers = Bill::latest()->get();
+                return view('reviewed-vouchers.create', compact('header', 'vouchers', 'messages'));
             }
             else{
                 return redirect(route('reviewed-vouchers.index'))->with('status', 'Reviewed vouchers saved!');
