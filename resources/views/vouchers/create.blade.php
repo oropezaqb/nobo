@@ -21,6 +21,15 @@
                                 {{ session('status') }}
                             </div>
                         @endif
+                        @if(!empty($messages))
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($messages as $message)
+                                        <li>{{ $message }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form method="POST" action="/vouchers">
                             @csrf
                             @if ($errors->any())

@@ -15,6 +15,7 @@ use Dompdf\Dompdf;
 
 class VoucherController extends Controller
 {
+    protected $messages = array();
     public function __construct()
     {
         $this->middleware('auth');
@@ -41,9 +42,10 @@ class VoucherController extends Controller
     }
     public function create()
     {
+        $messages = array();
         $header = "Add a New Voucher";
         $bills = Bill::latest()->get();
-        return view('vouchers.create', compact('header', 'bills'));
+        return view('vouchers.create', compact('header', 'bills', 'messages'));
     }
     public function store(StoreVoucher $request)
     {
@@ -73,6 +75,83 @@ class VoucherController extends Controller
                 return "Voucher number already recorded.";
         }
         return $e->getMessage();
+    }
+    public function upload()
+    {
+        try {
+            \DB::transaction(function () {
+                $extension = request()->file('vouchers')->getClientOriginalExtension();
+                $filename = uniqid().'.'.$extension;
+                $path = request()->file('vouchers')->storeAs('input/vouchers', $filename);
+                $csv = array_map('str_getcsv', file(base_path() . "/storage/app/" . $path));
+                $error = false;
+                $count = count($csv);
+                $userID = auth()->user()->id;
+                for ($row = 0; $row < $count; $row++) {
+                    $voucherNumber = $csv[$row][0];
+                    $billID = $csv[$row][1];
+                    $voucherDate = $csv[$row][2];
+                    $postingDate = $csv[$row][3];
+                    $payableAmount = $csv[$row][4];
+                    $endorsedAt = $csv[$row][5];
+                    if(!is_numeric($voucherNumber))
+                    {
+                        $this->messages[] = 'Line ' . ($row + 1) . '. Voucher number must be numeric.';
+                        $error = true;
+                    }
+                    if(!\DB::table('bills')->where('id', $billID)->exists() OR \DB::table('vouchers')->where('bill_id', $billID)->exists())
+                    {
+                        $this->messages[] = 'Line ' . ($row + 1) . '. Bill ID do not exist or already associated with a different voucher.';
+                        $error = true;
+                    }
+                    if((DateTime::createFromFormat('m/d/Y H:i:s', $voucherDate) == true) OR ($voucherDate == ''))
+                    {
+                        $this->messages[] = 'Line ' . ($row + 1) . '. Voucher date is not valid.';
+                        $error = true;
+                    }
+                    if((DateTime::createFromFormat('m/d/Y H:i:s', $postingDate) == true) OR ($postingDate == ''))
+                    {
+                        $this->messages[] = 'Line ' . ($row + 1) . '. Posting date is not valid.';
+                        $error = true;
+                    }
+                    if(!is_numeric($payableAmount))
+                    {
+                        $this->messages[] = 'Line ' . ($row + 1) . '. Payable amount must be numeric.';
+                        $error = true;
+                    }
+                    if((DateTime::createFromFormat('m/d/Y H:i:s', $endorsedAt) == true) OR ($endorsedAt == ''))
+                    {
+                        $this->messages[] = 'Line ' . ($row + 1) . '. Date endorsed is not valid.';
+                        $error = true;
+                    }
+                    if($error == false){
+                        $voucher = new Voucher([
+                            'number' => $voucherNumber,
+                            'bill_id' => $billID,
+                            'date' => date("Y-m-d", strtotime($voucherDate)),
+                            'posted_at' => date("Y-m-d", strtotime($postingDate)),
+                            'payable_amount' => $payableAmount,
+                            'remarks' => '',
+                            'endorsed_at' => date("Y-m-d", strtotime($endorsedAt)),
+                            'user_id' => $userID,
+                        ]);
+                        $voucher->save();
+                    }
+                }
+            });
+            $messages = $this->messages;
+            if(count($messages) > 0){
+                $messages = $this->messages;
+                $header = "Add a New Voucher";
+                $bills = Bill::latest()->get();
+                return view('vouchers.create', compact('header', 'bills', 'messages'));
+            }
+            else{
+                return redirect(route('vouchers.index'))->with('status', 'Vouchers saved!');
+            }
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
     }
     public function show(Voucher $voucher)
     {
