@@ -12,7 +12,6 @@ use App\EPMADD\DbAccess;
 use App\Http\Requests\StoreReviewedVoucher;
 use DateTime;
 use Dompdf\Dompdf;
-use App\Models\Bill;
 
 class ReviewedVoucherController extends Controller
 {
@@ -89,9 +88,9 @@ class ReviewedVoucherController extends Controller
     {
         try {
             \DB::transaction(function () {
-                $extension = request()->file('reviewed_vouchers')->getClientOriginalExtension();
+                $extension = request()->file('vouchers')->getClientOriginalExtension();
                 $filename = uniqid().'.'.$extension;
-                $path = request()->file('reviewed_vouchers')->storeAs('input/reviewed-vouchers', $filename);
+                $path = request()->file('vouchers')->storeAs('input/vouchers', $filename);
                 $csv = array_map('str_getcsv', file(base_path() . "/storage/app/" . $path));
                 //$error = false;
                 $count = count($csv);
@@ -100,7 +99,7 @@ class ReviewedVoucherController extends Controller
                     $voucherNumber = $csv[$row][0];
                     $endorsedAt = $csv[$row][1];
                     if(!\DB::table('vouchers')->where('number', $voucherNumber)->exists() OR
-                        \DB::table('vouchers')->rightJoin('reviewed_vouchers', 'vouchers.id', '=', 'reviewed_vouchers.voucher_id')
+                        \DB::table('vouchers')->leftJoin('reviewed_vouchers', 'vouchers.id', '=', 'reviewed_vouchers.voucher_id')
                         ->where('vouchers.number', $voucherNumber)->exists())
                     {
                         $this->messages[] = 'Line ' . ($row + 1) . '. Voucher number do not exist or already associated with a different reviewed voucher.';
@@ -108,13 +107,12 @@ class ReviewedVoucherController extends Controller
                     }
                     if((DateTime::createFromFormat('m/d/Y H:i:s', $endorsedAt) == true) OR ($endorsedAt == ''))
                     {
-                        $this->messages[] = 'Line ' . ($row + 1) . '. Date endorsed is not valid.';
-                        //$error = true;
+                        //$this->messages[] = 'Line ' . ($row + 1) . '. Date endorsed is not valid.';
+                        $error = true;
                     }
-                    if(count($this->messages) == 0){
-                        $voucher = \DB::table('vouchers')->where('vouchers.number', $voucherNumber)->first();
+                    if(count($this->messages) < 1){
                         $reviewedVoucher = new ReviewedVoucher([
-                            'voucher_id' => $voucher->id,
+                            'voucher_id' => ReviewedVoucher::where('number', $voucherNumber)->firstOrFail,
                             'endorsed_at' => date("Y-m-d", strtotime($endorsedAt)),
                             'user_id' => $userID,
                         ]);
@@ -125,12 +123,12 @@ class ReviewedVoucherController extends Controller
             $messages = $this->messages;
             if(count($messages) > 0){
                 $messages = $this->messages;
-                $header = "Add a New Reviewed Voucher";
+                $header = "Add a New ReviewedVoucher";
                 $bills = Bill::latest()->get();
-                return view('reviewed-vouchers.create', compact('header', 'bills', 'messages'));
+                return view('vouchers.create', compact('header', 'bills', 'messages'));
             }
             else{
-                return redirect(route('reviewed-vouchers.index'))->with('status', 'Reviewed vouchers saved!');
+                return redirect(route('vouchers.index'))->with('status', 'Vouchers saved!');
             }
         } catch (\Exception $e) {
             return back()->with('status', $this->translateError($e))->withInput();

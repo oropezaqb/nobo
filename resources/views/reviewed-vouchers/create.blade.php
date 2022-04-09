@@ -19,6 +19,15 @@
                                 {{ session('status') }}
                             </div>
                         @endif
+                        @if(!empty($messages))
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($messages as $message)
+                                        <li>{{ $message }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form method="POST" action="/reviewed-vouchers">
                             @csrf
                             @if ($errors->any())
@@ -93,6 +102,20 @@
                             <input type="hidden" id="voucher_id" name="voucher_id" value="{!! old('voucher_id') !!}">
                             <br>
                             <button class="btn btn-outline-primary" type="submit">Save</button>
+                        </form>
+                        <br><br>
+                        <form method="POST" action="/reviewed-vouchers/upload" enctype="multipart/form-data">
+                            @csrf
+                            <h6 class="font-weight-bold">Import</h6>
+                            <div class="form-group">
+                                <label for="reviewed_vouchers">Select a CSV file to upload (Voucher No., Date Endorsed for Approval)</label>
+                                <br>
+                                {!! Form::file('reviewed_vouchers') !!}
+                                @error('reviewed_vouchers')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <button class="btn btn-outline-primary" type="submit">Import</button>
                         </form>
                         <script>
                             function setValue(id)
