@@ -73,6 +73,8 @@ class PaymentController extends Controller
                 $payment = new Payment([
                     'voucher_id' => request('voucher_id'),
                     'remarks' => request('remarks'),
+                    'check_number' => request('check_number'),
+                    'check_date' => request('check_date'),
                     'paid_at' => request('paid_at'),
                     'cleared_at' => request('cleared_at'),
                     'user_id' => request('user_id'),
@@ -111,6 +113,8 @@ class PaymentController extends Controller
                 $payment->update([
                     'voucher_id' => request('voucher_id'),
                     'remarks' => request('remarks'),
+                    'check_number' => request('check_number'),
+                    'check_date' => request('check_date'),
                     'paid_at' => request('paid_at'),
                     'cleared_at' => request('cleared_at'),
                     'user_id' => request('user_id'),

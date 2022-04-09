@@ -28,6 +28,8 @@ class StorePayment extends FormRequest
                 'exists:App\Models\Voucher,id',
             ],
             'remarks' => ['nullable'],
+            'check_number' => ['nullable'],
+            'check_date' => ['nullable', 'date'],
             'paid_at' => ['nullable', 'date'],
             'cleared_at' => ['nullable', 'date'],
             'user_id' => [

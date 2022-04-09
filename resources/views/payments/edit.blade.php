@@ -87,6 +87,15 @@
                             </div>
                             <br>
                             <div class="form-group custom-control-inline">
+                                <label for="check_number">Check&nbsp;no.</label>&nbsp;
+                                <input type="text" class="form-control" id="check_number" name="check_number" style="text-align: right;"
+                                    value="{!! old('check_number', $payment->check_number) !!}">
+                            </div>
+                            <div class="form-group custom-control-inline">
+                                <label for="check_date">Check&nbsp;date:&nbsp;</label>&nbsp;
+                                <input type="date" class="form-control @error('check_date') is-danger @enderror" id="check_date" name="check_date" value="{!! old('check_date', $payment->check_date) !!}">
+                            </div>
+                            <div class="form-group custom-control-inline">
                                 <label for="paid_at">Date paid:&nbsp;</label>&nbsp;
                                 <input type="date" class="form-control @error('paid_at') is-danger @enderror" id="paid_at" name="paid_at" value="{!! old('paid_at', $payment->paid_at) !!}">
                             </div>

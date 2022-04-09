@@ -75,6 +75,7 @@ class ApprovedVoucherController extends Controller
                     'remarks' => request('remarks'),
                     'approved_at' => request('approved_at'),
                     'endorsed_at' => request('endorsed_at'),
+                    'batch_number' => request('batch_number'),
                     'user_id' => request('user_id'),
                 ]);
                 $approvedVoucher->save();
@@ -113,6 +114,7 @@ class ApprovedVoucherController extends Controller
                     'remarks' => request('remarks'),
                     'approved_at' => request('approved_at'),
                     'endorsed_at' => request('endorsed_at'),
+                    'batch_number' => request('batch_number'),
                     'user_id' => request('user_id'),
                 ]);
             });

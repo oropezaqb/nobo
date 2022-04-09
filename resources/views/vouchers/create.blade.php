@@ -100,6 +100,20 @@
                             <br>
                             <button class="btn btn-outline-primary" type="submit">Save</button>
                         </form>
+                        <br><br>
+                        <form method="POST" action="/vouchers/upload" enctype="multipart/form-data">
+                            @csrf
+                            <h6 class="font-weight-bold">Import</h6>
+                            <div class="form-group">
+                                <label for="vouchers">Select a CSV file to upload (Voucher No., Bill ID, Voucher Date, Posting Date, Payable Amount, Date Endorsed for Review)</label>
+                                <br>
+                                {!! Form::file('vouchers') !!}
+                                @error('vouchers')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <button class="btn btn-outline-primary" type="submit">Import</button>
+                        </form>
                         <script>
                             function setValue(id)
                             {

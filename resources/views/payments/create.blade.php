@@ -86,11 +86,20 @@
                             </div>
                             <br>
                             <div class="form-group custom-control-inline">
-                                <label for="paid_at">Date paid:&nbsp;</label>&nbsp;
+                                <label for="check_number">Check&nbsp;no.</label>&nbsp;
+                                <input type="text" class="form-control" id="check_number" name="check_number" style="text-align: right;"
+                                    value="{!! old('check_number') !!}">
+                            </div>
+                            <div class="form-group custom-control-inline">
+                                <label for="check_date">Check&nbsp;date:&nbsp;</label>&nbsp;
+                                <input type="date" class="form-control @error('check_date') is-danger @enderror" id="check_date" name="check_date" value="{!! old('check_date') !!}">
+                            </div>
+                            <div class="form-group custom-control-inline">
+                                <label for="paid_at">Date&nbsp;paid:&nbsp;</label>&nbsp;
                                 <input type="date" class="form-control @error('paid_at') is-danger @enderror" id="paid_at" name="paid_at" value="{!! old('paid_at') !!}">
                             </div>
                             <div class="form-group custom-control-inline">
-                                <label for="cleared_at">Date cleared:&nbsp;</label>&nbsp;
+                                <label for="cleared_at">Date&nbsp;cleared:&nbsp;</label>&nbsp;
                                 <input type="date" class="form-control @error('cleared_at') is-danger @enderror" id="cleared_at" name="cleared_at" value="{!! old('cleared_at') !!}">
                             </div>
                             <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">

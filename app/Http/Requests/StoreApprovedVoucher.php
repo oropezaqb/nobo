@@ -30,6 +30,7 @@ class StoreApprovedVoucher extends FormRequest
             'remarks' => ['nullable'],
             'approved_at' => ['nullable', 'date'],
             'endorsed_at' => ['nullable', 'date'],
+            'batch_number' => ['nullable'],
             'user_id' => [
                 'exists:App\Models\User,id'
             ],

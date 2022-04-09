@@ -94,6 +94,11 @@
                                 <label for="endorsed_at">Date endorsed:&nbsp;</label>&nbsp;
                                 <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at" value="{!! old('endorsed_at', $approvedVoucher->endorsed_at) !!}">
                             </div>
+                            <div class="form-group custom-control-inline">
+                                <label for="batch_number">Batch&nbsp;no.</label>&nbsp;
+                                <input type="text" class="form-control" id="batch_number" name="batch_number" style="text-align: right;"
+                                    value="{!! old('batch_number', $approvedVoucher->batch_number) !!}">
+                            </div>
                             <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
                             <input type="hidden" id="voucher_id" name="voucher_id" value="{!! old('voucher_id', $approvedVoucher->voucher_id) !!}">
                             <br>
