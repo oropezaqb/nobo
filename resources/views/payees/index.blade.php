@@ -42,20 +42,6 @@
                         <h6 class="font-weight-bold">Add</h6>
                         <p>Want to record a new payee? Click <a class="text-primary" href="{{ url('/payees/create') }}">here</a>!</p>
                         <br>
-                        <form method="POST" action="/payees/upload" enctype="multipart/form-data">
-                            @csrf
-                            <h6 class="font-weight-bold">Import</h6>
-                            <div class="form-group">
-                                <label for="payees">Select a CSV file to upload</label>
-                                <br>
-                                {!! Form::file('payees') !!}
-                                @error('payees')
-                                    <p class="help is-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <button class="btn btn-outline-primary" type="submit">Import</button>
-                        </form>
-                        <br>
                         <h6 class="font-weight-bold">List</h6>
                         @forelse ($payees as $payee)
                             <div id="content">
@@ -72,6 +58,7 @@
                         @empty
                             <p>No payees recorded yet.</p>
                         @endforelse
+                        {{ $payees->links() }}
                     @else
                         You are not authorized to browse payees.
                     @endif

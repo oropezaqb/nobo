@@ -32,7 +32,7 @@ class BillController extends Controller
     {
         if (empty(request('payee')))
         {
-            $bills = \DB::table('bills')->latest()->paginate(5);
+            $bills = \DB::table('bills')->latest()->paginate(25);
         }
         else
         {

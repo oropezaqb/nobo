@@ -57,6 +57,7 @@
                         @empty
                             <p>No bank endorsements recorded yet.</p>
                         @endforelse
+                        {{ $bankEndorsements->links() }}
                     @else
                         You are not authorized to browse bank endorsements.
                     @endif

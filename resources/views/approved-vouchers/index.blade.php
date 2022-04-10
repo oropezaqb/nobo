@@ -62,6 +62,7 @@
                         @empty
                             <p>No approved vouchers recorded yet.</p>
                         @endforelse
+                        {{ $approvedVouchers->links() }}
                     @else
                         You are not authorized to browse approved vouchers.
                     @endif

@@ -24,7 +24,7 @@ class BankEndorsementController extends Controller
     {
         if (empty(request('number')))
         {
-            $bankEndorsements = \DB::table('bank_endorsements')->latest()->get();
+            $bankEndorsements = \DB::table('bank_endorsements')->latest()->paginate(25);
         }
         else
         {
@@ -32,7 +32,7 @@ class BankEndorsementController extends Controller
                 ->leftJoin('vouchers', 'reviewed_vouchers.voucher_id', '=', 'vouchers.id')
                 ->where('voucher.number', 'like', '%' . request('number') . '%')
                 ->select('reviewed_vouchers.*', 'voucher.number')
-                ->latest()->get();
+                ->latest()->paginate(25);
         }
         $header = "Bank Endorsements";
         if (\Route::currentRouteName() === 'bank_endorsements.index')

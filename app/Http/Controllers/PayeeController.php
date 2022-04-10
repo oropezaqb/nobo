@@ -31,11 +31,11 @@ class PayeeController extends Controller
     {
         if (empty(request('name')))
         {
-            $payees = Payee::simplePaginate(50);
+            $payees = Payee::latest()->paginate(25);
         }
         else
         {
-            $payees = Payee::where('name', 'like', '%' . request('name') . '%')->latest()->get();
+            $payees = Payee::where('name', 'like', '%' . request('name') . '%')->latest()->paginate(25);
         }
         $header = "Payees";
         if (\Route::currentRouteName() === 'payees.index') {

@@ -35,6 +35,20 @@
                             <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
                             <button class="btn btn-outline-primary" type="submit">Save</button>
                         </form>
+                        <br><br>
+                        <form method="POST" action="/payees/upload" enctype="multipart/form-data">
+                            @csrf
+                            <h6 class="font-weight-bold">Import</h6>
+                            <div class="form-group">
+                                <label for="payees">Select a CSV file to upload</label>
+                                <br>
+                                {!! Form::file('payees') !!}
+                                @error('payees')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <button class="btn btn-outline-primary" type="submit">Import</button>
+                        </form>
                     @else
                         You are not authorized to add payees.
                     @endif

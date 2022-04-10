@@ -64,6 +64,7 @@
                         @empty
                             <p>No vouchers recorded yet.</p>
                         @endforelse
+                        {{ $vouchers->links() }}
                     @else
                         You are not authorized to browse vouchers.
                     @endif

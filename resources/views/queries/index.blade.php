@@ -61,6 +61,7 @@
                         @empty
                             <p>No queries recorded yet.</p>
                         @endforelse
+                        {{ $queries->links() }}
                     @else
                         You are not authorized to browse queries.
                     @endif

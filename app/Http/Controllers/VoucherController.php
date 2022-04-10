@@ -25,13 +25,13 @@ class VoucherController extends Controller
     {
         if (empty(request('number')))
         {
-            $vouchers = \DB::table('vouchers')->latest()->get();
+            $vouchers = \DB::table('vouchers')->latest()->paginate(25);
         }
         else
         {
             $vouchers = \DB::table('vouchers')
                 ->where('vouchers.number', 'like', '%' . request('number') . '%')
-                ->latest()->get();
+                ->latest()->paginate(25);
         }
         $header = "Vouchers";
         if (\Route::currentRouteName() === 'vouchers.index')

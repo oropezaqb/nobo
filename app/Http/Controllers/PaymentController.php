@@ -24,7 +24,7 @@ class PaymentController extends Controller
     {
         if (empty(request('number')))
         {
-            $payments = \DB::table('payments')->latest()->get();
+            $payments = \DB::table('payments')->latest()->paginate(25);
         }
         else
         {
@@ -32,7 +32,7 @@ class PaymentController extends Controller
                 ->leftJoin('vouchers', 'reviewed_vouchers.voucher_id', '=', 'vouchers.id')
                 ->where('voucher.number', 'like', '%' . request('number') . '%')
                 ->select('reviewed_vouchers.*', 'voucher.number')
-                ->latest()->get();
+                ->latest()->paginate(25);
         }
         $header = "Payments";
         if (\Route::currentRouteName() === 'payments.index')

@@ -57,6 +57,7 @@
                         @empty
                             <p>No payments recorded yet.</p>
                         @endforelse
+                        {{ $payments->links() }}
                     @else
                         You are not authorized to browse payments.
                     @endif

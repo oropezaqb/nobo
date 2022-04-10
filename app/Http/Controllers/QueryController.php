@@ -32,11 +32,11 @@ class QueryController extends Controller
     {
         if (empty(request('title')))
         {
-            $queries = Query::latest()->get();
+            $queries = Query::latest()->paginate(25);
         }
         else
         {
-            $queries = Query::where('title', 'like', '%' . request('title') . '%')->get();
+            $queries = Query::where('title', 'like', '%' . request('title') . '%')->paginate(25);
         }
         $header = "Queries";
         if (\Route::currentRouteName() === 'queries.index')

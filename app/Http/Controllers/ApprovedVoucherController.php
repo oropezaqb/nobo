@@ -25,7 +25,7 @@ class ApprovedVoucherController extends Controller
     {
         if (empty(request('number')))
         {
-            $approvedVouchers = \DB::table('approved_vouchers')->latest()->get();
+            $approvedVouchers = \DB::table('approved_vouchers')->latest()->paginate(25);
         }
         else
         {
@@ -33,7 +33,7 @@ class ApprovedVoucherController extends Controller
                 ->leftJoin('vouchers', 'reviewed_vouchers.voucher_id', '=', 'vouchers.id')
                 ->where('voucher.number', 'like', '%' . request('number') . '%')
                 ->select('reviewed_vouchers.*', 'voucher.number')
-                ->latest()->get();
+                ->latest()->paginate(25);
         }
         $header = "Approved Vouchers";
         if (\Route::currentRouteName() === 'approved-vouchers.index')

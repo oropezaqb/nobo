@@ -20,7 +20,7 @@
                         <form method="GET" action="/bills">
                             @csrf
                             <div class="form-group custom-control-inline">
-                                <label for="payee">Payee </label>
+                                <label for="payee">Payee&nbsp;</label>
                                 <input
                                     class="form-control @error('payee') is-danger @enderror"
                                     type="text"
@@ -30,9 +30,8 @@
                                 @error('bill_payee')
                                     <p class="help is-danger">{{ $message }}</p>
                                 @enderror
-                            </div>
-                            <div class="form-group custom-control-inline">
-                                <label for="bill_number">Bill no.  </label>
+                                &nbsp;
+                                <label for="bill_number">Bill&nbsp;no.&nbsp;</label>
                                 <input
                                     class="form-control @error('bill_number') is-danger @enderror"
                                     type="text"
@@ -42,8 +41,9 @@
                                 @error('bill_number')
                                     <p class="help is-danger">{{ $message }}</p>
                                 @enderror
+                                &nbsp;
+                                <button class="btn btn-outline-primary" type="submit">Search</button>
                             </div>
-                            <button class="btn btn-outline-primary" type="submit">Search</button>
                         </form>
                         <h6 class="font-weight-bold">Add</h6>
                         <p>Want to record a new bill? Click <a class="text-primary" href="{{ url('/bills/create') }}">here</a>!</p>
