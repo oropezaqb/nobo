@@ -36,7 +36,7 @@ class QueryController extends Controller
         }
         else
         {
-            $queries = Query::where('title', 'like', '%' . request('title') . '%')->paginate(25);
+            $queries = Query::where('title', 'like', '%' . request('title') . '%')->latest()->paginate(25);
         }
         $header = "Queries";
         if (\Route::currentRouteName() === 'queries.index')

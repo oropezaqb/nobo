@@ -98,6 +98,13 @@
                                 <input type="text" class="form-control" id="batch_number" name="batch_number" style="text-align: right;"
                                     value="{!! old('batch_number', $approvedVoucher->batch_number) !!}" disabled>
                             </div>
+                            <div class="form-group custom-control-inline">
+                                <label>User&nbsp;</label>
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    value="{{ $approvedVoucher->user->name ?? '' }}" disabled>
+                            </div>
                             <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
                             <input type="hidden" id="voucher_id" name="voucher_id" value="{!! old('voucher_id') !!}">
                             <br>

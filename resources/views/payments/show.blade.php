@@ -102,9 +102,16 @@
                                 <label for="cleared_at">Date cleared:&nbsp;</label>&nbsp;
                                 <input type="date" class="form-control @error('cleared_at') is-danger @enderror" id="cleared_at" name="cleared_at" value="{!! old('cleared_at', $payment->cleared_at) !!}" disabled>
                             </div>
+                            <div class="form-group custom-control-inline">
+                                <label>User&nbsp;</label>
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    value="{{ $payment->user->name ?? '' }}" disabled>
+                            </div>
                             <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
                             <input type="hidden" id="voucher_id" name="voucher_id" value="{!! old('voucher_id') !!}">
-                            <br>
+                            <br><br>
                         </form>
                         <div style="clear: both;">
                             <div style="display: inline-block;">

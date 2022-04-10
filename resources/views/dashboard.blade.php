@@ -20,6 +20,90 @@
                         <div class="col-sm-4" id="bank_endorsement_chart" style="height: 300px;"></div>
                         <div class="col-sm-4" id="payment_chart" style="height: 300px;"></div>
                     </div>
+                    <br><br>
+                    <h6 class="font-weight-bold">AP Aging</h6>
+                    <br>
+                    @php
+                        $dateToday = new DateTime("now", new DateTimeZone('Asia/Manila'));
+                        $currentDate = new DateTime("now", new DateTimeZone('Asia/Manila'));
+                        $currentDate->add(new DateInterval('P30D'));
+                        $oneToThirtyDays = new DateTime("now", new DateTimeZone('Asia/Manila'));
+                        $oneToThirtyDays->sub(new DateInterval('P30D'));
+                        $thirtyOneToSixtyDays = new DateTime("now", new DateTimeZone('Asia/Manila'));
+                        $thirtyOneToSixtyDays->sub(new DateInterval('P60D'));
+                        $sixtyOneToNinetyDays = new DateTime("now", new DateTimeZone('Asia/Manila'));
+                        $sixtyOneToNinetyDays->sub(new DateInterval('P90D'));
+                    @endphp
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th style="text-align:center;">Count</th>
+                                        <th style="text-align:right;">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Current</td>
+                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->whereBetween('due_at', [$dateToday, $currentDate])
+                                            ->where('petty', '0')
+                                            ->count()) }}</td>
+                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->whereBetween('due_at', [$dateToday, $currentDate])
+                                            ->where('petty', '0')
+                                            ->sum('amount'), 2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1-30 days past due</td>
+                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->whereBetween('due_at', [$oneToThirtyDays, $dateToday])
+                                            ->where('petty', '0')
+                                            ->count()) }}</td>
+                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->whereBetween('due_at', [$oneToThirtyDays, $dateToday])
+                                            ->where('petty', '0')
+                                            ->sum('amount'), 2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>31-60 days past due</td>
+                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->whereBetween('due_at', [$thirtyOneToSixtyDays, $oneToThirtyDays])
+                                            ->where('petty', '0')
+                                            ->count()) }}</td>
+                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->whereBetween('due_at', [$thirtyOneToSixtyDays, $oneToThirtyDays])
+                                            ->where('petty', '0')
+                                            ->sum('amount'), 2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>61-90 days past due</td>
+                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->whereBetween('due_at', [$sixtyOneToNinetyDays, $thirtyOneToSixtyDays])
+                                            ->where('petty', '0')
+                                            ->count()) }}</td>
+                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->whereBetween('due_at', [$sixtyOneToNinetyDays, $thirtyOneToSixtyDays])
+                                            ->where('petty', '0')
+                                            ->sum('amount'), 2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>90+ days past due</td>
+                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->where('due_at', '<', $sixtyOneToNinetyDays)
+                                            ->where('petty', '0')
+                                            ->count()) }}</td>
+                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->where('due_at', '<', $sixtyOneToNinetyDays)
+                                            ->where('petty', '0')
+                                            ->sum('amount'), 2) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
