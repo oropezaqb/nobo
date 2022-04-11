@@ -23,7 +23,7 @@ class BillChart extends BaseChart
     public function handler(Request $request): Chartisan
     {
         $dueDate = new DateTime("now", new DateTimeZone('Asia/Manila'));
-        $dueDate->add(new DateInterval('P14D'));
+        $dueDate->add(new DateInterval('P30D'));
         $dueDate = $dueDate->format('Y-m-d');
         $numberOfVouchers = \DB::table('vouchers')
             ->leftJoin('bills', 'vouchers.bill_id', '=', 'bills.id')

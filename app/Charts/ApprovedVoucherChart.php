@@ -22,7 +22,7 @@ class ApprovedVoucherChart extends BaseChart
     public function handler(Request $request): Chartisan
     {
         $dueDate = new DateTime("now", new DateTimeZone('Asia/Manila'));
-        $dueDate->add(new DateInterval('P14D'));
+        $dueDate->add(new DateInterval('P30D'));
         $dueDate = $dueDate->format('Y-m-d');
         $numberOfApprovedVouchers = \DB::table('approved_vouchers')
             ->leftJoin('vouchers', 'approved_vouchers.voucher_id', '=', 'vouchers.id')

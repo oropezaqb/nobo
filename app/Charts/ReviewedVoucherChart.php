@@ -23,7 +23,7 @@ class ReviewedVoucherChart extends BaseChart
     public function handler(Request $request): Chartisan
     {
         $dueDate = new DateTime("now", new DateTimeZone('Asia/Manila'));
-        $dueDate->add(new DateInterval('P14D'));
+        $dueDate->add(new DateInterval('P30D'));
         $dueDate = $dueDate->format('Y-m-d');
         $numberOfReviewedVouchers = \DB::table('reviewed_vouchers')
             ->leftJoin('vouchers', 'reviewed_vouchers.voucher_id', '=', 'vouchers.id')

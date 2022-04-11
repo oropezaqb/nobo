@@ -104,6 +104,90 @@
                             </table>
                         </div>
                     </div>
+                    <br><br>
+                    <h6 class="font-weight-bold">PCF Replenishment/Reimbursement Aging</h6>
+                    <br>
+                    @php
+                        $dateToday = new DateTime("now", new DateTimeZone('Asia/Manila'));
+                        $currentDate = new DateTime("now", new DateTimeZone('Asia/Manila'));
+                        $currentDate->add(new DateInterval('P7D'));
+                        $oneToThirtyDays = new DateTime("now", new DateTimeZone('Asia/Manila'));
+                        $oneToThirtyDays->sub(new DateInterval('P14D'));
+                        $thirtyOneToSixtyDays = new DateTime("now", new DateTimeZone('Asia/Manila'));
+                        $thirtyOneToSixtyDays->sub(new DateInterval('P21D'));
+                        $sixtyOneToNinetyDays = new DateTime("now", new DateTimeZone('Asia/Manila'));
+                        $sixtyOneToNinetyDays->sub(new DateInterval('P28D'));
+                    @endphp
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th style="text-align:center;">Count</th>
+                                        <th style="text-align:right;">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Current</td>
+                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->whereBetween('due_at', [$dateToday, $currentDate])
+                                            ->where('petty', '1')
+                                            ->count()) }}</td>
+                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->whereBetween('due_at', [$dateToday, $currentDate])
+                                            ->where('petty', '1')
+                                            ->sum('amount'), 2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>1-7 days past due</td>
+                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->whereBetween('due_at', [$oneToThirtyDays, $dateToday])
+                                            ->where('petty', '1')
+                                            ->count()) }}</td>
+                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->whereBetween('due_at', [$oneToThirtyDays, $dateToday])
+                                            ->where('petty', '1')
+                                            ->sum('amount'), 2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>8-14 days past due</td>
+                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->whereBetween('due_at', [$thirtyOneToSixtyDays, $oneToThirtyDays])
+                                            ->where('petty', '1')
+                                            ->count()) }}</td>
+                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->whereBetween('due_at', [$thirtyOneToSixtyDays, $oneToThirtyDays])
+                                            ->where('petty', '1')
+                                            ->sum('amount'), 2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>15-21 days past due</td>
+                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->whereBetween('due_at', [$sixtyOneToNinetyDays, $thirtyOneToSixtyDays])
+                                            ->where('petty', '1')
+                                            ->count()) }}</td>
+                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->whereBetween('due_at', [$sixtyOneToNinetyDays, $thirtyOneToSixtyDays])
+                                            ->where('petty', '1')
+                                            ->sum('amount'), 2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>21+ days past due</td>
+                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->where('due_at', '<', $sixtyOneToNinetyDays)
+                                            ->where('petty', '1')
+                                            ->count()) }}</td>
+                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->where('due_at', '<', $sixtyOneToNinetyDays)
+                                            ->where('petty', '1')
+                                            ->sum('amount'), 2) }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
