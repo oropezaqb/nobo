@@ -53,64 +53,94 @@
                                     <tr>
                                         <td>Current</td>
                                         <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $dateToday)
                                             ->where('due_at', '<=', $currentDate)
                                             ->where('petty', '0')
+                                            ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
                                         <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $dateToday)
                                             ->where('due_at', '<=', $currentDate)
                                             ->where('petty', '0')
+                                            ->whereNull('payments.paid_at')
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
                                         <td>1-30 days past due</td>
                                         <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $oneToThirtyDays)
                                             ->where('due_at', '<', $dateToday)
                                             ->where('petty', '0')
+                                            ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
                                         <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $oneToThirtyDays)
                                             ->where('due_at', '<', $dateToday)
                                             ->where('petty', '0')
+                                            ->whereNull('payments.paid_at')
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
                                         <td>31-60 days past due</td>
                                         <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $thirtyOneToSixtyDays)
                                             ->where('due_at', '<', $oneToThirtyDays)
                                             ->where('petty', '0')
+                                            ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
                                         <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $thirtyOneToSixtyDays)
                                             ->where('due_at', '<', $oneToThirtyDays)
                                             ->where('petty', '0')
+                                            ->whereNull('payments.paid_at')
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
                                         <td>61-90 days past due</td>
                                         <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $sixtyOneToNinetyDays)
                                             ->where('due_at', '<', $thirtyOneToSixtyDays)
                                             ->where('petty', '0')
+                                            ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
                                         <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $sixtyOneToNinetyDays)
                                             ->where('due_at', '<', $thirtyOneToSixtyDays)
                                             ->where('petty', '0')
+                                            ->whereNull('payments.paid_at')
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
                                         <td>90+ days past due</td>
                                         <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '<', $sixtyOneToNinetyDays)
                                             ->where('petty', '0')
+                                            ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
                                         <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '<', $sixtyOneToNinetyDays)
                                             ->where('petty', '0')
+                                            ->whereNull('payments.paid_at')
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                 </tbody>
@@ -150,64 +180,94 @@
                                     <tr>
                                         <td>Current</td>
                                         <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $dateToday)
                                             ->where('due_at', '<=', $currentDate)
                                             ->where('petty', '1')
+                                            ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
                                         <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $dateToday)
                                             ->where('due_at', '<=', $currentDate)
                                             ->where('petty', '1')
+                                            ->whereNull('payments.paid_at')
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
                                         <td>1-7 days past due</td>
                                         <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $oneToThirtyDays)
                                             ->where('due_at', '<', $dateToday)
                                             ->where('petty', '1')
+                                            ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
                                         <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $oneToThirtyDays)
                                             ->where('due_at', '<', $dateToday)
                                             ->where('petty', '1')
+                                            ->whereNull('payments.paid_at')
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
                                         <td>8-14 days past due</td>
                                         <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $thirtyOneToSixtyDays)
                                             ->where('due_at', '<', $oneToThirtyDays)
                                             ->where('petty', '1')
+                                            ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
                                         <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $thirtyOneToSixtyDays)
                                             ->where('due_at', '<', $oneToThirtyDays)
                                             ->where('petty', '1')
+                                            ->whereNull('payments.paid_at')
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
                                         <td>15-21 days past due</td>
                                         <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $sixtyOneToNinetyDays)
                                             ->where('due_at', '<', $thirtyOneToSixtyDays)
                                             ->where('petty', '1')
+                                            ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
                                         <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $sixtyOneToNinetyDays)
                                             ->where('due_at', '<', $thirtyOneToSixtyDays)
                                             ->where('petty', '1')
+                                            ->whereNull('payments.paid_at')
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
                                         <td>21+ days past due</td>
                                         <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '<', $sixtyOneToNinetyDays)
                                             ->where('petty', '1')
+                                            ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
                                         <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                            ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
+                                            ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '<', $sixtyOneToNinetyDays)
                                             ->where('petty', '1')
+                                            ->whereNull('payments.paid_at')
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                 </tbody>
