@@ -25,14 +25,19 @@
                     <br>
                     @php
                         $dateToday = new DateTime("now", new DateTimeZone('Asia/Manila'));
+                        $dateToday = $dateToday->format('Y-m-d');
                         $currentDate = new DateTime("now", new DateTimeZone('Asia/Manila'));
                         $currentDate->add(new DateInterval('P30D'));
+                        $currentDate = $currentDate->format('Y-m-d');
                         $oneToThirtyDays = new DateTime("now", new DateTimeZone('Asia/Manila'));
                         $oneToThirtyDays->sub(new DateInterval('P30D'));
+                        $oneToThirtyDays = $oneToThirtyDays->format('Y-m-d');
                         $thirtyOneToSixtyDays = new DateTime("now", new DateTimeZone('Asia/Manila'));
                         $thirtyOneToSixtyDays->sub(new DateInterval('P60D'));
+                        $thirtyOneToSixtyDays = $thirtyOneToSixtyDays->format('Y-m-d');
                         $sixtyOneToNinetyDays = new DateTime("now", new DateTimeZone('Asia/Manila'));
                         $sixtyOneToNinetyDays->sub(new DateInterval('P90D'));
+                        $sixtyOneToNinetyDays = $sixtyOneToNinetyDays->format('Y-m-d');
                     @endphp
                     <div class="row">
                         <div class="col-sm-12">
@@ -48,44 +53,52 @@
                                     <tr>
                                         <td>Current</td>
                                         <td style="text-align:center;">{{ number_format(\DB::table('bills')
-                                            ->whereBetween('due_at', [$dateToday, $currentDate])
+                                            ->where('due_at', '>=', $dateToday)
+                                            ->where('due_at', '<=', $currentDate)
                                             ->where('petty', '0')
                                             ->count()) }}</td>
                                         <td style="text-align:right;">{{ number_format(\DB::table('bills')
-                                            ->whereBetween('due_at', [$dateToday, $currentDate])
+                                            ->where('due_at', '>=', $dateToday)
+                                            ->where('due_at', '<=', $currentDate)
                                             ->where('petty', '0')
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
                                         <td>1-30 days past due</td>
                                         <td style="text-align:center;">{{ number_format(\DB::table('bills')
-                                            ->whereBetween('due_at', [$oneToThirtyDays, $dateToday])
+                                            ->where('due_at', '>=', $oneToThirtyDays)
+                                            ->where('due_at', '<', $dateToday)
                                             ->where('petty', '0')
                                             ->count()) }}</td>
                                         <td style="text-align:right;">{{ number_format(\DB::table('bills')
-                                            ->whereBetween('due_at', [$oneToThirtyDays, $dateToday])
+                                            ->where('due_at', '>=', $oneToThirtyDays)
+                                            ->where('due_at', '<', $dateToday)
                                             ->where('petty', '0')
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
                                         <td>31-60 days past due</td>
                                         <td style="text-align:center;">{{ number_format(\DB::table('bills')
-                                            ->whereBetween('due_at', [$thirtyOneToSixtyDays, $oneToThirtyDays])
+                                            ->where('due_at', '>=', $thirtyOneToSixtyDays)
+                                            ->where('due_at', '<', $oneToThirtyDays)
                                             ->where('petty', '0')
                                             ->count()) }}</td>
                                         <td style="text-align:right;">{{ number_format(\DB::table('bills')
-                                            ->whereBetween('due_at', [$thirtyOneToSixtyDays, $oneToThirtyDays])
+                                            ->where('due_at', '>=', $thirtyOneToSixtyDays)
+                                            ->where('due_at', '<', $oneToThirtyDays)
                                             ->where('petty', '0')
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
                                         <td>61-90 days past due</td>
                                         <td style="text-align:center;">{{ number_format(\DB::table('bills')
-                                            ->whereBetween('due_at', [$sixtyOneToNinetyDays, $thirtyOneToSixtyDays])
+                                            ->where('due_at', '>=', $sixtyOneToNinetyDays)
+                                            ->where('due_at', '<', $thirtyOneToSixtyDays)
                                             ->where('petty', '0')
                                             ->count()) }}</td>
                                         <td style="text-align:right;">{{ number_format(\DB::table('bills')
-                                            ->whereBetween('due_at', [$sixtyOneToNinetyDays, $thirtyOneToSixtyDays])
+                                            ->where('due_at', '>=', $sixtyOneToNinetyDays)
+                                            ->where('due_at', '<', $thirtyOneToSixtyDays)
                                             ->where('petty', '0')
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
