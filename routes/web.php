@@ -10,6 +10,7 @@ use App\Http\Controllers\ReviewedVoucherController;
 use App\Http\Controllers\ApprovedVoucherController;
 use App\Http\Controllers\BankEndorsementController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,7 @@ Route::resources([
     'approved-vouchers' => ApprovedVoucherController::class,
     'bank-endorsements' => BankEndorsementController::class,
     'payments' => PaymentController::class,
+    'reports' => ReportController::class,
 ]);
 
 Route::post('/payees/export', [PayeeController::class, 'export']);
@@ -55,6 +57,8 @@ Route::post('/payees/upload', [PayeeController::class, 'upload'])->name('payees.
 Route::post('/vouchers/upload', [VoucherController::class, 'upload'])->name('vouchers.upload');
 Route::post('/reviewed-vouchers/upload', [ReviewedVoucherController::class, 'upload'])->name('reviewed-vouchers.upload');
 Route::post('/approved-vouchers/upload', [ApprovedVoucherController::class, 'upload'])->name('approved-vouchers.upload');
+Route::post('/reports/bills-for-payment', [ReportController::class, 'billsForPayment'])->name('reports.bills-for-payment');
+Route::post('/reports/bills-for-payment-csv', [ReportController::class, 'billsForPaymentCSV'])->name('reports.bills-for-payment-csv');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
