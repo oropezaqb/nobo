@@ -154,7 +154,7 @@
                         $dateToday = new DateTime("now", new DateTimeZone('Asia/Manila'));
                         $dateToday = $dateToday->format('Y-m-d');
                         $currentDate = new DateTime("now", new DateTimeZone('Asia/Manila'));
-                        $currentDate->add(new DateInterval('P7D'));
+                        $currentDate->add(new DateInterval('P30D'));
                         $currentDate = $currentDate->format('Y-m-d');
                         $oneToThirtyDays = new DateTime("now", new DateTimeZone('Asia/Manila'));
                         $oneToThirtyDays->sub(new DateInterval('P7D'));

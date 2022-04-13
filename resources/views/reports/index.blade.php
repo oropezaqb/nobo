@@ -21,7 +21,7 @@
                                  {{ session('status') }}
                              </div>
                         @endif
-                        <h6 class="font-weight-bold">Bills for Payment (Current and Past Due) per Supplier</h6>
+                        <h6 class="font-weight-bold">Bills for Payment (Current and Past Due)</h6>
                         <form method="POST" action="/reports/bills-for-payment">
                             @csrf
                             <div class="form-group">
@@ -35,8 +35,21 @@
                                 <input type="hidden" name="payee_id" id="payee_id0-hidden" value="{!! old('payee_id') !!}">
                                 <input type="hidden" name="payee_name" id="name-payee_id0-hidden" value="{!! old('payee_name') !!}">
                             </div>
-                            <button class="btn btn-outline-primary" type="submit">Run</button>
                         </form>
+                        <div style="display:inline-block;">
+                            <form method="POST" action="/reports/bills-for-payment">
+                                @csrf
+                                <input type="hidden" name="payee_id" id="payee_id1-hidden" value="{!! old('payee_id') !!}">
+                                <button class="btn btn-outline-primary" type="submit">Run</button>
+                            </form>
+                        </div>
+                        <div style="display:inline-block;">
+                            <form method="POST" action="/reports/bills-for-payment-csv">
+                                @csrf
+                                <input type="hidden" name="payee_id" id="payee_id2-hidden" value="{!! old('payee_id') !!}">
+                                <button class="btn btn-outline-primary" type="submit">CSV</button>
+                            </form>
+                        </div>
                         <script>
                             function setValue (id)
                             {
@@ -52,6 +65,8 @@
                                     var option = options[i];
                                     if(option.innerText === label) {
                                         hiddenInput.value = option.getAttribute('data-value');
+                                        document.getElementById('payee_id1-hidden').value = option.getAttribute('data-value');
+                                        document.getElementById('payee_id2-hidden').value = option.getAttribute('data-value');
                                         break;
                                     }
                                 }

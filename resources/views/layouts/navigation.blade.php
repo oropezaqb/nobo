@@ -52,7 +52,7 @@
                         ->where('permissions.key', 'browse_reviewed_vouchers')->exists(); ?>
                     @if ($browseReviewedVouchers)
                         <x-nav-link :href="route('reviewed-vouchers.index')" :active="request()->routeIs('reviewed-vouchers.index')">
-                            {{ __('Reviewed Vouchers') }}
+                            {{ __('Reviewed_Vouchers') }}
                         </x-nav-link>
                     @endif
                     <?php $browseApprovedVouchers = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
@@ -62,7 +62,7 @@
                         ->where('permissions.key', 'browse_approved_vouchers')->exists(); ?>
                     @if ($browseApprovedVouchers)
                         <x-nav-link :href="route('approved-vouchers.index')" :active="request()->routeIs('approved-vouchers.index')">
-                            {{ __('Approved Vouchers') }}
+                            {{ __('Approved_Vouchers') }}
                         </x-nav-link>
                     @endif
                     <?php $browseBankEndorsements = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
@@ -72,7 +72,7 @@
                         ->where('permissions.key', 'browse_bank_endorsements')->exists(); ?>
                     @if ($browseBankEndorsements)
                         <x-nav-link :href="route('bank-endorsements.index')" :active="request()->routeIs('bank-endorsements.index')">
-                            {{ __('Bank Endorsements') }}
+                            {{ __('Bank_Endorsements') }}
                         </x-nav-link>
                     @endif
                     <?php $browsePayments = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
