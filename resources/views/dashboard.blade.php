@@ -14,11 +14,75 @@
                         <div class="col-sm-4" id="voucher_chart" style="height: 300px;"></div>
                         <div class="col-sm-4" id="reviewed_voucher_chart" style="height: 300px;"></div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-4" style="display:flex;justify-content:center;">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                @csrf
+                                <button class="btn btn-link" type="submit">Run</button>
+                            </form></div>
+                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                @csrf
+                                <button class="btn btn-link" type="submit">CSV</button>
+                            </form></div>
+                        </div>
+                        <div class="col-sm-4" style="display:flex;justify-content:center;">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                @csrf
+                                <button class="btn btn-link" type="submit">Run</button>
+                            </form></div>
+                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                @csrf
+                                <button class="btn btn-link" type="submit">CSV</button>
+                            </form></div>
+                        </div>
+                        <div class="col-sm-4" style="display:flex;justify-content:center;">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                @csrf
+                                <button class="btn btn-link" type="submit">Run</button>
+                            </form></div>
+                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                @csrf
+                                <button class="btn btn-link" type="submit">CSV</button>
+                            </form></div>
+                        </div>
+                    </div>
                     <br>
                     <div class="row">
                         <div class="col-sm-4" id="approved_voucher_chart" style="height: 300px;"></div>
                         <div class="col-sm-4" id="bank_endorsement_chart" style="height: 300px;"></div>
                         <div class="col-sm-4" id="payment_chart" style="height: 300px;"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4" style="display:flex;justify-content:center;">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                @csrf
+                                <button class="btn btn-link" type="submit">Run</button>
+                            </form></div>
+                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                @csrf
+                                <button class="btn btn-link" type="submit">CSV</button>
+                            </form></div>
+                        </div>
+                        <div class="col-sm-4" style="display:flex;justify-content:center;">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                @csrf
+                                <button class="btn btn-link" type="submit">Run</button>
+                            </form></div>
+                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                @csrf
+                                <button class="btn btn-link" type="submit">CSV</button>
+                            </form></div>
+                        </div>
+                        <div class="col-sm-4" style="display:flex;justify-content:center;">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                @csrf
+                                <button class="btn btn-link" type="submit">Run</button>
+                            </form></div>
+                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                @csrf
+                                <button class="btn btn-link" type="submit">CSV</button>
+                            </form></div>
+                        </div>
                     </div>
                     <br><br>
                     <h6 class="font-weight-bold">AP Aging</h6>
@@ -51,8 +115,15 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Current</td>
-                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">Run</button>
+                                            </form></div>
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">CSV</button>
+                                            </form></div>&nbsp;&nbsp;Current</td>
+                                        <td style="text-align:center;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $dateToday)
@@ -60,7 +131,7 @@
                                             ->where('petty', '0')
                                             ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
-                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                        <td style="text-align:right;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $dateToday)
@@ -70,8 +141,15 @@
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>1-30 days past due</td>
-                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">Run</button>
+                                            </form></div>
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">CSV</button>
+                                            </form></div>&nbsp;&nbsp;1-30 days past due</td>
+                                        <td style="text-align:center;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $oneToThirtyDays)
@@ -79,7 +157,7 @@
                                             ->where('petty', '0')
                                             ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
-                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                        <td style="text-align:right;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $oneToThirtyDays)
@@ -89,8 +167,15 @@
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>31-60 days past due</td>
-                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">Run</button>
+                                            </form></div>
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">CSV</button>
+                                            </form></div>&nbsp;&nbsp;31-60 days past due</td>
+                                        <td style="text-align:center;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $thirtyOneToSixtyDays)
@@ -98,7 +183,7 @@
                                             ->where('petty', '0')
                                             ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
-                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                        <td style="text-align:right;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $thirtyOneToSixtyDays)
@@ -108,8 +193,15 @@
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>61-90 days past due</td>
-                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">Run</button>
+                                            </form></div>
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">CSV</button>
+                                            </form></div>&nbsp;&nbsp;61-90 days past due</td>
+                                        <td style="text-align:center;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $sixtyOneToNinetyDays)
@@ -117,7 +209,7 @@
                                             ->where('petty', '0')
                                             ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
-                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                        <td style="text-align:right;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $sixtyOneToNinetyDays)
@@ -127,15 +219,22 @@
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>90+ days past due</td>
-                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">Run</button>
+                                            </form></div>
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">CSV</button>
+                                            </form></div>&nbsp;&nbsp;90+ days past due</td>
+                                        <td style="text-align:center;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '<', $sixtyOneToNinetyDays)
                                             ->where('petty', '0')
                                             ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
-                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                        <td style="text-align:right;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '<', $sixtyOneToNinetyDays)
@@ -178,8 +277,15 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Current</td>
-                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">Run</button>
+                                            </form></div>
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">CSV</button>
+                                            </form></div>&nbsp;&nbsp;Current</td>
+                                        <td style="text-align:center;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $dateToday)
@@ -187,7 +293,7 @@
                                             ->where('petty', '1')
                                             ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
-                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                        <td style="text-align:right;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $dateToday)
@@ -197,8 +303,15 @@
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>1-7 days past due</td>
-                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">Run</button>
+                                            </form></div>
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">CSV</button>
+                                            </form></div>&nbsp;&nbsp;1-7 days past due</td>
+                                        <td style="text-align:center;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $oneToThirtyDays)
@@ -206,7 +319,7 @@
                                             ->where('petty', '1')
                                             ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
-                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                        <td style="text-align:right;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $oneToThirtyDays)
@@ -216,8 +329,15 @@
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>8-14 days past due</td>
-                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">Run</button>
+                                            </form></div>
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">CSV</button>
+                                            </form></div>&nbsp;&nbsp;8-14 days past due</td>
+                                        <td style="text-align:center;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $thirtyOneToSixtyDays)
@@ -225,7 +345,7 @@
                                             ->where('petty', '1')
                                             ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
-                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                        <td style="text-align:right;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $thirtyOneToSixtyDays)
@@ -235,8 +355,15 @@
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>15-21 days past due</td>
-                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">Run</button>
+                                            </form></div>
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">CSV</button>
+                                            </form></div>&nbsp;&nbsp;15-21 days past due</td>
+                                        <td style="text-align:center;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $sixtyOneToNinetyDays)
@@ -244,7 +371,7 @@
                                             ->where('petty', '1')
                                             ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
-                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                        <td style="text-align:right;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '>=', $sixtyOneToNinetyDays)
@@ -254,15 +381,22 @@
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td>21+ days past due</td>
-                                        <td style="text-align:center;">{{ number_format(\DB::table('bills')
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">Run</button>
+                                            </form></div>
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            @csrf
+                                            <button class="btn btn-link" type="submit">CSV</button>
+                                            </form></div>&nbsp;&nbsp;21+ days past due</td>
+                                        <td style="text-align:center;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '<', $sixtyOneToNinetyDays)
                                             ->where('petty', '1')
                                             ->whereNull('payments.paid_at')
                                             ->count()) }}</td>
-                                        <td style="text-align:right;">{{ number_format(\DB::table('bills')
+                                        <td style="text-align:right;vertical-align:middle;">{{ number_format(\DB::table('bills')
                                             ->leftJoin('vouchers', 'bills.id', '=', 'vouchers.bill_id')
                                             ->leftJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
                                             ->where('due_at', '<', $sixtyOneToNinetyDays)

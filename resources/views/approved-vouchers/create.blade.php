@@ -113,6 +113,13 @@
                             <button class="btn btn-outline-primary" type="submit">Save</button>
                         </form>
                         <br><br>
+                        <form method="POST" action="/reports/reviewed-vouchers-csv">
+                            @csrf
+                            <h6 class="font-weight-bold">Export</h6>
+                            <p>Reviewed Vouchers</p>
+                            <button class="btn btn-outline-primary" type="submit">Export</button>
+                        </form>
+                        <br><br>
                         <form method="POST" action="/approved-vouchers/upload" enctype="multipart/form-data">
                             @csrf
                             <h6 class="font-weight-bold">Import</h6>

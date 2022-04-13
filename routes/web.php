@@ -46,19 +46,31 @@ Route::resources([
 ]);
 
 Route::post('/payees/export', [PayeeController::class, 'export']);
+Route::post('/payees/upload', [PayeeController::class, 'upload'])->name('payees.upload');
+
 Route::post('/queries/{query}/run', [QueryController::class, 'run'])->name('queries.run');
 Route::post('/queries/{query}/csv', [QueryController::class, 'csv'])->name('queries.csv');
+
 Route::post('/vouchers/getbill', [VoucherController::class, 'getbill'])->name('vouchers.getbill');
-Route::post('/reviewed-vouchers/get-voucher', [ReviewedVoucherController::class, 'getVoucher'])->name('reviewed-vouchers.getVoucher');
-Route::post('/approved-vouchers/get-voucher', [ApprovedVoucherController::class, 'getVoucher'])->name('approved-vouchers.getVoucher');
-Route::post('/bank-endorsements/get-voucher', [BankEndorsementController::class, 'getVoucher'])->name('bank-endorsements.getVoucher');
-Route::post('/payments/get-voucher', [PaymentController::class, 'getVoucher'])->name('payments.getVoucher');
-Route::post('/payees/upload', [PayeeController::class, 'upload'])->name('payees.upload');
 Route::post('/vouchers/upload', [VoucherController::class, 'upload'])->name('vouchers.upload');
+
+Route::post('/reviewed-vouchers/get-voucher', [ReviewedVoucherController::class, 'getVoucher'])->name('reviewed-vouchers.getVoucher');
 Route::post('/reviewed-vouchers/upload', [ReviewedVoucherController::class, 'upload'])->name('reviewed-vouchers.upload');
+
+Route::post('/approved-vouchers/get-voucher', [ApprovedVoucherController::class, 'getVoucher'])->name('approved-vouchers.getVoucher');
 Route::post('/approved-vouchers/upload', [ApprovedVoucherController::class, 'upload'])->name('approved-vouchers.upload');
+
+Route::post('/bank-endorsements/get-voucher', [BankEndorsementController::class, 'getVoucher'])->name('bank-endorsements.getVoucher');
+
+Route::post('/payments/get-voucher', [PaymentController::class, 'getVoucher'])->name('payments.getVoucher');
+
 Route::post('/reports/bills-for-payment', [ReportController::class, 'billsForPayment'])->name('reports.bills-for-payment');
 Route::post('/reports/bills-for-payment-csv', [ReportController::class, 'billsForPaymentCSV'])->name('reports.bills-for-payment-csv');
+
+Route::post('/reports/reviewed-vouchers-csv', [ReportController::class, 'reviewedVouchersCSV'])->name('reports.reviewed-vouchers-csv');
+
+Route::post('/reports/bills-for-processing', [ReportController::class, 'billsForProcessing'])->name('reports.bills-for-processing');
+Route::post('/reports/bills-for-processing-csv', [ReportController::class, 'billsForProcessingCSV'])->name('reports.bills-for-processing-csv');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

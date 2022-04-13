@@ -12,6 +12,11 @@ use Dompdf\Dompdf;
 
 class ReportController extends Controller
 {
+    protected $billsForProcessingQuery = "select bills.received_at, payees.name, bills.amount, bills.bill_number, bills.po_number,
+        bills.period_start, bills.period_end, bills.due_at, bills.endorsed_at from bills
+        left join payees on bills.payee_id = payees.id
+        left join vouchers on bills.id = vouchers.bill_id
+        where bills.due_at<=date(convert_tz(date_add(now(), interval 30 day),'+00:00','+08:00')) and vouchers.bill_id is null";
     public function index()
     {
         $payees = Payee::latest()->get();
@@ -76,6 +81,21 @@ class ReportController extends Controller
             left join bank_endorsements on vouchers.id = bank_endorsements.voucher_id
             left join payments on vouchers.id = payments.voucher_id
             where bills.due_at<=date(convert_tz(date_add(now(), interval 30 day),'+00:00','+08:00')) and payments.paid_at is null and payees.id=$payee->id");
+        $r = new Report();
+        $url = $r->csv($stmt);
+        return redirect($url);
+    }
+    public function reviewedVouchersCSV()
+    {
+        $db = new DbAccess();
+        $stmt = $db->query("select bills.classification, vouchers.number, vouchers.posted_at, payees.name, bills.particulars, bills.due_at, bills.bill_number,
+            bills.billed_at, vouchers.payable_amount
+            from reviewed_vouchers
+            left join vouchers on reviewed_vouchers.voucher_id = vouchers.id
+            left join bills on vouchers.bill_id = bills.id
+            left join payees on bills.payee_id = payees.id
+            left join approved_vouchers on vouchers.id = approved_vouchers.voucher_id
+            where approved_vouchers.endorsed_at is null");
         $r = new Report();
         $url = $r->csv($stmt);
         return redirect($url);
