@@ -16,11 +16,11 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-4" style="display:flex;justify-content:center;">
-                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/bills-for-processing">
                                 @csrf
                                 <button class="btn btn-link" type="submit">Run</button>
                             </form></div>
-                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/bills-for-processing-csv">
                                 @csrf
                                 <button class="btn btn-link" type="submit">CSV</button>
                             </form></div>
