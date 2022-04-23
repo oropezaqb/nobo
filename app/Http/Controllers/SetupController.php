@@ -276,10 +276,141 @@ class SetupController extends Controller
                 $role8->permissions()->save($permission38);
                 $role8->permissions()->save($permission39);
                 $role8->permissions()->save($permission40);
+                $role9 = new Role([
+                    'name' => 'viewer',
+                    'display_name' => 'Viewer',
+                ]);
+                $role9->save();
+                $role10 = Role::where('name', 'admin')->firstOrFail();
+                $permission41 = new Permission([
+                    'key' => 'browse_reports',
+                    'table_name' => '',
+                ]);
+                $permission42 = new Permission([
+                    'key' => 'browse_dashboards',
+                    'table_name' => '',
+                ]);
+                $role1->permissions()->save($permission6);
+                $role1->permissions()->save($permission7);
+                $role1->permissions()->save($permission8);
+                $role1->permissions()->save($permission9);
+                $role1->permissions()->save($permission10);
+                $role1->permissions()->save($permission41);
+                $role1->permissions()->save($permission42);
+                $role2->permissions()->save($permission1);
+                $role2->permissions()->save($permission2);
+                $role2->permissions()->save($permission3);
+                $role2->permissions()->save($permission4);
+                $role2->permissions()->save($permission5);
+                $role2->permissions()->save($permission11);
+                $role2->permissions()->save($permission12);
+                $role2->permissions()->save($permission13);
+                $role2->permissions()->save($permission14);
+                $role2->permissions()->save($permission15);
+                $role2->permissions()->save($permission16);
+                $role2->permissions()->save($permission17);
+                $role2->permissions()->save($permission18);
+                $role2->permissions()->save($permission19);
+                $role2->permissions()->save($permission20);
+                $role2->permissions()->save($permission41);
+                $role2->permissions()->save($permission42);
+                $role4->permissions()->save($permission1);
+                $role4->permissions()->save($permission2);
+                $role4->permissions()->save($permission3);
+                $role4->permissions()->save($permission4);
+                $role4->permissions()->save($permission5);
+                $role4->permissions()->save($permission6);
+                $role4->permissions()->save($permission7);
+                $role4->permissions()->save($permission8);
+                $role4->permissions()->save($permission9);
+                $role4->permissions()->save($permission10);
+                $role4->permissions()->save($permission11);
+                $role4->permissions()->save($permission12);
+                $role4->permissions()->save($permission13);
+                $role4->permissions()->save($permission14);
+                $role4->permissions()->save($permission15);
+                $role4->permissions()->save($permission21);
+                $role4->permissions()->save($permission22);
+                $role4->permissions()->save($permission23);
+                $role4->permissions()->save($permission24);
+                $role4->permissions()->save($permission25);
+                $role4->permissions()->save($permission26);
+                $role4->permissions()->save($permission27);
+                $role4->permissions()->save($permission28);
+                $role4->permissions()->save($permission29);
+                $role4->permissions()->save($permission30);
+                $role4->permissions()->save($permission41);
+                $role4->permissions()->save($permission42);
+                $role7->permissions()->save($permission1);
+                $role7->permissions()->save($permission2);
+                $role7->permissions()->save($permission3);
+                $role7->permissions()->save($permission4);
+                $role7->permissions()->save($permission5);
+                $role7->permissions()->save($permission6);
+                $role7->permissions()->save($permission7);
+                $role7->permissions()->save($permission8);
+                $role7->permissions()->save($permission9);
+                $role7->permissions()->save($permission10);
+                $role7->permissions()->save($permission11);
+                $role7->permissions()->save($permission12);
+                $role7->permissions()->save($permission13);
+                $role7->permissions()->save($permission14);
+                $role7->permissions()->save($permission15);
+                $role7->permissions()->save($permission36);
+                $role7->permissions()->save($permission37);
+                $role7->permissions()->save($permission38);
+                $role7->permissions()->save($permission39);
+                $role7->permissions()->save($permission40);
+                $role7->permissions()->save($permission41);
+                $role7->permissions()->save($permission42);
+                $role10->permissions()->save($permission1);
+                $role10->permissions()->save($permission2);
+                $role10->permissions()->save($permission3);
+                $role10->permissions()->save($permission4);
+                $role10->permissions()->save($permission5);
+                $role10->permissions()->save($permission6);
+                $role10->permissions()->save($permission7);
+                $role10->permissions()->save($permission8);
+                $role10->permissions()->save($permission9);
+                $role10->permissions()->save($permission10);
+                $role10->permissions()->save($permission11);
+                $role10->permissions()->save($permission12);
+                $role10->permissions()->save($permission13);
+                $role10->permissions()->save($permission14);
+                $role10->permissions()->save($permission15);
+                $role10->permissions()->save($permission16);
+                $role10->permissions()->save($permission17);
+                $role10->permissions()->save($permission18);
+                $role10->permissions()->save($permission19);
+                $role10->permissions()->save($permission20);
+                $role10->permissions()->save($permission21);
+                $role10->permissions()->save($permission22);
+                $role10->permissions()->save($permission23);
+                $role10->permissions()->save($permission24);
+                $role10->permissions()->save($permission25);
+                $role10->permissions()->save($permission26);
+                $role10->permissions()->save($permission27);
+                $role10->permissions()->save($permission28);
+                $role10->permissions()->save($permission29);
+                $role10->permissions()->save($permission30);
+                $role10->permissions()->save($permission31);
+                $role10->permissions()->save($permission32);
+                $role10->permissions()->save($permission33);
+                $role10->permissions()->save($permission34);
+                $role10->permissions()->save($permission35);
+                $role10->permissions()->save($permission36);
+                $role10->permissions()->save($permission37);
+                $role10->permissions()->save($permission38);
+                $role10->permissions()->save($permission39);
+                $role10->permissions()->save($permission40);
+                $role10->permissions()->save($permission41);
+                $role10->permissions()->save($permission42);
+                $role9->permissions()->save($permission11);
+                $role9->permissions()->save($permission12);
             });
             return redirect(route('dashboard'));
         } catch (\Exception $e) {
-            return back()->with('status', $this->translateError($e))->withInput();
+            return back()->with('status', $e)->withInput();
         }
     }
 }

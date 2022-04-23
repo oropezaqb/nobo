@@ -26,21 +26,21 @@
                             </form></div>
                         </div>
                         <div class="col-sm-4" style="display:flex;justify-content:center;">
-                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/vouchers-for-review">
                                 @csrf
                                 <button class="btn btn-link" type="submit">Run</button>
                             </form></div>
-                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/vouchers-for-review-csv">
                                 @csrf
                                 <button class="btn btn-link" type="submit">CSV</button>
                             </form></div>
                         </div>
                         <div class="col-sm-4" style="display:flex;justify-content:center;">
-                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/vouchers-for-approval">
                                 @csrf
                                 <button class="btn btn-link" type="submit">Run</button>
                             </form></div>
-                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/vouchers-for-approval-csv">
                                 @csrf
                                 <button class="btn btn-link" type="submit">CSV</button>
                             </form></div>
@@ -54,31 +54,31 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-4" style="display:flex;justify-content:center;">
-                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/vouchers-for-HO-endorsement">
                                 @csrf
                                 <button class="btn btn-link" type="submit">Run</button>
                             </form></div>
-                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/vouchers-for-HO-endorsement-csv">
                                 @csrf
                                 <button class="btn btn-link" type="submit">CSV</button>
                             </form></div>
                         </div>
                         <div class="col-sm-4" style="display:flex;justify-content:center;">
-                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/vouchers-for-bank-endorsement">
                                 @csrf
                                 <button class="btn btn-link" type="submit">Run</button>
                             </form></div>
-                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/vouchers-for-bank-endorsement-csv">
                                 @csrf
                                 <button class="btn btn-link" type="submit">CSV</button>
                             </form></div>
                         </div>
                         <div class="col-sm-4" style="display:flex;justify-content:center;">
-                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/vouchers-for-payment">
                                 @csrf
                                 <button class="btn btn-link" type="submit">Run</button>
                             </form></div>
-                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                            <div style="display:inline-block;"><form method="POST" action="/reports/vouchers-for-payment-csv">
                                 @csrf
                                 <button class="btn btn-link" type="submit">CSV</button>
                             </form></div>
@@ -115,11 +115,11 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-accounts-payable">
                                             @csrf
                                             <button class="btn btn-link" type="submit">Run</button>
                                             </form></div>
-                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-accounts-payable-csv">
                                             @csrf
                                             <button class="btn btn-link" type="submit">CSV</button>
                                             </form></div>&nbsp;&nbsp;Current</td>
@@ -141,11 +141,11 @@
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/accounts-payable-thirty">
                                             @csrf
                                             <button class="btn btn-link" type="submit">Run</button>
                                             </form></div>
-                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/accounts-payable-thirty-csv">
                                             @csrf
                                             <button class="btn btn-link" type="submit">CSV</button>
                                             </form></div>&nbsp;&nbsp;1-30 days past due</td>
@@ -167,11 +167,11 @@
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/accounts-payable-sixty">
                                             @csrf
                                             <button class="btn btn-link" type="submit">Run</button>
                                             </form></div>
-                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/accounts-payable-sixty-csv">
                                             @csrf
                                             <button class="btn btn-link" type="submit">CSV</button>
                                             </form></div>&nbsp;&nbsp;31-60 days past due</td>
@@ -193,11 +193,11 @@
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/accounts-payable-ninety">
                                             @csrf
                                             <button class="btn btn-link" type="submit">Run</button>
                                             </form></div>
-                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/accounts-payable-ninety-csv">
                                             @csrf
                                             <button class="btn btn-link" type="submit">CSV</button>
                                             </form></div>&nbsp;&nbsp;61-90 days past due</td>
@@ -219,11 +219,11 @@
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/accounts-payable-ninetyplus">
                                             @csrf
                                             <button class="btn btn-link" type="submit">Run</button>
                                             </form></div>
-                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/accounts-payable-ninetyplus-csv">
                                             @csrf
                                             <button class="btn btn-link" type="submit">CSV</button>
                                             </form></div>&nbsp;&nbsp;90+ days past due</td>
@@ -277,11 +277,11 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/petty-current">
                                             @csrf
                                             <button class="btn btn-link" type="submit">Run</button>
                                             </form></div>
-                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/petty-current-csv">
                                             @csrf
                                             <button class="btn btn-link" type="submit">CSV</button>
                                             </form></div>&nbsp;&nbsp;Current</td>
@@ -303,11 +303,11 @@
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/petty-seven">
                                             @csrf
                                             <button class="btn btn-link" type="submit">Run</button>
                                             </form></div>
-                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/petty-seven-csv">
                                             @csrf
                                             <button class="btn btn-link" type="submit">CSV</button>
                                             </form></div>&nbsp;&nbsp;1-7 days past due</td>
@@ -329,11 +329,11 @@
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/petty-fourteen">
                                             @csrf
                                             <button class="btn btn-link" type="submit">Run</button>
                                             </form></div>
-                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/petty-fourteen-csv">
                                             @csrf
                                             <button class="btn btn-link" type="submit">CSV</button>
                                             </form></div>&nbsp;&nbsp;8-14 days past due</td>
@@ -355,11 +355,11 @@
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/petty-twenty-one">
                                             @csrf
                                             <button class="btn btn-link" type="submit">Run</button>
                                             </form></div>
-                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/petty-twenty-one-csv">
                                             @csrf
                                             <button class="btn btn-link" type="submit">CSV</button>
                                             </form></div>&nbsp;&nbsp;15-21 days past due</td>
@@ -381,11 +381,11 @@
                                             ->sum('amount'), 2) }}</td>
                                     </tr>
                                     <tr>
-                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/current-ap">
+                                        <td><div style="display:inline-block;"><form method="POST" action="/reports/petty-twenty-one-plus">
                                             @csrf
                                             <button class="btn btn-link" type="submit">Run</button>
                                             </form></div>
-                                            <div style="display:inline-block;"><form method="POST" action="/reports/current-ap-csv">
+                                            <div style="display:inline-block;"><form method="POST" action="/reports/petty-twenty-one-plus-csv">
                                             @csrf
                                             <button class="btn btn-link" type="submit">CSV</button>
                                             </form></div>&nbsp;&nbsp;21+ days past due</td>

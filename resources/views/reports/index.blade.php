@@ -24,6 +24,15 @@
                         <h6 class="font-weight-bold">Bills for Payment (Current and Past Due)</h6>
                         <form method="POST" action="/reports/bills-for-payment">
                             @csrf
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             <div class="form-group">
                                 <label for="payee_id">Payee:&nbsp;</label>&nbsp;
                                 <input list="payee_ids" id="payee_id0" onchange="setValue(this)" data-id="" class="custom-select" value="{!! old('payee_name') !!}">
