@@ -15,6 +15,7 @@ use Dompdf\Dompdf;
 
 class BankEndorsementController extends Controller
 {
+    protected $messages = array();
     public function __construct()
     {
         $this->middleware('auth');
@@ -80,6 +81,60 @@ class BankEndorsementController extends Controller
                 $bankEndorsement->save();
             });
             return redirect(route('bank-endorsements.index'));
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
+    }
+    public function upload()
+    {
+        try {
+            \DB::transaction(function () {
+                $extension = request()->file('bank_endorsements')->getClientOriginalExtension();
+                $filename = uniqid().'.'.$extension;
+                $path = request()->file('bank_endorsements')->storeAs('input/bank-endorsements', $filename);
+                $csv = array_map('str_getcsv', file(base_path() . "/storage/app/" . $path));
+                $count = count($csv);
+                $userID = auth()->user()->id;
+                for ($row = 0; $row < $count; $row++) {
+                    $voucherNumber = $csv[$row][0];
+                    $approvedAt = $csv[$row][1];
+                    $endorsedAt = $csv[$row][2];
+                    if(!\DB::table('vouchers')->where('number', $voucherNumber)->exists() OR
+                        \DB::table('vouchers')->rightJoin('bank_endorsements', 'vouchers.id', '=', 'bank_endorsements.voucher_id')
+                        ->where('vouchers.number', $voucherNumber)->exists())
+                    {
+                        $this->messages[] = 'Line ' . ($row + 1) . '. Voucher number do not exist or already associated with a different bank endorsement.';
+                    }
+                    if((DateTime::createFromFormat('m/d/Y H:i:s', $approvedAt) == true) OR ($approvedAt == ''))
+                    {
+                        $this->messages[] = 'Line ' . ($row + 1) . '. Date approved is not valid.';
+                    }
+                    if((DateTime::createFromFormat('m/d/Y H:i:s', $endorsedAt) == true) OR ($endorsedAt == ''))
+                    {
+                        $this->messages[] = 'Line ' . ($row + 1) . '. Date endorsed is not valid.';
+                    }
+                    if(count($this->messages) == 0){
+                        $voucher = \DB::table('vouchers')->where('vouchers.number', $voucherNumber)->first();
+                        $bankEndorsement = new BankEndorsement([
+                            'voucher_id' => $voucher->id,
+                            'approved_at' => date("Y-m-d", strtotime($approvedAt)),
+                            'endorsed_at' => date("Y-m-d", strtotime($endorsedAt)),
+                            'user_id' => $userID,
+                        ]);
+                        $bankEndorsement->save();
+                    }
+                }
+            });
+            $messages = $this->messages;
+            if(count($messages) > 0){
+                $messages = $this->messages;
+                $header = "Add a New Bank Endorsement";
+                $vouchers = Voucher::latest()->get();
+                return view('bank-endorsements.create', compact('header', 'vouchers', 'messages'));
+            }
+            else{
+                return redirect(route('bank-endorsements.index'))->with('status', 'Bank endorsements saved!');
+            }
         } catch (\Exception $e) {
             return back()->with('status', $this->translateError($e))->withInput();
         }

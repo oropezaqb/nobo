@@ -15,6 +15,7 @@ use Dompdf\Dompdf;
 
 class PaymentController extends Controller
 {
+    protected $messages = array();
     public function __construct()
     {
         $this->middleware('auth');
@@ -99,6 +100,68 @@ class PaymentController extends Controller
                 return "Voucher number already recorded.";
         }
         return $e->getMessage();
+    }
+    public function upload()
+    {
+        try {
+            \DB::transaction(function () {
+                $extension = request()->file('payments')->getClientOriginalExtension();
+                $filename = uniqid().'.'.$extension;
+                $path = request()->file('payments')->storeAs('input/payments', $filename);
+                $csv = array_map('str_getcsv', file(base_path() . "/storage/app/" . $path));
+                $count = count($csv);
+                $userID = auth()->user()->id;
+                for ($row = 0; $row < $count; $row++) {
+                    $voucherNumber = $csv[$row][0];
+                    $checkNumber = $csv[$row][1];
+                    $checkDate = $csv[$row][2];
+                    $paidAt = $csv[$row][3];
+                    $clearedAt = $csv[$row][4];
+                    if(!\DB::table('vouchers')->where('number', $voucherNumber)->exists() OR
+                        \DB::table('vouchers')->rightJoin('payments', 'vouchers.id', '=', 'payments.voucher_id')
+                        ->where('vouchers.number', $voucherNumber)->exists())
+                    {
+                        $this->messages[] = 'Line ' . ($row + 1) . '. Voucher number do not exist or already associated with a different payment.';
+                    }
+                    if(DateTime::createFromFormat('m/d/Y H:i:s', $checkDate) == true)
+                    {
+                        $this->messages[] = 'Line ' . ($row + 1) . '. Check date is not valid.';
+                    }
+                    if((DateTime::createFromFormat('m/d/Y H:i:s', $paidAt) == true) OR ($paidAt == ''))
+                    {
+                        $this->messages[] = 'Line ' . ($row + 1) . '. Date paid is not valid.';
+                    }
+                    if((DateTime::createFromFormat('m/d/Y H:i:s', $clearedAt) == true) OR ($clearedAt == ''))
+                    {
+                        $this->messages[] = 'Line ' . ($row + 1) . '. Date cleared is not valid.';
+                    }
+                    if(count($this->messages) == 0){
+                        $voucher = \DB::table('vouchers')->where('vouchers.number', $voucherNumber)->first();
+                        $payment = new Payment([
+                            'voucher_id' => $voucher->id,
+                            'check_date' => date("Y-m-d", strtotime($checkDate)),
+                            'paid_at' => date("Y-m-d", strtotime($paidAt)),
+                            'cleared_at' => date("Y-m-d", strtotime($clearedAt)),
+                            'check_number' => $checkNumber,
+                            'user_id' => $userID,
+                        ]);
+                        $payment->save();
+                    }
+                }
+            });
+            $messages = $this->messages;
+            if(count($messages) > 0){
+                $messages = $this->messages;
+                $header = "Add a New Payment";
+                $vouchers = Voucher::latest()->get();
+                return view('payments.create', compact('header', 'vouchers', 'messages'));
+            }
+            else{
+                return redirect(route('payments.index'))->with('status', 'Payments saved!');
+            }
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
     }
     public function edit(Payment $payment)
     {

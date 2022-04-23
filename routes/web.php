@@ -61,8 +61,10 @@ Route::post('/approved-vouchers/get-voucher', [ApprovedVoucherController::class,
 Route::post('/approved-vouchers/upload', [ApprovedVoucherController::class, 'upload'])->name('approved-vouchers.upload');
 
 Route::post('/bank-endorsements/get-voucher', [BankEndorsementController::class, 'getVoucher'])->name('bank-endorsements.getVoucher');
+Route::post('/bank-endorsements/upload', [BankEndorsementController::class, 'upload'])->name('bank-endorsements.upload');
 
 Route::post('/payments/get-voucher', [PaymentController::class, 'getVoucher'])->name('payments.getVoucher');
+Route::post('/payments/upload', [PaymentController::class, 'upload'])->name('payments.upload');
 
 Route::post('/reports/bills-for-payment', [ReportController::class, 'billsForPayment'])->name('reports.bills-for-payment');
 Route::post('/reports/bills-for-payment-csv', [ReportController::class, 'billsForPaymentCSV'])->name('reports.bills-for-payment-csv');
