@@ -9,6 +9,14 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
+
+                    <?php $authorized = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+                        ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+                        ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+                        ->where('users.id', auth()->user()->id)
+                        ->where('permissions.key', 'add_bills')->exists(); ?>
+                    @if ($authorized)
+
                     <div class="row">
                         <div class="col-sm-4" id="bill_chart" style="height: 300px;"></div>
                         <div class="col-sm-4" id="voucher_chart" style="height: 300px;"></div>
@@ -408,6 +416,9 @@
                             </table>
                         </div>
                     </div>
+                    @else
+                        Contact admin for authorization.
+                    @endif
                 </div>
             </div>
         </div>
