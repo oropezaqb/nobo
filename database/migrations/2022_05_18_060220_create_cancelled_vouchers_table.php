@@ -15,6 +15,25 @@ class CreateCancelledVouchersTable extends Migration
     {
         Schema::create('cancelled_vouchers', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('number')->unique();
+            $table->unsignedBigInteger('bill_id');
+            $table->foreign('bill_id')
+                ->references('id')
+                ->on('bills');
+            $table->date('date');
+            $table->date('posted_at');
+            $table->decimal('payable_amount', 13, 2);
+            $table->text('remarks')->nullable();
+            $table->date('endorsed_at')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users');
+            $table->text('reason_for_cancellation')->nullable();
+            $table->unsignedBigInteger('cancel_user_id')->nullable();
+            $table->foreign('cancel_user_id')
+                ->references('id')
+                ->on('users');
             $table->timestamps();
         });
     }

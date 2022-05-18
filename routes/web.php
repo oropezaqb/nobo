@@ -53,6 +53,7 @@ Route::post('/queries/{query}/csv', [QueryController::class, 'csv'])->name('quer
 
 Route::post('/vouchers/getbill', [VoucherController::class, 'getbill'])->name('vouchers.getbill');
 Route::post('/vouchers/upload', [VoucherController::class, 'upload'])->name('vouchers.upload');
+Route::post('/vouchers/{voucher}/cancel', [VoucherController::class, 'cancel'])->name('vouchers.cancel');
 
 Route::post('/reviewed-vouchers/get-voucher', [ReviewedVoucherController::class, 'getVoucher'])->name('reviewed-vouchers.getVoucher');
 Route::post('/reviewed-vouchers/upload', [ReviewedVoucherController::class, 'upload'])->name('reviewed-vouchers.upload');

@@ -100,8 +100,8 @@ class BillController extends Controller
     public function translateError($e)
     {
         switch ($e->getCode()) {
-//            case '23000':
-//                return "One or more of the suppliers are already recorded.";
+            case '23000':
+                return "Bill number for this supplier is already recorded.";
         }
         return $e->getMessage();
     }

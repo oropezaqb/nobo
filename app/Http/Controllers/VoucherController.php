@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use PDO;
 use App\Models\Bill;
+use App\Models\CancelledVoucher;
 use App\EPMADD\DbAccess;
 use App\Http\Requests\StoreVoucher;
 use DateTime;
@@ -211,8 +212,26 @@ class VoucherController extends Controller
             ->where('permissions.key', 'delete_vouchers')->exists();
         if ($authorized)
         {
-            $voucher->delete();
-            return redirect(route('vouchers.index'));
+//            try {
+//                \DB::transaction(function () use ($voucher) {
+//                    $cancelledVoucher = new CancelledVoucher([
+//                        'number' => $voucher->number,
+//                        'bill_id' => $voucher->bill_id,
+//                        'date' => $voucher->date,
+//                        'posted_at' => $voucher->posted_at,
+//                        'payable_amount' => $voucher->payable_amount,
+//                        'remarks' => $voucher->remarks,
+//                        'endorsed_at' => $voucher->endorsed_at,
+//                        'user_id' => $voucher->user_id,
+//                        'cancel_user_id' => auth()->user()->id,
+//                    ]);
+//                    $cancelledVoucher->save();
+                    $voucher->delete();
+//                });
+                return redirect(route('vouchers.index'));
+//            } catch (\Exception $e) {
+//                return back()->with('status', $this->translateError($e))->withInput();
+//            }
         }
         else
         {

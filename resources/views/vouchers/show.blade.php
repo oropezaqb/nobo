@@ -84,7 +84,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="remarks">Remarks </label>
-                                <textarea class="form-control" rows="5" id="remarks" name="remarks" disabled>{{ old('remarks', $voucher->remarks) }}</textarea>
+                                <textarea class="form-control" rows="5" id="reason_for_cancellation" name="reason_for_cancellation">{{ old('remarks', $voucher->remarks) }}</textarea>
                             </div>
                             <br>
                             <div class="form-group custom-control-inline">
@@ -178,6 +178,12 @@
                         <div style="clear: both;">
                             <div style="display: inline-block;">
                                 <button class="btn btn-outline-primary" onclick="location.href = '/vouchers/{{ $voucher->id }}/edit';">Edit</button>
+                            </div>
+                            <div style="display: inline-block;">
+                                <form method="POST" action="/vouchers/{{ $voucher->id }}/cancel">
+                                    @csrf
+                                    <button class="btn btn-outline-warning" type="submit">Cancel</button>
+                                </form>
                             </div>
                             <div style="display: inline-block;">
                                 <form method="POST" action="/vouchers/{{ $voucher->id }}">

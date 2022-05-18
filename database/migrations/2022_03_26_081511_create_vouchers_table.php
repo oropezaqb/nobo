@@ -30,13 +30,6 @@ class CreateVouchersTable extends Migration
                 ->references('id')
                 ->on('users');
             $table->timestamps();
-            $table->boolean('cancelled')->default(false);
-            $table->text('reason_for_cancellation')->nullable();
-            $table->unsignedBigInteger('cancel_user_id')->nullable();
-            $table->foreign('cancel_user_id')
-                ->references('id')
-                ->on('users');
-            $table->timestamp('cancelled_at')->nullable();
         });
     }
 
