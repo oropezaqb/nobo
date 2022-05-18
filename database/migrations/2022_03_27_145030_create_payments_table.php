@@ -22,9 +22,14 @@ class CreatePaymentsTable extends Migration
                 ->onDelete('cascade');
             $table->string('check_number')->nullable();
             $table->date('check_date')->nullable();
+            $table->string('cancelled_checks')->nullable();
             $table->text('remarks')->nullable();
             $table->date('paid_at')->nullable();
             $table->date('cleared_at')->nullable();
+            $table->decimal('cleared_amount', 13, 2)->default(0);
+            $table->decimal('service_charge', 13, 2)->default(0);
+            $table->string('receipt_number')->nullable();
+            $table->date('receipt_received_at')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
                 ->references('id')

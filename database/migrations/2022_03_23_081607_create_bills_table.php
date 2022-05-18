@@ -37,6 +37,7 @@ class CreateBillsTable extends Migration
                 ->references('id')
                 ->on('users');
             $table->timestamps();
+            $table->unique(['payee_id', 'bill_number']);
         });
     }
 

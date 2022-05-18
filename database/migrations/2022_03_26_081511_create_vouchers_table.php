@@ -19,8 +19,7 @@ class CreateVouchersTable extends Migration
             $table->unsignedBigInteger('bill_id');
             $table->foreign('bill_id')
                 ->references('id')
-                ->on('bills')
-                ->onDelete('cascade');
+                ->on('bills');
             $table->date('date');
             $table->date('posted_at');
             $table->decimal('payable_amount', 13, 2);
@@ -31,6 +30,13 @@ class CreateVouchersTable extends Migration
                 ->references('id')
                 ->on('users');
             $table->timestamps();
+            $table->boolean('cancelled')->default(false);
+            $table->text('reason_for_cancellation')->nullable();
+            $table->unsignedBigInteger('cancel_user_id')->nullable();
+            $table->foreign('cancel_user_id')
+                ->references('id')
+                ->on('users');
+            $table->timestamp('cancelled_at')->nullable();
         });
     }
 
