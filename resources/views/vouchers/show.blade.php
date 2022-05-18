@@ -16,6 +16,20 @@
                         ->where('users.id', auth()->user()->id)
                         ->where('permissions.key', 'read_vouchers')->exists(); ?>
                     @if ($authorized)
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+                        @if(!empty($messages))
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($messages as $message)
+                                        <li>{{ $message }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form method="POST" action="/vouchers">
                             @csrf
                             @if ($errors->any())
@@ -84,7 +98,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="remarks">Remarks </label>
-                                <textarea class="form-control" rows="5" id="reason_for_cancellation" name="reason_for_cancellation">{{ old('remarks', $voucher->remarks) }}</textarea>
+                                <textarea class="form-control" rows="5" id="remarks" name="remarks" disabled>{{ old('remarks', $voucher->remarks) }}</textarea>
                             </div>
                             <br>
                             <div class="form-group custom-control-inline">
@@ -180,12 +194,6 @@
                                 <button class="btn btn-outline-primary" onclick="location.href = '/vouchers/{{ $voucher->id }}/edit';">Edit</button>
                             </div>
                             <div style="display: inline-block;">
-                                <form method="POST" action="/vouchers/{{ $voucher->id }}/cancel">
-                                    @csrf
-                                    <button class="btn btn-outline-warning" type="submit">Cancel</button>
-                                </form>
-                            </div>
-                            <div style="display: inline-block;">
                                 <form method="POST" action="/vouchers/{{ $voucher->id }}">
                                     @csrf
                                     @method('DELETE')
@@ -193,6 +201,17 @@
                                 </form>
                             </div>
                         </div>
+                        <br><br>
+                        <form method="POST" action="/vouchers/{{ $voucher->id }}/cancel">
+                            @csrf
+                            <h6 class="font-weight-bold">Cancel</h6>
+                            <div class="form-group">
+                                <label for="remarks">Reason for cancellation </label>
+                                <textarea class="form-control" rows="3" id="reason_for_cancellation" name="reason_for_cancellation"
+                                    >{{ old('reason_for_cancellation') }}</textarea>
+                            </div>
+                            <button class="btn btn-outline-warning" type="submit">Cancel</button>
+                        </form>
                         <script>
                             function setValue(id)
                             {

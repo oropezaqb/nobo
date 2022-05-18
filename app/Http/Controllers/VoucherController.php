@@ -212,26 +212,44 @@ class VoucherController extends Controller
             ->where('permissions.key', 'delete_vouchers')->exists();
         if ($authorized)
         {
-//            try {
-//                \DB::transaction(function () use ($voucher) {
-//                    $cancelledVoucher = new CancelledVoucher([
-//                        'number' => $voucher->number,
-//                        'bill_id' => $voucher->bill_id,
-//                        'date' => $voucher->date,
-//                        'posted_at' => $voucher->posted_at,
-//                        'payable_amount' => $voucher->payable_amount,
-//                        'remarks' => $voucher->remarks,
-//                        'endorsed_at' => $voucher->endorsed_at,
-//                        'user_id' => $voucher->user_id,
-//                        'cancel_user_id' => auth()->user()->id,
-//                    ]);
-//                    $cancelledVoucher->save();
-                    $voucher->delete();
-//                });
+                $voucher->delete();
                 return redirect(route('vouchers.index'));
-//            } catch (\Exception $e) {
-//                return back()->with('status', $this->translateError($e))->withInput();
-//            }
+        }
+        else
+        {
+            return back();
+        }
+    }
+    public function cancel(Request $request, Voucher $voucher)
+    {
+        $authorized = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+            ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+            ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+            ->where('users.id', auth()->user()->id)
+            ->where('permissions.key', 'edit_vouchers')->exists();
+        if ($authorized)
+        {
+            try {
+                \DB::transaction(function () use ($request, $voucher) {
+                    $cancelledVoucher = new CancelledVoucher([
+                        'number' => $voucher->number,
+                        'bill_id' => $voucher->bill_id,
+                        'date' => $voucher->date,
+                        'posted_at' => $voucher->posted_at,
+                        'payable_amount' => $voucher->payable_amount,
+                        'remarks' => $voucher->remarks,
+                        'endorsed_at' => $voucher->endorsed_at,
+                        'user_id' => $voucher->user_id,
+                        'reason_for_cancellation' => request('reason_for_cancellation'),
+                        'cancel_user_id' => auth()->user()->id,
+                    ]);
+                    $cancelledVoucher->save();
+                    $voucher->delete();
+                });
+                return redirect(route('vouchers.index'));
+            } catch (\Exception $e) {
+                return back()->with('status', $this->translateError($e))->withInput();
+            }
         }
         else
         {
