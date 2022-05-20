@@ -185,6 +185,11 @@ class PaymentController extends Controller
                     'check_date' => request('check_date'),
                     'paid_at' => request('paid_at'),
                     'cleared_at' => request('cleared_at'),
+                    'cancelled_checks' => request('cancelled_checks'),
+                    'cleared_amount' => request('cleared_amount'),
+                    'service_charge' => request('service_charge'),
+                    'receipt_number' => request('receipt_number'),
+                    'receipt_received_at' => request('receipt_received_at'),
                     'user_id' => request('user_id'),
                 ]);
             });

@@ -96,12 +96,39 @@
                                 <input type="date" class="form-control @error('check_date') is-danger @enderror" id="check_date" name="check_date" value="{!! old('check_date', $payment->check_date) !!}">
                             </div>
                             <div class="form-group custom-control-inline">
-                                <label for="paid_at">Date paid:&nbsp;</label>&nbsp;
+                                <label for="cancelled_checks">Cancelled&nbsp;checks</label>&nbsp;
+                                <input type="text" class="form-control" id="cancelled_checks" name="cancelled_checks" style="text-align: left;"
+                                    value="{!! old('cancelled_checks', $payment->cancelled_checks) !!}">
+                            </div>
+                            <br><br>
+                            <div class="form-group custom-control-inline">
+                                <label for="paid_at">Date&nbsp;paid:&nbsp;</label>&nbsp;
                                 <input type="date" class="form-control @error('paid_at') is-danger @enderror" id="paid_at" name="paid_at" value="{!! old('paid_at', $payment->paid_at) !!}">
                             </div>
+                            <br><br>
                             <div class="form-group custom-control-inline">
-                                <label for="cleared_at">Date cleared:&nbsp;</label>&nbsp;
+                                <label for="cleared_at">Date&nbsp;cleared:&nbsp;</label>&nbsp;
                                 <input type="date" class="form-control @error('cleared_at') is-danger @enderror" id="cleared_at" name="cleared_at" value="{!! old('cleared_at', $payment->cleared_at) !!}">
+                            </div>
+                            <div class="form-group custom-control-inline">
+                                <label for="cleared_amount">Cleared&nbsp;amount</label>&nbsp;
+                                <input type="number" class="form-control amount" id="cleared_amount" name="cleared_amount" step="0.01" style="text-align: right;"
+                                    value="{!! old('cleared_amount', $payment->cleared_amount) !!}">
+                            </div>
+                            <div class="form-group custom-control-inline">
+                                <label for="service_charge">Service&nbsp;charge</label>&nbsp;
+                                <input type="number" class="form-control amount" id="service_charge" name="service_charge" step="0.01" style="text-align: right;"
+                                    value="{!! old('service_charge', $payment->service_charge) !!}">
+                            </div>
+                            <br><br>
+                            <div class="form-group custom-control-inline">
+                                <label for="receipt_number">Receipt&nbsp;no.</label>&nbsp;
+                                <input type="text" class="form-control" id="receipt_number" name="receipt_number" style="text-align: right;"
+                                    value="{!! old('receipt_number', $payment->receipt_number) !!}">
+                            </div>
+                            <div class="form-group custom-control-inline">
+                                <label for="receipt_received_at">Receipt&nbsp;received&nbsp;at</label>&nbsp;
+                                <input type="date" class="form-control @error('receipt_received_at') is-danger @enderror" id="receipt_received_at" name="receipt_received_at" value="{!! old('receipt_received_at', $payment->receipt_received_at) !!}">
                             </div>
                             <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
                             <input type="hidden" id="voucher_id" name="voucher_id" value="{!! old('voucher_id', $payment->voucher_id) !!}">

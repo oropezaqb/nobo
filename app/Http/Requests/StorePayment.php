@@ -32,6 +32,8 @@ class StorePayment extends FormRequest
             'check_date' => ['nullable', 'date'],
             'paid_at' => ['nullable', 'date'],
             'cleared_at' => ['nullable', 'date'],
+            'cleared_amount' => ['nullable', 'numeric'],
+            'service_charge' => ['nullable', 'numeric'],
             'user_id' => [
                 'exists:App\Models\User,id'
             ],

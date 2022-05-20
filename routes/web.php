@@ -11,6 +11,7 @@ use App\Http\Controllers\ApprovedVoucherController;
 use App\Http\Controllers\BankEndorsementController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\CancelledVoucherController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,7 @@ Route::resources([
     'bank-endorsements' => BankEndorsementController::class,
     'payments' => PaymentController::class,
     'reports' => ReportController::class,
+    'cancelled-vouchers' => CancelledVoucherController::class,
 ]);
 
 Route::post('/payees/export', [PayeeController::class, 'export']);
