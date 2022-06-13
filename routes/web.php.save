@@ -34,8 +34,6 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/reports/per-supplier', function () {return view('reports.per-supplier');});
-
 Route::resources([
     'payees' => PayeeController::class,
     'queries' => QueryController::class,
@@ -123,6 +121,10 @@ Route::post('/reports/petty-twenty-one-csv', [ReportController::class, 'pettyTwe
 
 Route::post('/reports/petty-twenty-one-plus', [ReportController::class, 'pettyTwentyOnePlus'])->name('reports.petty-twenty-one-plus');
 Route::post('/reports/petty-twenty-one-plus-csv', [ReportController::class, 'pettyTwentyOnePlusCSV'])->name('reports.petty-twenty-one-plus-csv');
+
+Route::get('/ports', function () {
+    return view('welcome');
+});
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

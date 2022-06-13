@@ -50,7 +50,48 @@ class CancelledVoucherController extends Controller
     {
         $voucher = $cancelledVoucher;
         $header = "Edit Cancelled Voucher";
-        return view('vouchers.edit',
+        return view('cancelled-vouchers.edit',
             compact('voucher', 'header'));
+    }
+    public function update(StoreCancelledVoucher $request, CancelledVoucher $cancelledVoucher)
+    {
+        $voucher = $cancelledVoucher;
+        try {
+            \DB::transaction(function () use ($request, $voucher) {
+                $voucher->update([
+                    'reason_for_cancellation' => request('reason_for_cancellation'),
+                    'cancel_user_id' => request('user_id'),
+                ]);
+            });
+            return redirect(route('cancelled-vouchers.show', [$voucher]))->with('status', 'Cancelled Voucher updated!');
+        } catch (\Exception $e) {
+            return back()->with('status', $this->translateError($e))->withInput();
+        }
+    }
+    public function translateError($e)
+    {
+        //switch ($e->getCode()) {
+        //    case '23000':
+        //        return "Voucher number already recorded.";
+        //}
+        return $e->getMessage();
+    }
+    public function destroy(CancelledVoucher $cancelledVoucher)
+    {
+        $voucher = $cancelledVoucher;
+        $authorized = \DB::table('users')->leftJoin('roles', 'users.role_id', '=', 'roles.id')
+            ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
+            ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
+            ->where('users.id', auth()->user()->id)
+            ->where('permissions.key', 'delete_vouchers')->exists();
+        if ($authorized)
+        {
+                $voucher->delete();
+                return redirect(route('cancelled-vouchers.index'));
+        }
+        else
+        {
+            return back();
+        }
     }
 }

@@ -21,66 +21,33 @@
                                  {{ session('status') }}
                              </div>
                         @endif
-                        <h6 class="font-weight-bold">Bills for Payment (Current and Past Due)</h6>
-                        <form method="POST" action="/reports/bills-for-payment">
-                            @csrf
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
-                            <div class="form-group">
-                                <label for="payee_id">Payee:&nbsp;</label>&nbsp;
-                                <input list="payee_ids" id="payee_id0" onchange="setValue(this)" data-id="" class="custom-select" value="{!! old('payee_name') !!}">
-                                <datalist id="payee_ids">
-                                    @foreach ($payees as $payee)
-                                        <option data-value="{{ $payee->id }}">{{ $payee->name }}</option>
-                                    @endforeach
-                                </datalist>
-                                <input type="hidden" name="payee_id" id="payee_id0-hidden" value="{!! old('payee_id') !!}">
-                                <input type="hidden" name="payee_name" id="name-payee_id0-hidden" value="{!! old('payee_name') !!}">
+                        <h6 class="font-weight-bold">Reports</h6>
+                        <br>
+                        <div id="content">
+                            <div id="title">
+                                <a class="text-primary" href="{{ url('/reports/per-supplier') }}">Bills per supplier</a>
+                                <br><br>
                             </div>
-                        </form>
-                        <div style="display:inline-block;">
-                            <form method="POST" action="/reports/bills-for-payment">
-                                @csrf
-                                <input type="hidden" name="payee_id" id="payee_id1-hidden" value="{!! old('payee_id') !!}">
-                                <button class="btn btn-outline-primary" type="submit">Run</button>
-                            </form>
                         </div>
-                        <div style="display:inline-block;">
-                            <form method="POST" action="/reports/bills-for-payment-csv">
-                                @csrf
-                                <input type="hidden" name="payee_id" id="payee_id2-hidden" value="{!! old('payee_id') !!}">
-                                <button class="btn btn-outline-primary" type="submit">CSV</button>
-                            </form>
-                        </div>
-                        <script>
-                            function setValue (id)
-                            {
-                                var input = id,
-                                    list = input.getAttribute('list'),
-                                    options = document.querySelectorAll('#' + list + ' option'),
-                                    hiddenInput = document.getElementById(input.getAttribute('id') + '-hidden'),
-                                    hiddenInputName = document.getElementById('name-' + input.getAttribute('id') + '-hidden'),
-                                    label = input.value;
-                                hiddenInputName.value = label;
-                                hiddenInput.value = label;
-                                for(var i = 0; i < options.length; i++) {
-                                    var option = options[i];
-                                    if(option.innerText === label) {
-                                        hiddenInput.value = option.getAttribute('data-value');
-                                        document.getElementById('payee_id1-hidden').value = option.getAttribute('data-value');
-                                        document.getElementById('payee_id2-hidden').value = option.getAttribute('data-value');
-                                        break;
-                                    }
-                                }
-                            }
-                        </script>
+                        <h6 class="font-weight-bold">Queries</h6>
+                        @forelse ($queries as $query)
+                            <div id="content">
+                                <div id="title">
+                                    <div style="display:inline-block;"><form method="POST" action="/queries/{{ $query->id }}/run">
+                                        @csrf
+                                        <button class="btn btn-link" type="submit">Run</button>
+                                    </form></div>
+                                    <div style="display:inline-block;"><form method="POST" action="/queries/{{ $query->id }}/csv">
+                                        @csrf
+                                        <button class="btn btn-link" type="submit">CSV</button>
+                                    </form></div>
+                                    <div style="display:inline-block;">&nbsp;&nbsp;{{ $query->title }}</div>
+                                </div>
+                            </div>
+                        @empty
+                            <p>No queries recorded yet.</p>
+                        @endforelse
+                        {{ $queries->links() }}
                     @else
                         You are not authorized to browse queries and reports.
                     @endif

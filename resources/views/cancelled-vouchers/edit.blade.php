@@ -14,24 +14,16 @@
                         ->leftJoin('permission_role', 'roles.id', '=', 'permission_role.role_id')
                         ->leftJoin('permissions', 'permission_role.permission_id', '=', 'permissions.id')
                         ->where('users.id', auth()->user()->id)
-                        ->where('permissions.key', 'read_vouchers')->exists(); ?>
+                        ->where('permissions.key', 'edit_vouchers')->exists(); ?>
                     @if ($authorized)
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">
                                 {{ session('status') }}
                             </div>
                         @endif
-                        @if(!empty($messages))
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($messages as $message)
-                                        <li>{{ $message }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        <form method="POST" action="/vouchers">
+                        <form method="POST" action="/cancelled-vouchers/{{ $voucher->id }}">
                             @csrf
+                            @method('PUT')
                             @if ($errors->any())
                                 <div class="alert alert-danger">
                                     <ul>
@@ -48,7 +40,7 @@
                             </div>
                             <div class="form-group custom-control-inline">
                                 <label for="bill_id">Find&nbsp;by&nbsp;bill&nbsp;id&nbsp;</label>&nbsp;
-                                <input type="text" list="bill_ids" id="bill_id" name="bill_id" style="text-align: right;" data-id="" class="form-control"
+                                <input type="text" id="bill_id" name="bill_id" style="text-align: right;" class="form-control"
                                     value="{!! old('bill_id', $voucher->bill_id) !!}" oninput="getBill()" disabled>
                             </div>
                             <div class="form-group">
@@ -102,44 +94,18 @@
                             </div>
                             <br>
                             <div class="form-group custom-control-inline">
-                                <label for="endorsed_at">Endorsed for review&nbsp;</label>&nbsp;
+                                <label for="endorsed_at">Date endorsed:&nbsp;</label>&nbsp;
                                 <input type="date" class="form-control @error('endorsed_at') is-danger @enderror" id="endorsed_at" name="endorsed_at" value="{!! old('endorsed_at', $voucher->endorsed_at) !!}" disabled>
-                            </div>
-                            <div class="form-group custom-control-inline">
-                                <label>Preparer&nbsp;</label>
-                                <input
-                                    class="form-control"
-                                    type="text"
-                                    value="{{ $voucher->user->name ?? '' }}" disabled>
                             </div>
                             <br>
                             <div class="form-group">
                                 <label for="reason_for_cancellation">Reason for Cancellation </label>
-                                <textarea class="form-control" rows="3" id="reason_for_cancellation" name="reason_for_cancellation" disabled>{{ old('reason_for_cancellation', $voucher->reason_for_cancellation ?? '') }}</textarea>
-                            </div>
-                            <br>
-                            <div class="form-group custom-control-inline">
-                                <label>Cancelled&nbsp;by&nbsp;</label>
-                                <input
-                                    class="form-control"
-                                    type="text"
-                                    value="{{ $voucher->cancelledBy->name ?? '' }}" disabled>
+                                <textarea class="form-control" rows="3" id="reason_for_cancellation" name="reason_for_cancellation">{{ old('reason_for_cancellation', $voucher->reason_for_cancellation ?? '') }}</textarea>
                             </div>
                             <input type="hidden" id="user_id" name="user_id" value="{{ auth()->user()->id }}">
                             <br>
+                            <button class="btn btn-outline-primary" type="submit">Save</button>
                         </form>
-                        <div style="clear: both;">
-                            <div style="display: inline-block;">
-                                <button class="btn btn-outline-primary" onclick="location.href = '/cancelled-vouchers/{{ $voucher->id }}/edit';">Edit</button>
-                            </div>
-                            <div style="display: inline-block;">
-                                <form method="POST" action="/cancelled-vouchers/{{ $voucher->id }}">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-outline-danger" type="submit">Delete</button>
-                                </form>
-                            </div>
-                        </div>
                         <script>
                             function setValue(id)
                             {
@@ -210,7 +176,7 @@
                             }
                         </script>
                     @else
-                        You are not authorized to view cancelled vouchers.
+                        You are not authorized to edit cancelled vouchers.
                     @endif
 
                 </div>

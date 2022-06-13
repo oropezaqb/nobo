@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Payee;
+use App\Models\Query;
 use PDO;
 use App\EPMADD\DbAccess;
 use App\EPMADD\Report;
@@ -233,9 +233,9 @@ class ReportController extends Controller
     }
     public function index()
     {
-        $payees = Payee::latest()->get();
+        $queries = Query::latest()->paginate(25);
         $header = "Reports";
-        return view('reports.index', compact('payees', 'header'));
+        return view('reports.index', compact('queries', 'header'));
     }
     public function billsForPayment(GenerateReport $request)
     {
