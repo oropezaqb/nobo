@@ -30,9 +30,9 @@ class ApprovedVoucherController extends Controller
         else
         {
             $approvedVouchers = \DB::table('approved_vouchers')
-                ->leftJoin('vouchers', 'reviewed_vouchers.voucher_id', '=', 'vouchers.id')
-                ->where('voucher.number', 'like', '%' . request('number') . '%')
-                ->select('reviewed_vouchers.*', 'voucher.number')
+                ->leftJoin('vouchers', 'approved_vouchers.voucher_id', '=', 'vouchers.id')
+                ->where('vouchers.number', 'like', '%' . request('number') . '%')
+                ->select('approved_vouchers.*', 'vouchers.number')
                 ->latest()->paginate(25);
         }
         $header = "Approved Vouchers";

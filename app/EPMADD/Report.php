@@ -198,7 +198,8 @@ function csv($stmt, $convertUTF8 = false) {
             fputcsv($output, $r);
         }
         else
-            fputcsv($output, $row);
+            //fputcsv($output, $row);
+            fputcsv($output, str_replace(",","",$row));
     }
     fclose($output);
     $url = "http://" . env('HTTP_HOST') .

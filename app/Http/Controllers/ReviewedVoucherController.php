@@ -30,10 +30,10 @@ class ReviewedVoucherController extends Controller
         }
         else
         {
-            $vouchers = \DB::table('reviewed_vouchers')
+            $reviewedVouchers = \DB::table('reviewed_vouchers')
                 ->leftJoin('vouchers', 'reviewed_vouchers.voucher_id', '=', 'vouchers.id')
-                ->where('voucher.number', 'like', '%' . request('number') . '%')
-                ->select('reviewed_vouchers.*', 'voucher.number')
+                ->where('vouchers.number', 'like', '%' . request('number') . '%')
+                ->select('reviewed_vouchers.*', 'vouchers.number')
                 ->latest()->paginate(25);
         }
         $header = "Reviewed Vouchers";

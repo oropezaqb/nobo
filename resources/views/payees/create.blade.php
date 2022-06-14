@@ -40,7 +40,7 @@
                             @csrf
                             <h6 class="font-weight-bold">Import</h6>
                             <div class="form-group">
-                                <label for="payees">Select a CSV file to upload</label>
+                                <label for="payees">Select a CSV file to upload (Payee Name), shall not contain commas</label>
                                 <br>
                                 {!! Form::file('payees') !!}
                                 @error('payees')

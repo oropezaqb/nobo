@@ -23,16 +23,24 @@ class PaymentController extends Controller
     }
     public function index()
     {
-        if (empty(request('number')))
+        if (empty(request('number')) && empty(request('check_number')))
         {
             $payments = \DB::table('payments')->latest()->paginate(25);
+        }
+        elseif (!empty(request('number')))
+        {
+            $payments = \DB::table('payments')
+                ->leftJoin('vouchers', 'payments.voucher_id', '=', 'vouchers.id')
+                ->where('vouchers.number', 'like', '%' . request('number') . '%')
+                ->select('payments.*', 'vouchers.number')
+                ->latest()->paginate(25);
         }
         else
         {
             $payments = \DB::table('payments')
-                ->leftJoin('vouchers', 'reviewed_vouchers.voucher_id', '=', 'vouchers.id')
-                ->where('voucher.number', 'like', '%' . request('number') . '%')
-                ->select('reviewed_vouchers.*', 'voucher.number')
+                ->leftJoin('vouchers', 'payments.voucher_id', '=', 'vouchers.id')
+                ->where('payments.check_number', 'like', '%' . request('check_number') . '%')
+                ->select('payments.*', 'vouchers.number')
                 ->latest()->paginate(25);
         }
         $header = "Payments";
@@ -71,6 +79,16 @@ class PaymentController extends Controller
     {
         try {
             \DB::transaction(function () use ($request) {
+                $clearedAmount = 0;
+                $serviceCharge = 0;
+                if (!empty(request('cleared_amount')))
+                {
+                    $clearedAmount = request('cleared_amount');
+                }
+                if (!empty(request('service_charge')))
+                {
+                    $serviceCharge = request('service_charge');
+                }
                 $payment = new Payment([
                     'voucher_id' => request('voucher_id'),
                     'remarks' => request('remarks'),
@@ -79,8 +97,8 @@ class PaymentController extends Controller
                     'paid_at' => request('paid_at'),
                     'cleared_at' => request('cleared_at'),
                     'cancelled_checks' => request('cancelled_checks'),
-                    'cleared_amount' => request('cleared_amount'),
-                    'service_charge' => request('service_charge'),
+                    'cleared_amount' => $clearedAmount,
+                    'service_charge' => $serviceCharge,
                     'receipt_number' => request('receipt_number'),
                     'receipt_received_at' => request('receipt_received_at'),
                     'user_id' => request('user_id'),
@@ -100,10 +118,10 @@ class PaymentController extends Controller
     }
     public function translateError($e)
     {
-        switch ($e->getCode()) {
-            case '23000':
-                return "Voucher number already recorded.";
-        }
+        //switch ($e->getCode()) {
+        //    case '23000':
+        //        return "Voucher number already recorded.";
+        //}
         return $e->getMessage();
     }
     public function upload()

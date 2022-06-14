@@ -30,9 +30,9 @@ class BankEndorsementController extends Controller
         else
         {
             $bankEndorsements = \DB::table('bank_endorsements')
-                ->leftJoin('vouchers', 'reviewed_vouchers.voucher_id', '=', 'vouchers.id')
-                ->where('voucher.number', 'like', '%' . request('number') . '%')
-                ->select('reviewed_vouchers.*', 'voucher.number')
+                ->leftJoin('vouchers', 'bank_endorsements.voucher_id', '=', 'vouchers.id')
+                ->where('vouchers.number', 'like', '%' . request('number') . '%')
+                ->select('bank_endorsements.*', 'vouchers.number')
                 ->latest()->paginate(25);
         }
         $header = "Bank Endorsements";

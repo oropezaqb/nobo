@@ -406,8 +406,10 @@ class ReportController extends Controller
     public function reviewedVouchersCSV()
     {
         $db = new DbAccess();
-        $stmt = $db->query("select bills.classification, vouchers.number, vouchers.posted_at, payees.name, bills.particulars, bills.due_at, bills.bill_number,
-            bills.billed_at, vouchers.payable_amount
+        $stmt = $db->query("select bills.classification as Classification, vouchers.number as Voucher_No,
+            vouchers.posted_at as Voucher_Posted_at, payees.name as Payee, bills.particulars as Particulars,
+            bills.due_at as Due_Date, bills.bill_number as Bill_No, bills.billed_at as Bill_Date,
+            vouchers.payable_amount as Payable_Amount
             from reviewed_vouchers
             left join vouchers on reviewed_vouchers.voucher_id = vouchers.id
             left join bills on vouchers.bill_id = bills.id

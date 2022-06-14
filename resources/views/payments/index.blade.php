@@ -14,7 +14,7 @@
                         ->where('users.id', auth()->user()->id)
                         ->where('permissions.key', 'browse_payments')->exists(); ?>
                     @if ($browse)
-                        <h6 class="font-weight-bold">Search</h6>
+                        <h6 class="font-weight-bold">Search by</h6>
                         <form method="GET" action="/payments">
                             @csrf
                             <div class="form-group">
@@ -26,6 +26,24 @@
                                     id="number" required
                                     value="{{ old('number') }}">
                                 @error('number')
+                                    <p class="help is-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <button class="btn btn-outline-primary" type="submit">Search</button>
+                        </form>
+                        <br>
+                        <h6 class="font-weight-bold">Search by</h6>
+                        <form method="GET" action="/payments">
+                            @csrf
+                            <div class="form-group">
+                                <label for="number">Check&nbsp;No:</label>
+                                <input
+                                    class="form-control @error('number') is-danger @enderror"
+                                    type="text"
+                                    name="check_number"
+                                    id="check_number" required
+                                    value="{{ old('check_number') }}">
+                                @error('check_number')
                                     <p class="help is-danger">{{ $message }}</p>
                                 @enderror
                             </div>
