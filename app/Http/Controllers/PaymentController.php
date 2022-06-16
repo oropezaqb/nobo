@@ -196,6 +196,16 @@ class PaymentController extends Controller
     {
         try {
             \DB::transaction(function () use ($request, $payment) {
+                $clearedAmount = 0;
+                $serviceCharge = 0;
+                if (!empty(request('cleared_amount')))
+                {
+                    $clearedAmount = request('cleared_amount');
+                }
+                if (!empty(request('service_charge')))
+                {
+                    $serviceCharge = request('service_charge');
+                }
                 $payment->update([
                     'voucher_id' => request('voucher_id'),
                     'remarks' => request('remarks'),
@@ -204,8 +214,8 @@ class PaymentController extends Controller
                     'paid_at' => request('paid_at'),
                     'cleared_at' => request('cleared_at'),
                     'cancelled_checks' => request('cancelled_checks'),
-                    'cleared_amount' => request('cleared_amount'),
-                    'service_charge' => request('service_charge'),
+                    'cleared_amount' => $clearedAmount,
+                    'service_charge' => $serviceCharge,
                     'receipt_number' => request('receipt_number'),
                     'receipt_received_at' => request('receipt_received_at'),
                     'user_id' => request('user_id'),

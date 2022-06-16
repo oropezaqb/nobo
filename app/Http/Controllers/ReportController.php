@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Query;
+use App\Models\Payee;
 use PDO;
 use App\EPMADD\DbAccess;
 use App\EPMADD\Report;
@@ -13,6 +14,29 @@ use App\Http\Requests\GenerateReport;
 
 class ReportController extends Controller
 {
+    protected $billsForPaymentQuery = "select vouchers.number as Voucher_No, vouchers.date as Voucher_Date, vouchers.posted_at as Voucher_Posting_Date,
+        bills.received_at as Bill_Received_At, payees.name as Payee_Name, bills.bill_number as Bill_No,
+        bills.billed_at as Bill_Date, bills.classification as Classification, bills.petty as PCF_and_Reimbursement,
+        bills.po_number as PO_No, bills.due_at as Due_Date, bills.particulars as Particulars, bills.period_start as Start_of_Period,
+        bills.period_end as End_of_Period, bills.amount as Bill_Amount, bills.remarks as Bill_Remarks, bills.endorsed_at as Bill_Endorsed_At,
+        vouchers.payable_amount as Payable_Amount, vouchers.remarks as Voucher_Remarks, users.name as Voucher_Recorded_By,
+        vouchers.endorsed_at as Voucher_Endorsed_At,
+        reviewed_vouchers.remarks as Reviewed_Voucher_Remarks, reviewed_vouchers.endorsed_at as Reviewed_Voucher_Endorsed_At,
+        approved_vouchers.remarks as Approved_Voucher_Remarks, approved_vouchers.approved_at as Voucher_Approved_At,
+        approved_vouchers.endorsed_at as Approved_Voucher_Endorsed_At, approved_vouchers.batch_number as Batch_No,
+        bank_endorsements.remarks as Bank_Endorsement_Remarks, bank_endorsements.approved_at as Bank_Endorsement_Approved_At,
+        bank_endorsements.endorsed_at as Endorsed_to_Bank_At,
+        payments.check_number as Check_Number, payments.check_date as Check_Date, payments.cancelled_checks as Cancelled_Checks,
+        payments.remarks as Payment_Remarks
+        from bills
+        left join payees on bills.payee_id = payees.id
+        left join vouchers on bills.id = vouchers.bill_id
+        left join reviewed_vouchers on vouchers.id = reviewed_vouchers.voucher_id
+        left join approved_vouchers on vouchers.id = approved_vouchers.voucher_id
+        left join bank_endorsements on vouchers.id = bank_endorsements.voucher_id
+        left join payments on vouchers.id = payments.voucher_id
+        left join users on vouchers.user_id = users.id
+        where bills.due_at<=date(convert_tz(date_add(now(), interval 30 day),'+00:00','+08:00')) and payments.paid_at is null";
     protected $billsForProcessingQuery = "select
         bills.received_at as Bill_Received_At, payees.name as Payee_Name, bills.bill_number as Bill_No,
         bills.billed_at as Bill_Date, bills.classification as Classification, bills.petty as PCF_and_Reimbursement,
