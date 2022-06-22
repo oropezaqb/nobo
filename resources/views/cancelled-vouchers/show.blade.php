@@ -136,7 +136,7 @@
                                 <form method="POST" action="/cancelled-vouchers/{{ $voucher->id }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-outline-danger" type="submit">Delete</button>
+                                    <button class="btn btn-outline-danger" type="submit" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
                                 </form>
                             </div>
                         </div>

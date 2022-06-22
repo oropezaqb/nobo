@@ -51,7 +51,7 @@
                                     <div style="display:inline-block;"><form method="POST" action="/payees/{{ $payee->id }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-link" type="submit">Delete</button>
+                                        <button class="btn btn-link" type="submit" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
                                     </form></div><div style="display:inline-block;">&nbsp;&nbsp;{{ $payee->name }}</div>
                                 </div>
                             </div>

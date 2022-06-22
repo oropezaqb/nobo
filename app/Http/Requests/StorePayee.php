@@ -33,7 +33,7 @@ class StorePayee extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required'],
+            'name' => ['required','unique:payees,name'],
             'user_id' => [
                 'required',
                 'exists:App\Models\User,id'

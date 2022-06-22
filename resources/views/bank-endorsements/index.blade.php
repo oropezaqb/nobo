@@ -44,7 +44,7 @@
                                     <div style="display:inline-block;"><form method="POST" action="/bank-endorsements/{{ $bankEndorsement->id }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-link" type="submit">Delete</button>
+                                        <button class="btn btn-link" type="submit" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
                                     </form></div><div style="display:inline-block;">&nbsp;&nbsp;Voucher ID {{ \App\Models\BankEndorsement::find($bankEndorsement->id)->voucher->number }}
                                         , {{ \App\Models\BankEndorsement::find($bankEndorsement->id)->voucher->bill->payee->name }}
                                         , Bill no. {{ \App\Models\BankEndorsement::find($bankEndorsement->id)->voucher->bill->bill_number }}

@@ -100,8 +100,8 @@ class BillController extends Controller
     public function translateError($e)
     {
         switch ($e->getCode()) {
-            case '23000':
-                return "Bill number for this supplier is already recorded.";
+            //case '23000':
+                //return "Bill number for this supplier is already recorded.";
         }
         return $e->getMessage();
     }
@@ -156,8 +156,14 @@ class BillController extends Controller
             ->where('permissions.key', 'delete_bills')->exists();
         if ($authorized)
         {
-            $bill->delete();
-            return redirect(route('bills.index'));
+            try {
+                \DB::transaction(function () use ($bill) {
+                    $bill->delete();
+                });
+                return redirect(route('bills.index'));
+            } catch (\Exception $e) {
+                return back()->with('status', $this->translateError($e))->withInput();
+            }
         }
         else
         {

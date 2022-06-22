@@ -38,8 +38,8 @@ class BankEndorsementChart extends BaseChart
             ->whereNotNull('bank_endorsements.endorsed_at')
             ->count();
         return Chartisan::build()
-            ->labels(['To bank'])
-            ->dataset('Endorsed', [$numberOfEndorsedToBank])
-            ->dataset('For endorsement', [$numberOfEndorsedToHO]);
+            ->labels(['Bank endorsements'])
+            ->dataset('Endorsed to bank', [$numberOfEndorsedToBank])
+            ->dataset('Endorsed to HO', [$numberOfEndorsedToHO]);
     }
 }

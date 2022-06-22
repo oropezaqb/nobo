@@ -51,6 +51,11 @@ class VoucherController extends Controller
     public function store(StoreVoucher $request)
     {
         try {
+            $billAmount = Bill::find(request('bill_id'))->amount;
+            if (request('payable_amount') > $billAmount)
+            {
+                return back()->with('status', 'Payable amount cannnot be greater than ' . $billAmount . '.')->withInput();
+            }
             \DB::transaction(function () use ($request) {
                 $voucher = new Voucher([
                     'number' => request('number'),

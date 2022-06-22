@@ -197,7 +197,7 @@
                                 <form method="POST" action="/vouchers/{{ $voucher->id }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-outline-danger" type="submit">Delete</button>
+                                    <button class="btn btn-outline-danger" type="submit" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
                                 </form>
                             </div>
                         </div>
@@ -210,7 +210,7 @@
                                 <textarea class="form-control" rows="3" id="reason_for_cancellation" name="reason_for_cancellation"
                                     >{{ old('reason_for_cancellation') }}</textarea>
                             </div>
-                            <button class="btn btn-outline-warning" type="submit">Cancel</button>
+                            <button class="btn btn-outline-warning" type="submit" onclick="return confirm('Are you sure you want to cancel this item?');">Cancel</button>
                         </form>
                         <script>
                             function setValue(id)

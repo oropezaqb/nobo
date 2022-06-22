@@ -16,6 +16,11 @@
                         ->where('users.id', auth()->user()->id)
                         ->where('permissions.key', 'browse_bills')->exists(); ?>
                     @if ($browse)
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                         <h6 class="font-weight-bold">Search</h6>
                         <form method="GET" action="/bills">
                             @csrf
@@ -57,7 +62,7 @@
                                     <div style="display:inline-block;"><form method="POST" action="/bills/{{ $bill->id }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-link" type="submit">Delete</button>
+                                        <button class="btn btn-link" type="submit" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
                                     </form></div>
                                     <div style="display:inline-block;">&nbsp;&nbsp;Bill ID {{ $bill->id }}
                                         , {{ \App\Models\Bill::where('id', $bill->id)->firstOrFail()->payee->name }}

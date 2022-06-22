@@ -38,6 +38,6 @@ class ReviewedVoucherChart extends BaseChart
         return Chartisan::build()
             ->labels(['Vouchers'])
             ->dataset('Approved', [$numberOfApprovedVouchers])
-            ->dataset('For approval', [$numberOfReviewedVouchers]);
+            ->dataset('Endorsed for approval', [$numberOfReviewedVouchers]);
     }
 }

@@ -51,7 +51,7 @@
                                     <div style="display:inline-block;"><form method="POST" action="/vouchers/{{ $voucher->id }}">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-link" type="submit">Delete</button>
+                                        <button class="btn btn-link" type="submit" onclick="return confirm('Are you sure you want to delete this item?');">Delete</button>
                                     </form></div><div style="display:inline-block;">&nbsp;&nbsp;Voucher ID {{ $voucher->number }}
                                         , {{ \App\Models\Bill::where('id', $voucher->bill_id)->firstOrFail()->payee->name }}
                                         , Bill no. {{ \App\Models\Bill::where('id', $voucher->bill_id)->firstOrFail()->bill_number }}

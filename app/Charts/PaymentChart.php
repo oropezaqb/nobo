@@ -40,6 +40,6 @@ class PaymentChart extends BaseChart
         return Chartisan::build()
             ->labels(['Payments'])
             ->dataset('Paid', [$numberOfPaidVoucher])
-            ->dataset('For payment', [$numberOfEndorsedToBank]);
+            ->dataset('Endorsed for payment', [$numberOfEndorsedToBank]);
     }
 }
