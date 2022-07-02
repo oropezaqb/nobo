@@ -16,6 +16,11 @@
                         ->where('users.id', auth()->user()->id)
                         ->where('permissions.key', 'browse_queries')->exists(); ?>
                     @if ($browse)
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                         <h6 class="font-weight-bold">Search</h6>
                         <form method="GET" action="/queries">
                             @csrf

@@ -203,8 +203,14 @@ class PayeeController extends Controller
             ->where('permissions.key', 'delete_payees')->exists();
         if ($authorized)
         {
-            $payee->delete();
-            return redirect(route('payees.index'));
+            try {
+                \DB::transaction(function () use ($payee) {
+                    $payee->delete();
+                });
+                return redirect(route('payees.index'));
+            } catch (\Exception $e) {
+                return back()->with('status', $this->translateError($e))->withInput();
+            }
         }
         else
         {

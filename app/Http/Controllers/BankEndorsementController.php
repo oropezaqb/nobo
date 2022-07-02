@@ -185,8 +185,14 @@ class BankEndorsementController extends Controller
             ->where('permissions.key', 'delete_bank_endorsements')->exists();
         if ($authorized)
         {
-            $bankEndorsement->delete();
-            return redirect(route('bank-endorsements.index'));
+            try {
+                \DB::transaction(function () use ($bankEndorsement) {
+                    $bankEndorsement->delete();
+                });
+                return redirect(route('bank-endorsements.index'));
+            } catch (\Exception $e) {
+                return back()->with('status', $this->translateError($e))->withInput();
+            }
         }
         else
         {

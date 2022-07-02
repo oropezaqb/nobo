@@ -181,8 +181,14 @@ class ReviewedVoucherController extends Controller
             ->where('permissions.key', 'delete_reviewed_vouchers')->exists();
         if ($authorized)
         {
-            $reviewedVoucher->delete();
-            return redirect(route('reviewed-vouchers.index'));
+            try {
+                \DB::transaction(function () use ($reviewedVoucher) {
+                    $reviewedVoucher->delete();
+                });
+                return redirect(route('reviewed-vouchers.index'));
+            } catch (\Exception $e) {
+                return back()->with('status', $this->translateError($e))->withInput();
+            }
         }
         else
         {

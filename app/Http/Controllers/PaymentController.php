@@ -235,8 +235,14 @@ class PaymentController extends Controller
             ->where('permissions.key', 'delete_payments')->exists();
         if ($authorized)
         {
-            $payment->delete();
-            return redirect(route('payments.index'));
+            try {
+                \DB::transaction(function () use ($payment) {
+                    $payment->delete();
+                });
+                return redirect(route('payments.index'));
+            } catch (\Exception $e) {
+                return back()->with('status', $this->translateError($e))->withInput();
+            }
         }
         else
         {

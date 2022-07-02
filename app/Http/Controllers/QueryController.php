@@ -185,8 +185,14 @@ class QueryController extends Controller
             ->where('permissions.key', 'delete_queries')->exists();
         if ($authorized)
         {
-            $query->delete();
-            return redirect(route('queries.index'));
+            try {
+                \DB::transaction(function () use ($query) {
+                    $query->delete();
+                });
+                return redirect(route('queries.index'));
+            } catch (\Exception $e) {
+                return back()->with('status', $this->translateError($e))->withInput();
+            }
         }
         else
         {

@@ -16,6 +16,11 @@
                         ->where('users.id', auth()->user()->id)
                         ->where('permissions.key', 'read_payees')->exists(); ?>
                     @if ($authorized)
+                        @if (session('status'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                         <form method="POST" action="/payees">
                             @csrf
                             @if ($errors->any())

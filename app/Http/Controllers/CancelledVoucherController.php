@@ -86,8 +86,14 @@ class CancelledVoucherController extends Controller
             ->where('permissions.key', 'delete_vouchers')->exists();
         if ($authorized)
         {
-                $voucher->delete();
+            try {
+                \DB::transaction(function () use ($voucher) {
+                    $voucher->delete();
+                });
                 return redirect(route('cancelled-vouchers.index'));
+            } catch (\Exception $e) {
+                return back()->with('status', $this->translateError($e))->withInput();
+            }
         }
         else
         {

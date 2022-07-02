@@ -16,7 +16,7 @@
                         ->where('users.id', auth()->user()->id)
                         ->where('permissions.key', 'browse_payees')->exists(); ?>
                     @if ($browse)
-                         @if (session('status'))
+                        @if (session('status'))
                              <div class="alert alert-success" role="alert">
                                  {{ session('status') }}
                              </div>

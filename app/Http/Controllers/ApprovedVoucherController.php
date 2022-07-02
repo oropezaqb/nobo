@@ -192,8 +192,14 @@ class ApprovedVoucherController extends Controller
             ->where('permissions.key', 'delete_approved_vouchers')->exists();
         if ($authorized)
         {
-            $approvedVoucher->delete();
-            return redirect(route('approved-vouchers.index'));
+            try {
+                \DB::transaction(function () use ($approvedVoucher) {
+                    $approvedVoucher->delete();
+                });
+                return redirect(route('approved-vouchers.index'));
+            } catch (\Exception $e) {
+                return back()->with('status', $this->translateError($e))->withInput();
+            }
         }
         else
         {
